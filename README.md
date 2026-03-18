@@ -5,7 +5,7 @@
 ![HTML | CSS | JAVA | Preview](languages.png)
 
 **Plataforma de Educação Financeira e Construção de Score de Crédito**  
-CRM de gastos com alertas em tempo real + API de crédito instantâneo focada em jovens.  
+CRM de gastos com alertas em tempo real, API de crédito instantâneo focada em jovens e API de spread bancário em tempo real para parceiros bancários.  
 
 ---
 
