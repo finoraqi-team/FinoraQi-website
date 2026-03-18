@@ -1,4 +1,4 @@
-![FinoraQi Preview](logo.png)   ![PROA Preview](proa.png)
+![FinoraQi Preview](logo.png)
 
 # FinoraQi®
 
