@@ -18,6 +18,14 @@ FinoraQi é uma solução financeira acessível e inclusiva que ajuda jovens bra
 - Acessar ferramentas de educação financeira gamificada
 - Obter atualização instantânea de score nos bureaus (Serasa/SPC)
 
+FinoraQi também atua em processamento de dados visando maior escalabilidade e atomicidade:
+
+- processamento de planilhas em tempo real (Iot | Streamming | Artificial Intelligence | Machine Learning)
+- Api em desenvolvimento multimodal
+- Gerenciamento de carteira para grandes empresas
+- Alteração de valores no dashboard para gerir métricas
+- save em xlsx
+
 ---
 
 hospedagem e funcionalidades em breve...
