@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinoraQi®</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        #starry-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .starry-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #00d4ff, #ffffff, #53cc85);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            animation: rotate 10s linear infinite;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: -5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #ffd700, #ffb700);
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            color: #1a1a2e;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #0066cc;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 2px solid white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: 2px solid white;
+            transition: all 0.3s;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #7b2cbf;
+            transform: translateY(-3px);
+        }
+
+        .btn-trial {
+            background: linear-gradient(135deg, #ffd700, #ffb700);
+            color: #1a1a2e;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+            animation: pulse 2s infinite;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-trial:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 10px 40px rgba(255, 215, 0, 0.6);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .products {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.9) 0%, rgba(123, 44, 191, 0.9) 100%);
+            color: white;
+            padding: 5rem 2rem;
+            margin-top: 3rem;
+            border-radius: 50px 50px 0 0;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            border-color: #00d4ff;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .product-card.trial {
+            border: 3px solid #ffd700;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card.trial::before {
+            content: "🔥 POPULAR";
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: linear-gradient(135deg, #ffd700, #ffb700);
+            color: #1a1a2e;
+            padding: 5px 40px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            transform: rotate(45deg);
+            z-index: 5;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .product-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00d4ff, #ffffff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .product-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .product-card p {
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .features-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .features-list li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .features-list li:hover {
+            padding-left: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+        }
+
+        .price-tag {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .price-tag .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-tag .period {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+
+        .price-tag .trial-text {
+            color: #ffd700;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .btn-buy {
+            width: 100%;
+            padding: 1.1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            color: white;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-buy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-buy.trial {
+            background: linear-gradient(135deg, #ffd700, #ffb700);
+            color: #1a1a2e;
+        }
+
+        .btn-buy.trial:hover {
+            box-shadow: 0 12px 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .trial-section {
+            background: linear-gradient(135deg, rgba(27, 38, 105, 0.95) 0%, rgba(115, 142, 216, 0.95) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .trial-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .trial-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ffb700);
+            color: #1a1a2e;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            animation: bounce 1s ease infinite;
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .trial-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .trial-section p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 2.5rem;
+        }
+
+        .trial-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+            text-align: left;
+        }
+
+        .trial-feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border-left: 4px solid #ffd700;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .trial-feature:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .trial-feature h4 {
+            color: #ffd700;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .trial-feature p {
+            font-size: 0.95rem;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .trial-timer {
+            background: rgba(255, 215, 0, 0.15);
+            border: 2px solid #ffd700;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 2.5rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .trial-timer h3 {
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .trial-timer p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .api-section {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.95) 0%, rgba(123, 44, 191, 0.95) 100%);
+            color: white;
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .api-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .api-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .api-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .api-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .api-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .api-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .code-preview {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .about-section {
+            background: linear-gradient(135deg, rgba(123, 44, 191, 0.95) 0%, rgba(0, 212, 255, 0.95) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .about-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin-top: 2rem;
+        }
+
+        .about-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #ffd700;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .auth-section {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.95) 0%, rgba(123, 44, 191, 0.95) 100%);
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-container {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .auth-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            border-radius: 16px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .auth-tab.active {
+            background: linear-gradient(135deg, #ffd700, #ffb700);
+            color: #1a1a2e;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .auth-tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            pointer-events: none;
+            transition: all 0.3s;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a1a2e;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
+            background: white;
+        }
+
+        .form-group input:focus+.input-icon,
+        .form-group select:focus+.input-icon {
+            color: #ffd700;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+            padding-left: 1rem;
+        }
+
+        .form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #ffd700;
+        }
+
+        .forgot-password {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+            color: #ffb700;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(135deg, #ffd700, #ffb700);
+            color: #1a1a2e;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+            font-family: inherit;
+            margin-top: 1rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .form-divider {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-divider::before,
+        .form-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-divider span {
+            padding: 0 1rem;
+            font-size: 0.9rem;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-social {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: inherit;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-social:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideIn 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert.show {
+            display: flex;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid #10b981;
+            color: #34d399;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid #ef4444;
+            color: #f87171;
+        }
+
+        .alert-warning {
+            background: rgba(251, 191, 36, 0.2);
+            border: 2px solid #fbbf24;
+            color: #fcd34d;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.4);
+            text-align: center;
+            padding: 3rem 2rem;
+            color: white;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            opacity: 0.9;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-submit.loading .spinner {
+            margin-right: 0.5rem;
+        }
+
+        .btn-submit.loading .btn-text {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trial-features {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-box {
+                padding: 2rem 1.5rem;
+            }
+
+            .about-content {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="starry-background"></canvas>
+    <div class="starry-overlay"></div>
+    <header>
+        <div class="logo" onclick="window.scrollTo(0,0)">
+            <img src="logo.png" alt="logo" width="40" height="40" class="logo-icon">
+            <div>
+                <div class="logo-text">Finora</div>
+                <div class="logo-subtitle">Qi</div>
+            </div>
+        </div>
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#produtos">Produtos</a>
+            <a href="#auth">Login</a>
+            <a href="#sobre">Sobre Nós</a>
+            <a href="#contato">Contato</a>
+            <a href="#auth" class="btn-login">Entrar</a>
+        </nav>
+    </header>
+    <section class="hero" id="inicio">
+        <div class="hero-badge">🚀 Soluções Financeiras para a Nova Geração</div>
+        <h1>Faça seu pé de meia com controle</h1>
+        <p>CRM de gastos com alertas em tempo real + API de crédito instantâneo para construção de score.</p>
+        <div class="hero-buttons">
+            <button class="btn-trial" onclick="scrollToAuth()">🎁 Teste Grátis 7 Dias</button>
+            <a href="#produtos" class="btn-primary">Conhecer Produtos</a>
+            <a href="#api" class="btn-secondary">Ver API</a>
+        </div>
+    </section>
+    <section class="products" id="produtos">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nossas Soluções</h2>
+                <p>Escolha a ferramenta perfeita para transformar sua relação com o dinheiro</p>
+            </div>
+            <div class="product-grid">
+                <div class="product-card trial">
+                    <div class="product-icon">🎁</div>
+                    <h3>Finora CRM Trial</h3>
+                    <p>Experimente todas as funcionalidades por 7 dias sem compromisso</p>
+                    <ul class="features-list">
+                        <li>
+                            <div class="check-icon">✓</div><span>Acesso completo a todos os recursos</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Alertas automáticos de gastos por SMS e Push</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Limites de gastos em porcentagem personalizáveis</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Dashboard intuitivo com gráficos em tempo real</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Suporte prioritário durante o trial</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Cancelamento a qualquer momento</span>
+                        </li>
+                    </ul>
+                    <div class="price-tag">
+                        <div class="price">R$ 0,00</div>
+                        <div class="period trial-text">7 dias grátis • Depois R$ 4,99/mês</div>
+                    </div>
+                    <button class="btn-buy trial" onclick="scrollToAuth()">Começar Teste Grátis</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">📊</div>
+                    <h3>Finora CRM Pro</h3>
+                    <p>Controle Total dos Seus Gastos com Alertas Inteligentes</p>
+                    <ul class="features-list">
+                        <li>
+                            <div class="check-icon">✓</div><span>Alertas automáticos de gastos por SMS e Push</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Limites de gastos em porcentagem personalizáveis</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Dashboard intuitivo com gráficos em tempo real</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Categorização automática de despesas</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Relatórios mensais de economia</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Integração com bancos e cartões</span>
+                        </li>
+                    </ul>
+                    <div class="price-tag">
+                        <div class="price">R$ 4.99</div>
+                        <div class="period">por mês</div>
+                    </div>
+                    <button class="btn-buy" onclick="scrollToAuth()">Assinar Agora</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">⚡</div>
+                    <h3>FinoraQ API</h3>
+                    <p>Construa Seu Score em Tempo Real nos bureaus de crédito</p>
+                    <ul class="features-list">
+                        <li>
+                            <div class="check-icon">✓</div><span>Processamento em tempo real de operações de
+                                crédito</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Atualização instantânea no Serasa/SPC</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Foco em jovens de áreas periféricas</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>API RESTful com documentação completa</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Webhook de confirmação de pagamento</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Suporte técnico 24/7</span>
+                        </li>
+                    </ul>
+                    <div class="price-tag">
+                        <div class="price">0,20%</div>
+                        <div class="period">por transação</div>
+                    </div>
+                    <button class="btn-buy" onclick="scrollToAbout('empresa')">Para Empresas</button>
+                    <button class="btn-buy" style="margin-top: 0.5rem; background: rgba(255,255,255,0.2);"
+                        onclick="scrollToAbout('pessoa')">Para Pessoas</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="trial-section" id="trial">
+        <div class="trial-container">
+            <span class="trial-badge">🔥 OFERTA ESPECIAL</span>
+            <h2>Experimente o Finora CRM por 7 dias grátis</h2>
+            <p>Sem cartão de crédito • Sem compromisso • Cancelamento fácil</p>
+            <div class="trial-features">
+                <div class="trial-feature">
+                    <h4>📱 Acesso Total</h4>
+                    <p>Todas as funcionalidades do plano Pro liberadas</p>
+                </div>
+                <div class="trial-feature">
+                    <h4>⚡ Configuração Rápida</h4>
+                    <p>Ative em menos de 2 minutos, sem burocracia</p>
+                </div>
+                <div class="trial-feature">
+                    <h4>🛡️ Sem Risco</h4>
+                    <p>Cancelamento a qualquer momento, sem cobranças</p>
+                </div>
+                <div class="trial-feature">
+                    <h4>💬 Suporte VIP</h4>
+                    <p>Atendimento prioritário durante todo o trial</p>
+                </div>
+            </div>
+            <div class="trial-timer">
+                <h3>⏰ Oferta por tempo limitado</h3>
+                <p>Garanta seu teste gratuito antes que esta promoção expire!</p>
+            </div>
+            <button class="btn-trial" onclick="scrollToAuth()" style="font-size: 1.2rem; padding: 1.2rem 3rem;">🎁
+                Começar Meu Teste Grátis Agora</button>
+        </div>
+    </section>
+    <section class="api-section" id="api">
+        <div class="api-header">
+            <h2>FinoraQ API</h2>
+            <p>Construção de Score em Tempo Real para Jovens Periféricos</p>
+        </div>
+        <div class="api-grid">
+            <div class="api-card">
+                <h3>🚀 Atualização Instantânea</h3>
+                <p>Assim que o pagamento é confirmado, o score é atualizado automaticamente no Serasa e SPC em até 5
+                    minutos.</p>
+                <div class="code-preview">POST /api/v1/credit-operation<br>{<br>&nbsp;&nbsp;"cpf":
+                    "123.456.789-00",<br>&nbsp;&nbsp;"valor": 150.00,<br>&nbsp;&nbsp;"tipo": "pagamento"<br>}<br><br>//
+                    Resposta em 200ms</div>
+            </div>
+            <div class="api-card">
+                <h3>🎯 Foco em Inclusão</h3>
+                <p>Desenvolvida especificamente para jovens de áreas periféricas que desejam construir histórico de
+                    crédito rapidamente.</p>
+                <div class="code-preview">GET /api/v1/score/{cpf}<br><br>{<br>&nbsp;&nbsp;"score":
+                    650,<br>&nbsp;&nbsp;"ultima_atualizacao": "2026-01-15T10:30:00Z",<br>&nbsp;&nbsp;"status":
+                    "ativo"<br>}</div>
+            </div>
+            <div class="api-card">
+                <h3>🔒 Segurança Total</h3>
+                <p>Criptografia de ponta a ponta, conformidade com LGPD e certificações de segurança bancária.</p>
+                <div class="code-preview">Headers:<br>Authorization: Bearer {token}<br>X-API-Key:
+                    {sua_chave}<br>Content-Type: application/json</div>
+            </div>
+        </div>
+    </section>
+    <section class="about-section" id="sobre">
+        <div class="about-container">
+            <div class="section-title">
+                <h2>Sobre Nós</h2>
+                <p>Conheça a FinoraQi e nossa missão</p>
+            </div>
+            <div class="about-content">
+                <h3>Transformando Vidas Através da Educação Financeira</h3>
+                <p>A FinoraQi nasceu com o propósito de democratizar o acesso ao crédito e à educação financeira,
+                    especialmente para jovens de áreas periféricas. Acreditamos que todos merecem uma oportunidade de
+                    construir um futuro financeiro sólido.</p>
+                <p>Nossa plataforma combina tecnologia de ponta com uma abordagem humanizada, oferecendo ferramentas
+                    inovadoras que ajudam no controle de gastos, construção de score e desenvolvimento de hábitos
+                    financeiros saudáveis.</p>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Usuários Ativos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Satisfação</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Operações Processadas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Suporte Disponível</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="auth-section" id="auth">
+        <div class="auth-container">
+            <div class="auth-box">
+                <div id="alertContainer"></div>
+                <div class="auth-tabs">
+                    <button class="auth-tab active" onclick="switchAuthTab('login')">Entrar</button>
+                    <button class="auth-tab" onclick="switchAuthTab('signup')">Cadastrar</button>
+                </div>
+                <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="loginEmail" placeholder="seu@email.com" required>
+                            <span class="input-icon">📧</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginSenha">Senha</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="loginSenha" placeholder="••••••••" required>
+                            <span class="input-icon">🔒</span>
+                        </div>
+                    </div>
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="lembrarMe">
+                            <span>Lembrar-me</span>
+                        </label>
+                        <a href="#" class="forgot-password" onclick="showAlert('Em breve!', 'warning')">Esqueceu a
+                            senha?</a>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <span class="btn-text">Entrar na Plataforma</span>
+                    </button>
+                    <div class="form-divider">
+                        <span>ou continue com</span>
+                    </div>
+                    <div class="social-login">
+                        <button type="button" class="btn-social" onclick="socialLogin('google')"><span>G</span>
+                            Google</button>
+                        <button type="button" class="btn-social" onclick="socialLogin('facebook')"><span>f</span>
+                            Facebook</button>
+                    </div>
+                </form>
+                <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label for="signupNome">Nome Completo</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="signupNome" placeholder="Seu nome completo" required>
+                            <span class="input-icon">👤</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="signupEmail" placeholder="seu@email.com" required>
+                            <span class="input-icon">📧</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupTelefone">WhatsApp</label>
+                        <div class="input-wrapper">
+                            <input type="tel" id="signupTelefone" placeholder="(00) 00000-0000" required>
+                            <span class="input-icon">📱</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupSenha">Senha</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="signupSenha" placeholder="Mínimo 8 caracteres" required
+                                minlength="8">
+                            <span class="input-icon">🔒</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupConfirmarSenha">Confirmar Senha</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="signupConfirmarSenha" placeholder="Repita sua senha" required>
+                            <span class="input-icon">🔒</span>
+                        </div>
+                    </div>
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" required>
+                            <span>Aceito os <a href="#" style="color: #ffd700;">termos de uso</a> e <a href="#"
+                                    style="color: #ffd700;">política de privacidade</a></span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <span class="btn-text">Criar Conta Grátis</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <footer id="contato">
+        <p>&copy; 2026 Finora Quality Assurance. Todos os direitos reservados.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">Transformando a vida financeira de jovens brasileiros</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">📧 contato@finoraqi.com.br | 📱 (11) 99999-9999</p>
+    </footer>
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : '/api';
+        class API {
+            async request(endpoint, options = {}) {
+                const token = localStorage.getItem('finoraqi_token');
+                const headers = { 'Content-Type': 'application/json', ...(token && { Authorization: `Bearer ${token}` }) };
+                const response = await fetch(`${API_BASE}${endpoint}`, { ...options, headers: { ...headers, ...options.headers } });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Erro na requisição');
+                return data;
+            }
+            async register(userData) { return await this.request('/auth/register', { method: 'POST', body: JSON.stringify(userData) }); }
+            async login(email, password) { return await this.request('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }); }
+            async getTransactions() { return await this.request('/transactions'); }
+            async saveTransaction(transaction) { return await this.request('/transactions', { method: 'POST', body: JSON.stringify(transaction) }); }
+            async updateTransaction(id, data) { return await this.request(`/transactions/${id}`, { method: 'PUT', body: JSON.stringify(data) }); }
+            async deleteTransaction(id) { return await this.request(`/transactions/${id}`, { method: 'DELETE' }); }
+            async getInvestments() { return await this.request('/investments'); }
+            async saveInvestment(inv) { return await this.request('/investments', { method: 'POST', body: JSON.stringify(inv) }); }
+            async getGoals() { return await this.request('/goals'); }
+            async saveGoal(goal) { return await this.request('/goals', { method: 'POST', body: JSON.stringify(goal) }); }
+            async updateGoal(id, data) { return await this.request(`/goals/${id}`, { method: 'PUT', body: JSON.stringify(data) }); }
+            async deleteGoal(id) { return await this.request(`/goals/${id}`, { method: 'DELETE' }); }
+        }
+        const api = new API();
+        function showAlert(message, type = 'success') {
+            const container = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} show`;
+            const icons = { success: '✅', error: '❌', warning: '⚠️' };
+            alert.innerHTML = `<span>${icons[type]}</span><span>${message}</span>`;
+            container.innerHTML = '';
+            container.appendChild(alert);
+            setTimeout(() => { alert.classList.remove('show'); setTimeout(() => alert.remove(), 300); }, 5000);
+        }
+        function switchAuthTab(tab) {
+            const tabs = document.querySelectorAll('.auth-tab');
+            const forms = document.querySelectorAll('.auth-form');
+            tabs.forEach(t => t.classList.remove('active'));
+            forms.forEach(f => f.classList.remove('active'));
+            if (tab === 'login') { tabs[0].classList.add('active'); document.getElementById('loginForm').classList.add('active'); }
+            else { tabs[1].classList.add('active'); document.getElementById('signupForm').classList.add('active'); }
+            document.getElementById('alertContainer').innerHTML = '';
+        }
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginSenha').value;
+            const btn = e.target.querySelector('.btn-submit');
+            try {
+                btn.classList.add('loading');
+                btn.innerHTML = '<span class="spinner"></span><span class="btn-text">Entrando...</span>';
+                btn.disabled = true;
+                const response = await api.login(email, password);
+                localStorage.setItem('finoraqi_token', response.token);
+                localStorage.setItem('finoraqi_user', JSON.stringify(response.user));
+                showAlert(response.message, 'success');
+                setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+            } catch (error) { showAlert(error.message, 'error'); }
+            finally { btn.classList.remove('loading'); btn.innerHTML = '<span class="btn-text">Entrar na Plataforma</span>'; btn.disabled = false; }
+        }
+        async function handleSignup(e) {
+            e.preventDefault();
+            const nome = document.getElementById('signupNome').value;
+            const email = document.getElementById('signupEmail').value;
+            const telefone = document.getElementById('signupTelefone').value;
+            const senha = document.getElementById('signupSenha').value;
+            const confirmarSenha = document.getElementById('signupConfirmarSenha').value;
+            const btn = e.target.querySelector('.btn-submit');
+            if (senha !== confirmarSenha) { showAlert('As senhas não coincidem', 'error'); return; }
+            if (senha.length < 8) { showAlert('A senha deve ter pelo menos 8 caracteres', 'error'); return; }
+            try {
+                btn.classList.add('loading');
+                btn.innerHTML = '<span class="spinner"></span><span class="btn-text">Criando conta...</span>';
+                btn.disabled = true;
+                const response = await api.register({ nome, email, telefone, password: senha });
+                localStorage.setItem('finoraqi_token', response.token);
+                localStorage.setItem('finoraqi_user', JSON.stringify(response.user));
+                showAlert(response.message, 'success');
+                setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+            } catch (error) { showAlert(error.message, 'error'); }
+            finally { btn.classList.remove('loading'); btn.innerHTML = '<span class="btn-text">Criar Conta Grátis</span>'; btn.disabled = false; }
+        }
+        function socialLogin(provider) { showAlert(`Login com ${provider} será implementado em breve!`, 'warning'); }
+        function scrollToAuth() { document.getElementById('auth').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => { switchAuthTab('signup'); }, 800); }
+        function scrollToAbout(type) { document.getElementById('sobre').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => { showAlert(`Interessado na API para ${type}? Entre em contato conosco!`, 'success'); }, 1000); }
+        const canvas = document.getElementById('starry-background');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: null, y: null, radius: 150 };
+        let particles = [];
+        let rainbowOffset = 0;
+        const config = { particleCount: 150, particleRadius: { min: 1, max: 3 }, speed: { min: 0.3, max: 1.2 }, rainbowSpeed: 0.005, mouseInfluence: 80, mouseAttraction: 0.02 };
+        function getRainbowColor(offset) { return `hsl(${(offset * 360) % 360}, 100%, 70%)`; }
+        class Particle {
+            constructor() { this.reset(); }
+            reset() { this.x = Math.random() * width; this.y = Math.random() * height; this.radius = Math.random() * (config.particleRadius.max - config.particleRadius.min) + config.particleRadius.min; this.speedX = (Math.random() - 0.5) * config.speed.max; this.speedY = (Math.random() - 0.5) * config.speed.max; this.colorOffset = Math.random(); }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = mouse.x - this.x; const dy = mouse.y - this.y; const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < mouse.radius) {
+                        const angle = Math.atan2(dy, dx); const force = (mouse.radius - distance) / mouse.radius;
+                        this.x += Math.cos(angle) * force * config.mouseAttraction * config.mouseInfluence;
+                        this.y += Math.sin(angle) * force * config.mouseAttraction * config.mouseInfluence;
+                        this.radius = Math.min(this.radius * 1.5, config.particleRadius.max * 2);
+                    } else { this.radius = Math.max(this.radius * 0.98, config.particleRadius.min); }
+                }
+                if (this.x < -10) this.x = width + 10; if (this.x > width + 10) this.x = -10;
+                if (this.y < -10) this.y = height + 10; if (this.y > height + 10) this.y = -10;
+            }
+            draw() {
+                const color = getRainbowColor(this.colorOffset + rainbowOffset);
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = color; ctx.shadowBlur = 15; ctx.shadowColor = color; ctx.fill(); ctx.shadowBlur = 0; ctx.closePath();
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.radius * 0.5, 0, Math.PI * 2);
+                ctx.fillStyle = 'white'; ctx.fill(); ctx.closePath();
+            }
+        }
+        function initParticles() { particles = []; for (let i = 0; i < config.particleCount; i++) { particles.push(new Particle()); } }
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            rainbowOffset += config.rainbowSpeed;
+            particles.forEach(particle => { particle.update(); particle.draw(); });
+            if (mouse.x !== null && mouse.y !== null) {
+                for (let i = 0; i < 3; i++) {
+                    const trailX = mouse.x + (Math.random() - 0.5) * 30; const trailY = mouse.y + (Math.random() - 0.5) * 30;
+                    const trailRadius = Math.random() * 2 + 1; const trailColor = getRainbowColor(rainbowOffset + Math.random());
+                    ctx.beginPath(); ctx.arc(trailX, trailY, trailRadius, 0, Math.PI * 2);
+                    ctx.fillStyle = trailColor; ctx.shadowBlur = 20; ctx.shadowColor = trailColor; ctx.globalAlpha = 0.6; ctx.fill();
+                    ctx.shadowBlur = 0; ctx.globalAlpha = 1; ctx.closePath();
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        function resize() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; initParticles(); }
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        resize();
+        animate();
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+            });
+        });
+    </script>
+</body>
+
+</html>
