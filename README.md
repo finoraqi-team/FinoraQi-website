@@ -28,4 +28,16 @@ FinoraQi também atua em processamento de dados visando maior escalabilidade e a
 
 ---
 
+## Backend Integrado | (opensource)
+
+[API-REAL-TIME](https://github.com/kauecodify/SpreadLiquidityAPI)
+
+---
+
+## Opensource em utilização 
+
+[Preview Nepal](https://www.finoraq.org/)
+
+---
+
 hospedagem e funcionalidades em breve...
