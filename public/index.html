@@ -1093,7 +1093,7 @@
     <div class="starry-overlay"></div>
     <header>
         <div class="logo" onclick="window.scrollTo(0,0)">
-            <img src="public/logo.png" alt="logo" width="40" height="40" class="logo-icon">
+            <img src="logo.png" alt="logo" width="40" height="40" class="logo-icon">
             <div>
                 <div class="logo-text">Finora</div>
                 <div class="logo-subtitle">Qi</div>
@@ -1214,9 +1214,9 @@
                         <div class="price">0,20%</div>
                         <div class="period">por transação</div>
                     </div>
-                    <button class="btn-buy" onclick="scrollToAbout('empresa')">Para Empresas</button>
-                    <button class="btn-buy" style="margin-top: 0.5rem; background: rgba(255,255,255,0.2);"
-                        onclick="scrollToAbout('pessoa')">Para Pessoas</button>
+
+                    <button class="btn-buy" onclick="window.location.href='onboarding.html'">Para Empresas</button>
+                    <button class="btn-buy" onclick="window.location.href='dashboard.html'" style="margin-top: 0.5rem; background: rgba(255,255,255,0.2);">Para Você</button>
                 </div>
             </div>
         </div>
@@ -1413,9 +1413,9 @@
         </div>
     </section>
     <footer id="contato">
-        <p>&copy; 2030 FinoraQi®. Todos os direitos reservados.</p>
+        <p>&copy; 2026 Finora Quality Assurance. Todos os direitos reservados.</p>
         <p style="margin-top: 0.5rem; opacity: 0.8;">Transformando a vida financeira de jovens brasileiros</p>
-        <p style="margin-top: 1rem; font-size: 0.9rem;">📧 finoraqi.finance@gmail.com</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">📧 contato@finoraqi.com.br | 📱 (11) 99999-9999</p>
     </footer>
     <script>
         const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : '/api';
