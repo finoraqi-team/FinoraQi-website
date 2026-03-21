@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinoraQi® - Soluções Financeiras</title>
+    <title>FinoraQi®</title>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
     <style>
@@ -15,7 +15,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 100%);
             min-height: 100vh;
             color: white;
@@ -285,6 +285,437 @@
             }
         }
 
+        .products {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.9) 0%, rgba(123, 44, 191, 0.9) 100%);
+            color: white;
+            padding: 5rem 2rem;
+            margin-top: 3rem;
+            border-radius: 50px 50px 0 0;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            border-color: #00d4ff;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .product-card.trial {
+            border: 3px solid #ffd700;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card.trial::before {
+            content: "🔥 POPULAR";
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: linear-gradient(135deg, #ffd700, #ffb700);
+            color: #1a1a2e;
+            padding: 5px 40px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            transform: rotate(45deg);
+            z-index: 5;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .product-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00d4ff, #ffffff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .product-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .product-card p {
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .features-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .features-list li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .features-list li:hover {
+            padding-left: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+        }
+
+        .price-tag {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .price-tag .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-tag .period {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+
+        .price-tag .trial-text {
+            color: #ffd700;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .btn-buy {
+            width: 100%;
+            padding: 1.1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            color: white;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-buy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-buy.trial {
+            background: linear-gradient(135deg, #ffd700, #ffb700);
+            color: #1a1a2e;
+        }
+
+        .btn-buy.trial:hover {
+            box-shadow: 0 12px 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .trial-section {
+            background: linear-gradient(135deg, rgba(27, 38, 105, 0.95) 0%, rgba(115, 142, 216, 0.95) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .trial-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .trial-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ffb700);
+            color: #1a1a2e;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            animation: bounce 1s ease infinite;
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .trial-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .trial-section p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 2.5rem;
+        }
+
+        .trial-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+            text-align: left;
+        }
+
+        .trial-feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border-left: 4px solid #ffd700;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .trial-feature:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .trial-feature h4 {
+            color: #ffd700;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .trial-feature p {
+            font-size: 0.95rem;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .trial-timer {
+            background: rgba(255, 215, 0, 0.15);
+            border: 2px solid #ffd700;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 2.5rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .trial-timer h3 {
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .trial-timer p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .api-section {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.95) 0%, rgba(123, 44, 191, 0.95) 100%);
+            color: white;
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .api-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .api-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .api-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .api-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .api-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .api-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .code-preview {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .about-section {
+            background: linear-gradient(135deg, rgba(123, 44, 191, 0.95) 0%, rgba(0, 212, 255, 0.95) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .about-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin-top: 2rem;
+        }
+
+        .about-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #ffd700;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
         .auth-section {
             background: linear-gradient(135deg, rgba(0, 212, 255, 0.95) 0%, rgba(123, 44, 191, 0.95) 100%);
             padding: 5rem 2rem;
@@ -423,6 +854,49 @@
             color: #ffd700;
         }
 
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+            padding-left: 1rem;
+        }
+
+        .form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #ffd700;
+        }
+
+        .forgot-password {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+            color: #ffb700;
+        }
+
         .btn-submit {
             width: 100%;
             padding: 1.2rem;
@@ -442,6 +916,60 @@
         .btn-submit:hover {
             transform: translateY(-2px);
             box-shadow: 0 12px 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .form-divider {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-divider::before,
+        .form-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-divider span {
+            padding: 0 1rem;
+            font-size: 0.9rem;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-social {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: inherit;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-social:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: white;
+            transform: translateY(-2px);
         }
 
         .alert {
@@ -489,6 +1017,21 @@
             color: #fcd34d;
         }
 
+        footer {
+            background: rgba(0, 0, 0, 0.4);
+            text-align: center;
+            padding: 3rem 2rem;
+            color: white;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            opacity: 0.9;
+        }
+
         .spinner {
             display: inline-block;
             width: 20px;
@@ -513,21 +1056,6 @@
             opacity: 0.8;
         }
 
-        footer {
-            background: rgba(0, 0, 0, 0.4);
-            text-align: center;
-            padding: 3rem 2rem;
-            color: white;
-            position: relative;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-        }
-
-        footer p {
-            margin: 0.5rem 0;
-            opacity: 0.9;
-        }
-
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.2rem;
@@ -541,7 +1069,19 @@
                 display: none;
             }
 
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trial-features {
+                grid-template-columns: 1fr;
+            }
+
             .auth-box {
+                padding: 2rem 1.5rem;
+            }
+
+            .about-content {
                 padding: 2rem 1.5rem;
             }
         }
@@ -553,22 +1093,20 @@
     <div class="starry-overlay"></div>
     <header>
         <div class="logo" onclick="window.scrollTo(0,0)">
-            <div class="logo" onclick="window.scrollTo(0,0)">
-                <img src="logo.png" alt="logo" width="40" height="40" class="logo-icon">
+            <img src="logo.png" alt="logo" width="40" height="40" class="logo-icon">
+            <div>
+                <div class="logo-text">Finora</div>
+                <div class="logo-subtitle">Qi</div>
             </div>
-                    <div>
-                        <div class="logo-text">Finora</div>
-                        <div class="logo-subtitle">Qi</div>
-                    </div>
-                </div>
-                <nav>
-                    <a href="#inicio">Início</a>
-                    <!-- <a href="#produtos">Produtos</a>
-                    <a href="#auth">Login</a>
-                    <a href="#sobre">Sobre Nós</a> -->
-                    <a href="#contato">Contato</a>
-                    <a href="#auth" class="btn-login">Entrar</a>
-                </nav>
+        </div>
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#produtos">Produtos</a>
+            <a href="#auth">Login</a>
+            <a href="#sobre">Sobre Nós</a>
+            <a href="#contato">Contato</a>
+            <a href="#auth" class="btn-login">Entrar</a>
+        </nav>
     </header>
     <section class="hero" id="inicio">
         <div class="hero-badge">🚀 Soluções Financeiras para a Nova Geração</div>
@@ -578,6 +1116,205 @@
             <button class="btn-trial" onclick="scrollToAuth()">🎁 Teste Grátis 7 Dias</button>
             <a href="#produtos" class="btn-primary">Conhecer Produtos</a>
             <a href="#api" class="btn-secondary">Ver API</a>
+        </div>
+    </section>
+    <section class="products" id="produtos">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nossas Soluções</h2>
+                <p>Escolha a ferramenta perfeita para transformar sua relação com o dinheiro</p>
+            </div>
+            <div class="product-grid">
+                <div class="product-card trial">
+                    <div class="product-icon">🎁</div>
+                    <h3>Finora CRM Trial</h3>
+                    <p>Experimente todas as funcionalidades por 7 dias sem compromisso</p>
+                    <ul class="features-list">
+                        <li>
+                            <div class="check-icon">✓</div><span>Acesso completo a todos os recursos</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Alertas automáticos de gastos por SMS e Push</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Limites de gastos em porcentagem personalizáveis</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Dashboard intuitivo com gráficos em tempo real</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Suporte prioritário durante o trial</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Cancelamento a qualquer momento</span>
+                        </li>
+                    </ul>
+                    <div class="price-tag">
+                        <div class="price">R$ 0,00</div>
+                        <div class="period trial-text">7 dias grátis • Depois R$ 4,99/mês</div>
+                    </div>
+                    <button class="btn-buy trial" onclick="scrollToAuth()">Começar Teste Grátis</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">📊</div>
+                    <h3>Finora CRM Pro</h3>
+                    <p>Controle Total dos Seus Gastos com Alertas Inteligentes</p>
+                    <ul class="features-list">
+                        <li>
+                            <div class="check-icon">✓</div><span>Alertas automáticos de gastos por SMS e Push</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Limites de gastos em porcentagem personalizáveis</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Dashboard intuitivo com gráficos em tempo real</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Categorização automática de despesas</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Relatórios mensais de economia</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Integração com bancos e cartões</span>
+                        </li>
+                    </ul>
+                    <div class="price-tag">
+                        <div class="price">R$ 4.99</div>
+                        <div class="period">por mês</div>
+                    </div>
+                    <button class="btn-buy" onclick="scrollToAuth()">Assinar Agora</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">⚡</div>
+                    <h3>FinoraQ API</h3>
+                    <p>Construa Seu Score em Tempo Real nos bureaus de crédito</p>
+                    <ul class="features-list">
+                        <li>
+                            <div class="check-icon">✓</div><span>Processamento em tempo real de operações de
+                                crédito</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Atualização instantânea no Serasa/SPC</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Foco em jovens de áreas periféricas</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>API RESTful com documentação completa</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Webhook de confirmação de pagamento</span>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div><span>Suporte técnico 24/7</span>
+                        </li>
+                    </ul>
+                    <div class="price-tag">
+                        <div class="price">0,20%</div>
+                        <div class="period">por transação</div>
+                    </div>
+                    <button class="btn-buy" onclick="scrollToAbout('empresa')">Para Empresas</button>
+                    <button class="btn-buy" style="margin-top: 0.5rem; background: rgba(255,255,255,0.2);"
+                        onclick="scrollToAbout('pessoa')">Para Pessoas</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="trial-section" id="trial">
+        <div class="trial-container">
+            <span class="trial-badge">🔥 OFERTA ESPECIAL</span>
+            <h2>Experimente o Finora CRM por 7 dias grátis</h2>
+            <p>Sem cartão de crédito • Sem compromisso • Cancelamento fácil</p>
+            <div class="trial-features">
+                <div class="trial-feature">
+                    <h4>📱 Acesso Total</h4>
+                    <p>Todas as funcionalidades do plano Pro liberadas</p>
+                </div>
+                <div class="trial-feature">
+                    <h4>⚡ Configuração Rápida</h4>
+                    <p>Ative em menos de 2 minutos, sem burocracia</p>
+                </div>
+                <div class="trial-feature">
+                    <h4>🛡️ Sem Risco</h4>
+                    <p>Cancelamento a qualquer momento, sem cobranças</p>
+                </div>
+                <div class="trial-feature">
+                    <h4>💬 Suporte VIP</h4>
+                    <p>Atendimento prioritário durante todo o trial</p>
+                </div>
+            </div>
+            <div class="trial-timer">
+                <h3>⏰ Oferta por tempo limitado</h3>
+                <p>Garanta seu teste gratuito antes que esta promoção expire!</p>
+            </div>
+            <button class="btn-trial" onclick="scrollToAuth()" style="font-size: 1.2rem; padding: 1.2rem 3rem;">🎁
+                Começar Meu Teste Grátis Agora</button>
+        </div>
+    </section>
+    <section class="api-section" id="api">
+        <div class="api-header">
+            <h2>FinoraQ API</h2>
+            <p>Construção de Score em Tempo Real para Jovens Periféricos</p>
+        </div>
+        <div class="api-grid">
+            <div class="api-card">
+                <h3>🚀 Atualização Instantânea</h3>
+                <p>Assim que o pagamento é confirmado, o score é atualizado automaticamente no Serasa e SPC em até 5
+                    minutos.</p>
+                <div class="code-preview">POST /api/v1/credit-operation<br>{<br>&nbsp;&nbsp;"cpf":
+                    "123.456.789-00",<br>&nbsp;&nbsp;"valor": 150.00,<br>&nbsp;&nbsp;"tipo": "pagamento"<br>}<br><br>//
+                    Resposta em 200ms</div>
+            </div>
+            <div class="api-card">
+                <h3>🎯 Foco em Inclusão</h3>
+                <p>Desenvolvida especificamente para jovens de áreas periféricas que desejam construir histórico de
+                    crédito rapidamente.</p>
+                <div class="code-preview">GET /api/v1/score/{cpf}<br><br>{<br>&nbsp;&nbsp;"score":
+                    650,<br>&nbsp;&nbsp;"ultima_atualizacao": "2026-01-15T10:30:00Z",<br>&nbsp;&nbsp;"status":
+                    "ativo"<br>}</div>
+            </div>
+            <div class="api-card">
+                <h3>🔒 Segurança Total</h3>
+                <p>Criptografia de ponta a ponta, conformidade com LGPD e certificações de segurança bancária.</p>
+                <div class="code-preview">Headers:<br>Authorization: Bearer {token}<br>X-API-Key:
+                    {sua_chave}<br>Content-Type: application/json</div>
+            </div>
+        </div>
+    </section>
+    <section class="about-section" id="sobre">
+        <div class="about-container">
+            <div class="section-title">
+                <h2>Sobre Nós</h2>
+                <p>Conheça a FinoraQi e nossa missão</p>
+            </div>
+            <div class="about-content">
+                <h3>Transformando Vidas Através da Educação Financeira</h3>
+                <p>A FinoraQi nasceu com o propósito de democratizar o acesso ao crédito e à educação financeira,
+                    especialmente para jovens de áreas periféricas. Acreditamos que todos merecem uma oportunidade de
+                    construir um futuro financeiro sólido.</p>
+                <p>Nossa plataforma combina tecnologia de ponta com uma abordagem humanizada, oferecendo ferramentas
+                    inovadoras que ajudam no controle de gastos, construção de score e desenvolvimento de hábitos
+                    financeiros saudáveis.</p>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Usuários Ativos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Satisfação</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Operações Processadas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Suporte Disponível</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <section class="auth-section" id="auth">
@@ -608,11 +1345,21 @@
                             <input type="checkbox" id="lembrarMe">
                             <span>Lembrar-me</span>
                         </label>
-                        <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                        <a href="#" class="forgot-password" onclick="showAlert('Em breve!', 'warning')">Esqueceu a
+                            senha?</a>
                     </div>
                     <button type="submit" class="btn-submit">
                         <span class="btn-text">Entrar na Plataforma</span>
                     </button>
+                    <div class="form-divider">
+                        <span>ou continue com</span>
+                    </div>
+                    <div class="social-login">
+                        <button type="button" class="btn-social" onclick="socialLogin('google')"><span>G</span>
+                            Google</button>
+                        <button type="button" class="btn-social" onclick="socialLogin('facebook')"><span>f</span>
+                            Facebook</button>
+                    </div>
                 </form>
                 <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)">
                     <div class="form-group">
@@ -654,7 +1401,8 @@
                     <div class="form-options">
                         <label class="remember-me">
                             <input type="checkbox" required>
-                            <span>Aceito os <a href="#" style="color: #ffd700;">termos de uso</a></span>
+                            <span>Aceito os <a href="#" style="color: #ffd700;">termos de uso</a> e <a href="#"
+                                    style="color: #ffd700;">política de privacidade</a></span>
                         </label>
                     </div>
                     <button type="submit" class="btn-submit">
@@ -665,13 +1413,12 @@
         </div>
     </section>
     <footer id="contato">
-        <p>&copy; 2026 Finora Quality Assurance. Todos os direitos reservados.</p>
+        <p>&copy; 2030 FinoraQi®. Todos os direitos reservados.</p>
         <p style="margin-top: 0.5rem; opacity: 0.8;">Transformando a vida financeira de jovens brasileiros</p>
-        <p style="margin-top: 1rem; font-size: 0.9rem;">📧 contato@finoraqi.com.br | 📱 (11) 99999-9999</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">📧 finoraqi.finance@gmail.com</p>
     </footer>
     <script>
-        const API_BASE = 'http://localhost:3000/api';
-
+        const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : '/api';
         class API {
             async request(endpoint, options = {}) {
                 const token = localStorage.getItem('finoraqi_token');
@@ -683,7 +1430,6 @@
             }
             async register(userData) { return await this.request('/auth/register', { method: 'POST', body: JSON.stringify(userData) }); }
             async login(email, password) { return await this.request('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }); }
-            async getProfile() { return await this.request('/profile'); }
             async getTransactions() { return await this.request('/transactions'); }
             async saveTransaction(transaction) { return await this.request('/transactions', { method: 'POST', body: JSON.stringify(transaction) }); }
             async updateTransaction(id, data) { return await this.request(`/transactions/${id}`, { method: 'PUT', body: JSON.stringify(data) }); }
@@ -694,14 +1440,8 @@
             async saveGoal(goal) { return await this.request('/goals', { method: 'POST', body: JSON.stringify(goal) }); }
             async updateGoal(id, data) { return await this.request(`/goals/${id}`, { method: 'PUT', body: JSON.stringify(data) }); }
             async deleteGoal(id) { return await this.request(`/goals/${id}`, { method: 'DELETE' }); }
-            async getWallets() { return await this.request('/wallets'); }
-            async saveWallet(w) { return await this.request('/wallets', { method: 'POST', body: JSON.stringify(w) }); }
-            async updateWallet(id, data) { return await this.request(`/wallets/${id}`, { method: 'PUT', body: JSON.stringify(data) }); }
-            async deleteWallet(id) { return await this.request(`/wallets/${id}`, { method: 'DELETE' }); }
         }
-
         const api = new API();
-
         function showAlert(message, type = 'success') {
             const container = document.getElementById('alertContainer');
             const alert = document.createElement('div');
@@ -712,7 +1452,6 @@
             container.appendChild(alert);
             setTimeout(() => { alert.classList.remove('show'); setTimeout(() => alert.remove(), 300); }, 5000);
         }
-
         function switchAuthTab(tab) {
             const tabs = document.querySelectorAll('.auth-tab');
             const forms = document.querySelectorAll('.auth-form');
@@ -722,7 +1461,6 @@
             else { tabs[1].classList.add('active'); document.getElementById('signupForm').classList.add('active'); }
             document.getElementById('alertContainer').innerHTML = '';
         }
-
         async function handleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
@@ -740,7 +1478,6 @@
             } catch (error) { showAlert(error.message, 'error'); }
             finally { btn.classList.remove('loading'); btn.innerHTML = '<span class="btn-text">Entrar na Plataforma</span>'; btn.disabled = false; }
         }
-
         async function handleSignup(e) {
             e.preventDefault();
             const nome = document.getElementById('signupNome').value;
@@ -763,9 +1500,9 @@
             } catch (error) { showAlert(error.message, 'error'); }
             finally { btn.classList.remove('loading'); btn.innerHTML = '<span class="btn-text">Criar Conta Grátis</span>'; btn.disabled = false; }
         }
-
+        function socialLogin(provider) { showAlert(`Login com ${provider} será implementado em breve!`, 'warning'); }
         function scrollToAuth() { document.getElementById('auth').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => { switchAuthTab('signup'); }, 800); }
-
+        function scrollToAbout(type) { document.getElementById('sobre').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => { showAlert(`Interessado na API para ${type}? Entre em contato conosco!`, 'success'); }, 1000); }
         const canvas = document.getElementById('starry-background');
         const ctx = canvas.getContext('2d');
         let width, height;
@@ -827,12 +1564,6 @@
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
             });
-        });
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const token = localStorage.getItem('finoraqi_token');
-            if (token) {
-            }
         });
     </script>
 </body>
