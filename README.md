@@ -2,6 +2,8 @@
 
 # FinoraQi®
 
+![FinoraQi - Website]("https://finora-qi-brlcore.vercel.app/")
+
 ![HTML | CSS | JAVA | Preview](languages.png)
 
 **Plataforma de Educação Financeira e Construção de Score de Crédito**  
@@ -39,5 +41,3 @@ FinoraQi também atua em processamento de dados visando maior escalabilidade e a
 [Preview Nepal](https://www.finoraq.org/)
 
 ---
-
-hospedagem e funcionalidades em breve...
