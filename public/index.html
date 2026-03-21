@@ -1216,7 +1216,8 @@
                     </div>
 
                     <button class="btn-buy" onclick="window.location.href='onboarding.html'">Para Empresas</button>
-                    <button class="btn-buy" onclick="window.location.href='dashboard.html'" style="margin-top: 0.5rem; background: rgba(255,255,255,0.2);">Para Você</button>
+                    <button class="btn-buy" onclick="window.location.href='dashboard.html'"
+                        style="margin-top: 0.5rem; background: rgba(255,255,255,0.2);">Para Você</button>
                 </div>
             </div>
         </div>
@@ -1298,19 +1299,22 @@
                     financeiros saudáveis.</p>
                 <div class="about-stats">
                     <div class="stat-card">
-                        <div class="stat-number">10K+</div>
+                        <div class="stat-number" data-target="10000">0</div>
                         <div class="stat-label">Usuários Ativos</div>
                     </div>
+
                     <div class="stat-card">
-                        <div class="stat-number">98%</div>
+                        <div class="stat-number" data-target="98">0</div>
                         <div class="stat-label">Satisfação</div>
                     </div>
+
                     <div class="stat-card">
-                        <div class="stat-number">50K+</div>
+                        <div class="stat-number" data-target="50000">0</div>
                         <div class="stat-label">Operações Processadas</div>
                     </div>
+
                     <div class="stat-card">
-                        <div class="stat-number">24/7</div>
+                        <div class="stat-number" data-target="24">0</div>
                         <div class="stat-label">Suporte Disponível</div>
                     </div>
                 </div>
@@ -1565,6 +1569,47 @@
                 if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
             });
         });
+
+        const counters = document.querySelectorAll('.stat-number');
+        let started = false;
+
+        function animateCounters() {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const duration = 8000; 
+                const increment = target / (duration / 16);
+
+                let count = 0;
+
+                const updateCount = () => {
+                    count += increment;
+
+                    if (count < target) {
+                        counter.innerText = Math.floor(count);
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        if (target === 10000) counter.innerText = "10K+";
+                        else if (target === 50000) counter.innerText = "50K+";
+                        else if (target === 98) counter.innerText = "98%";
+                        else if (target === 24) counter.innerText = "24/7";
+                        else counter.innerText = target;
+                    }
+                };
+
+                updateCount();
+            });
+        }
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !started) {
+                    started = true;
+                    animateCounters();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(document.querySelector('.about-stats'));
     </script>
 </body>
 
