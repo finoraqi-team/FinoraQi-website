@@ -1,4 +1,4 @@
-![FinoraQi Preview](logo.png)
+<img width="1664" height="928" alt="1774132267" src="https://github.com/user-attachments/assets/90a071a8-5055-4a95-b572-cba09b2a744f" />
 
 # FinoraQi®
 
