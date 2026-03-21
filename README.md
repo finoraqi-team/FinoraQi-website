@@ -2,7 +2,7 @@
 
 # FinoraQi®
 
-![FinoraQi - Website]("https://finora-qi-brlcore.vercel.app/")
+"https://finora-qi-brlcore.vercel.app/"
 
 ![HTML | CSS | JAVA | Preview](languages.png)
 
