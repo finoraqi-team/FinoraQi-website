@@ -1085,6 +1085,91 @@
                 padding: 2rem 1.5rem;
             }
         }
+
+        .partners-section {
+            background: linear-gradient(135deg, rgba(123, 44, 191, 0.95) 0%, rgba(0, 212, 255, 0.95) 100%);
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .partners-slider {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            padding: 2rem 0;
+        }
+
+        .partners-track {
+            display: flex;
+            gap: 4rem;
+            animation: slidePartners 30s linear infinite;
+            width: max-content;
+        }
+
+        .partners-track:hover {
+            animation-play-state: paused;
+        }
+
+        .partner-logo {
+            width: 180px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .partner-logo:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #ffd700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .partner-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+
+        .partner-logo:hover img {
+            filter: none;
+            opacity: 1;
+        }
+
+        @keyframes slidePartners {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .partners-track {
+                gap: 2rem;
+                animation-duration: 20s;
+            }
+
+            .partner-logo {
+                width: 140px;
+                height: 80px;
+            }
+        }
     </style>
 </head>
 
@@ -1246,8 +1331,7 @@
                 <h3>⏰ Oferta por tempo limitado</h3>
                 <p>Garanta seu teste gratuito antes que esta promoção expire!</p>
             </div>
-            <button class="btn-buy" onclick="window.location.href='dashboard.html'"
-                        >Iniciar teste</button>
+            <button class="btn-buy" onclick="window.location.href='dashboard.html'">Iniciar teste</button>
         </div>
     </section>
     <section class="api-section" id="api">
@@ -1413,6 +1497,59 @@
             </div>
         </div>
     </section>
+
+    <!-- Adicione esta seção após a seção products e antes da trial-section -->
+    <section class="partners-section" id="parceiros">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nossos Parceiros</h2>
+                <p>Empresas que confiam e utilizam a FinoraQi</p>
+            </div>
+            <div class="partners-slider">
+                <div class="partners-track">
+                    <div class="partner-logo">
+                        <img src="assets/lead.png" alt="Proa">
+                    </div>
+                    <!-- <div class="partner-logo">
+                        <img src="assets/lead-2.png" alt="Serasa">
+                    </div> -->
+                    <!-- <div class="partner-logo">
+                        <img src="assets/logo-parceiro-3.png" alt="Parceiro 3">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="assets/logo-parceiro-4.png" alt="Parceiro 4">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="assets/logo-parceiro-5.png" alt="Parceiro 5">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="assets/logo-parceiro-6.png" alt="Parceiro 6">
+                    </div> -->
+                </div>
+                <!-- <div class="partners-track"> -->
+                    <!-- <div class="partner-logo">
+                        <img src="assets/lead.png" alt="PROA">
+                    </div> -->
+                    <!-- <div class="partner-logo">
+                        <img src="assets/lead-2.png" alt="Serasa Experience">
+                    </div> -->
+                    <!-- <div class="partner-logo">
+                        <img src="assets/logo-parceiro-3.png" alt="Parceiro 3">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="assets/logo-parceiro-4.png" alt="Parceiro 4">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="assets/logo-parceiro-5.png" alt="Parceiro 5">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="assets/logo-parceiro-6.png" alt="Parceiro 6">
+                    </div> -->
+                <!-- </div>
+            </div> -->
+        </div>
+    </section>
+
     <footer id="contato">
         <p>&copy; 2030 FinoraQi. Todos os direitos reservados.</p>
         <p style="margin-top: 0.5rem; opacity: 0.8;">Transformando a vida financeira de jovens brasileiros</p>
@@ -1573,7 +1710,7 @@
         function animateCounters() {
             counters.forEach(counter => {
                 const target = +counter.getAttribute('data-target');
-                const duration = 8000; 
+                const duration = 8000;
                 const increment = target / (duration / 16);
 
                 let count = 0;
