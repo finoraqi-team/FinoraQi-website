@@ -1332,8 +1332,15 @@
                 <h3>⏰ Oferta por tempo limitado</h3>
                 <p>Garanta seu teste gratuito antes que esta promoção expire!</p>
             </div>
-            <button class="btn-buy" onclick="window.location.href='dashboard.html'">Teste Pessoal</button>
-            <button class="btn-buy" onclick="window.location.href='crm_enterprise.html'">Teste Empresarial</button>
+
+            <button class="btn-buy" onclick="scrollToSection('pessoal')">
+            Teste Pessoal
+            </button>    
+
+        <button class="btn-buy" onclick="scrollToSection('empresarial')">
+          Teste Empresarial
+        </button>
+            
         </div>
     </section>
     <section class="api-section" id="api">
@@ -1591,6 +1598,12 @@
             container.innerHTML = '';
             container.appendChild(alert);
             setTimeout(() => { alert.classList.remove('show'); setTimeout(() => alert.remove(), 300); }, 5000);
+        }
+        function scrollToSection(id) {
+          document.getElementById(id).scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
         }
         function switchAuthTab(tab) {
             const tabs = document.querySelectorAll('.auth-tab');
