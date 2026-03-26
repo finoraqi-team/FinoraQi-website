@@ -196,14 +196,6 @@ pytest --cov=app
 
 ---
 
-<div align="center">
-
-Feito para democratizar o crédito no Brasil 🇧🇷
-
-</div>
-
----
-
 ## Backend Integrado | (opensource)
 
 [API-REAL-TIME](https://github.com/kauecodify/SpreadLiquidityAPI)
@@ -221,3 +213,9 @@ Feito para democratizar o crédito no Brasil 🇧🇷
 - 📧 finoraqi.finance@gmail.com
 - 🌐 https://finora-qi-brlcore.vercel.app
 - 🐛 [Issues](https://github.com/finoraqi-team/FinoraQi-website/issues)
+
+<div align="center">
+
+Feito para democratizar o crédito no Brasil 🇧🇷
+
+</div>
