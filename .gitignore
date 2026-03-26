@@ -7,3 +7,4 @@ build/
 *.sqlite
 coverage/
 .nyc_output/
+!public/**/*
