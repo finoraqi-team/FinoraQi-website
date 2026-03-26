@@ -2,11 +2,8 @@ node_modules/
 .env
 .env.local
 .DS_Store
-*.log
-.vercel
 dist/
 build/
-*.db
 *.sqlite
 coverage/
 .nyc_output/
