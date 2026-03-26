@@ -7,7 +7,6 @@
 
 ![Status](https://img.shields.io/badge/status-MVP%20Ready-green)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
-![License](https://img.shields.io/badge/license-MIT-blue)
 
 **Plataforma de Educação Financeira e Construção de Score de Crédito**  
 
@@ -214,12 +213,6 @@ Feito para democratizar o crédito no Brasil 🇧🇷
 ## Opensource em utilização 
 
 [Preview Nepal](https://www.finoraq.org/)
-
----
-
-## 📄 Licença
-
-MIT - Veja [LICENSE](./LICENSE) para detalhes.
 
 ---
 
