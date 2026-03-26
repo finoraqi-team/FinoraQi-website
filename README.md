@@ -1,4 +1,5 @@
-<img width="1664" height="928" alt="1774529071" src="https://github.com/user-attachments/assets/0110613a-9916-44a4-b7ad-4e71f6ba03e5" />
+<img width="700" height="390" alt="image" src="https://github.com/user-attachments/assets/8be4de0d-07c8-420d-b076-19c96d76f66e" />
+
 
 # FinoraQi®
 
