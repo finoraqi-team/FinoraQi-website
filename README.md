@@ -1,14 +1,23 @@
-<img width="700" height="390" alt="image" src="https://github.com/user-attachments/assets/8be4de0d-07c8-420d-b076-19c96d76f66e" />
 
+<div align="center">
+
+<img width="700" height="390" alt="image" src="https://github.com/user-attachments/assets/8be4de0d-07c8-420d-b076-19c96d76f66e" />
 
 # FinoraQi®
 
-"https://finora-qi-brlcore.vercel.app/"
+![Status](https://img.shields.io/badge/status-MVP%20Ready-green)
+![Python](https://img.shields.io/badge/python-3.11-blue)
+![License](https://img.shields.io/badge/license-MIT-blue)
+
+**Plataforma de Educação Financeira e Construção de Score de Crédito**  
+
+CRM de gastos com alertas em tempo real, API de crédito instantâneo focada em jovens e API de spread bancário em tempo real para parceiros bancários.
+
+[Demo](https://finora-qi-brlcore.vercel.app) • [API Docs](core.html)
 
 ![HTML | CSS | JAVA | Preview](languages.png)
 
-**Plataforma de Educação Financeira e Construção de Score de Crédito**  
-CRM de gastos com alertas em tempo real, API de crédito instantâneo focada em jovens e API de spread bancário em tempo real para parceiros bancários.  
+</div>
 
 ---
 
@@ -34,20 +43,6 @@ FinoraQi também atua em processamento de dados visando maior escalabilidade e a
 ## Fluxo de Processamento de Pagamento
 
 <img width="2000" height="2000" alt="mermaid-1774568097561" src="https://github.com/user-attachments/assets/3d6bf77d-f76c-4924-a5bc-3e9a8fce66a1" />
-
----
-
-<div align="center">
-
-![Status](https://img.shields.io/badge/status-MVP%20Ready-green)
-![Python](https://img.shields.io/badge/python-3.11-blue)
-![License](https://img.shields.io/badge/license-MIT-blue)
-
-**Solução financeira inclusiva para jovens brasileiros**
-
-[Demo](https://finora-qi-brlcore.vercel.app) • [API Docs](core.html)
-
-</div>
 
 ---
 
