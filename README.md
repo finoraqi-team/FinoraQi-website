@@ -29,7 +29,7 @@ FinoraQi é uma solução financeira acessível e inclusiva que ajuda jovens bra
 - Acessar ferramentas de educação financeira gamificada
 - Obter atualização instantânea de score nos bureaus (Serasa/SPC)
 
-FinoraQi também atua em processamento de dados visando maior escalabilidade e atomicidade:
+FinoraQi também atua em processamento de dados visando maior escalabilidade e atomicidade em empresas:
 
 - processamento de planilhas em tempo real (Iot | Streamming | Artificial Intelligence | Machine Learning)
 - Api em desenvolvimento multimodal
@@ -47,7 +47,7 @@ FinoraQi também atua em processamento de dados visando maior escalabilidade e a
 
 ## 🎯 O que é?
 
-O **FinoraQi** ajuda jovens a:
+O **FinoraQi** ajuda jovens e empresas a:
 - 📊 Controlar gastos com alertas inteligentes
 - 💳 Construir histórico de crédito rapidamente
 - 🤖 Processar planilhas com IA em tempo real
@@ -94,22 +94,32 @@ python -m http.server 8080
 
 ```
 FinoraQi-website/
-├── frontend/           # HTML/CSS/JS vanilla
+├── public/           # (frontend)
 │   ├── index.html      # Landing page
 │   ├── dashboard.html  # Dashboard do usuário
-│   └── transactions.html # Controle com ML
+|   ├── core.html       # treinamento de milissegundos
+│   └── crm_enterprise.html # Dashboard empresas
 │
 ├── backend-fastapi/    # API Python
 │   ├── app/
 │   │   ├── main.py     # Entry point
+|   |   ├── core.html   # html
 │   │   ├── api/        # Endpoints
 │   │   ├── ml/         # Modelos ML <1ms
 │   │   └── db/         # Banco de dados
-│   ├── requirements.txt
 │   └── Dockerfile
+│
+├── js/
+│  ├── api.js     # api
+│  ├── server.js     # server
+|
+├── assets/
+│  ├── api.js     # token
 │
 ├── docker-compose.yml  # Orquestração local
 ├── .env.example        # Template de config
+├── .gitignore          # gitignore
+├── package.json        # pacotes
 └── README.md           # Você está aqui
 ```
 
