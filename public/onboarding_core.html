@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 Onboarding • FinoraQi CORE Training</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1e293b;
+            --bg-hover: #334155;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-pink: #ec4899;
+            --accent-red: #ef4444;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(148, 163, 184, 0.1);
+            --shadow-neon: 0 0 20px rgba(59, 130, 246, 0.3);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .onboarding-header {
+            position: sticky;
+            top: 0;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+            box-shadow: var(--shadow-neon);
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-neon);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .btn-sm { padding: 6px 12px; font-size: 13px; }
+
+        /* Layout */
+        .onboarding-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: calc(100vh - 72px);
+        }
+
+        @media (max-width: 900px) {
+            .onboarding-layout { grid-template-columns: 1fr; }
+            .sidebar { position: fixed; left: -100%; width: 280px; height: 100vh; transition: left 0.3s; z-index: 90; }
+            .sidebar.active { left: 0; }
+            .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 80; }
+            .sidebar-overlay.active { display: block; }
+            .menu-toggle { display: flex !important; }
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            overflow-y: auto;
+            max-height: calc(100vh - 72px);
+        }
+
+        .progress-section {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .progress-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--bg-card);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-list { list-style: none; }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .nav-item.completed {
+            color: var(--accent-green);
+        }
+
+        .nav-item .material-symbols-rounded {
+            font-size: 18px;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 32px;
+            overflow-y: auto;
+            max-height: calc(100vh - 72px);
+        }
+
+        .step-container { display: none; animation: fadeIn 0.3s ease; }
+        .step-container.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-header {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .step-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .step-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        .step-number-badge {
+            background: var(--gradient-primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* Content Blocks */
+        .content-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .content-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-blue);
+        }
+
+        .content-card p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+
+        .content-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-card li {
+            padding: 8px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .content-card li::before {
+            content: "▹";
+            color: var(--accent-cyan);
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: #0d1117;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #c9d1d9;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .code-block .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--bg-hover);
+            border: none;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+
+        .code-block .copy-btn:hover {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .code-block .comment { color: #8b949e; }
+        .code-block .keyword { color: #ff7b72; }
+        .code-block .string { color: #a5d6ff; }
+        .code-block .function { color: #d2a8ff; }
+        .code-block .number { color: #79c0ff; }
+
+        /* Diagrams */
+        .flow-diagram {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: pre-wrap;
+            border-left: 4px solid var(--accent-purple);
+            line-height: 1.8;
+        }
+
+        .flow-diagram .arrow { color: var(--accent-cyan); }
+        .flow-diagram .highlight { color: var(--accent-green); font-weight: bold; }
+        .flow-diagram .warning { color: var(--accent-orange); }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .data-table td { color: var(--text-secondary); }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
+        .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--accent-orange); }
+        .badge-error { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+        .badge-info { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+
+        /* Checklists */
+        .checklist { list-style: none; }
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .checklist-item:last-child { border-bottom: none; }
+        .checklist-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent-blue);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: all 0.2s;
+        }
+        .checklist-checkbox.checked {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+        .checklist-checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+        }
+        .checklist-label { flex: 1; font-size: 14px; color: var(--text-secondary); }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .feature-content h4 {
+            font-size: 16px;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .feature-content p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Accordion */
+        .accordion { margin: 16px 0; }
+        .accordion-item {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+        .accordion-header {
+            padding: 14px 18px;
+            background: var(--bg-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 500;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        .accordion-header:hover { background: var(--bg-hover); }
+        .accordion-header .material-symbols-rounded { transition: transform 0.2s; }
+        .accordion-header.active .material-symbols-rounded { transform: rotate(180deg); }
+        .accordion-content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: var(--bg-card);
+        }
+        .accordion-content.active {
+            padding: 16px 18px;
+            max-height: 500px;
+        }
+        .accordion-content p { font-size: 14px; color: var(--text-secondary); margin: 0; }
+
+        /* Navigation Footer */
+        .step-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Search */
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+        .search-box input::placeholder { color: var(--text-muted); }
+        .search-box .material-symbols-rounded {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        /* Links */
+        .external-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 12px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 8px;
+            margin: 4px 0;
+            transition: all 0.2s;
+        }
+        .external-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateX(4px);
+        }
+        .external-link::after {
+            content: "↗";
+            font-size: 12px;
+        }
+
+        /* Status Grid */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .status-item {
+            background: var(--bg-secondary);
+            padding: 14px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            animation: pulse 2s infinite;
+        }
+        .status-dot.warning { background: var(--accent-orange); }
+        .status-dot.error { background: var(--accent-red); }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .onboarding-header { padding: 12px 16px; }
+            .main-content { padding: 20px 16px; }
+            .step-title { font-size: 22px; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .step-navigation { flex-direction: column; gap: 12px; }
+            .step-navigation .btn { width: 100%; justify-content: center; }
+        }
+
+        /* Animations */
+        .fade-in { animation: fadeIn 0.3s ease; }
+        .slide-up { animation: slideUp 0.3s ease; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="onboarding-header">
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <button class="menu-toggle" onclick="toggleSidebar()">
+                <span class="material-symbols-rounded">menu</span>
+            </button>
+            <div class="header-logo">
+                <img src="../public/logo.png" alt="logo" width="40" height="40" class="logo">
+                <div class="logo-text">FinoraQi CORE</div>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-ghost btn-sm" onclick="toggleSearch()">
+                <span class="material-symbols-rounded">search</span>
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="completeOnboarding()">
+                <span class="material-symbols-rounded">check</span>
+                Concluir
+            </button>
+        </div>
+    </header>
+
+    <!-- Search Overlay -->
+    <div class="search-box" id="searchBox" style="display: none; padding: 0 24px;">
+        <span class="material-symbols-rounded">search</span>
+        <input type="text" id="searchInput" placeholder="Buscar no onboarding..." onkeyup="filterContent()">
+    </div>
+
+    <!-- Sidebar Overlay (Mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <div class="onboarding-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="progress-section">
+                <div class="progress-label">
+                    <span>Progresso</span>
+                    <span id="progressText">1/8</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 12.5%"></div>
+                </div>
+            </div>
+
+            <ul class="nav-list">
+                <li class="nav-item active" data-step="0" onclick="goToStep(0)">
+                    <span class="material-symbols-rounded">school</span>
+                    Introdução
+                </li>
+                <li class="nav-item" data-step="1" onclick="goToStep(1)">
+                    <span class="material-symbols-rounded">folder</span>
+                    Estrutura do Projeto
+                </li>
+                <li class="nav-item" data-step="2" onclick="goToStep(2)">
+                    <span class="material-symbols-rounded">rocket_launch</span>
+                    Como Rodar (Setup)
+                </li>
+                <li class="nav-item" data-step="3" onclick="goToStep(3)">
+                    <span class="material-symbols-rounded">play_circle</span>
+                    Usando a Simulação
+                </li>
+                <li class="nav-item" data-step="4" onclick="goToStep(4)">
+                    <span class="material-symbols-rounded">api</span>
+                    API Reference
+                </li>
+                <li class="nav-item" data-step="5" onclick="goToStep(5)">
+                    <span class="material-symbols-rounded">psychology</span>
+                    Como Funciona o ML
+                </li>
+                <li class="nav-item" data-step="6" onclick="goToStep(6)">
+                    <span class="material-symbols-rounded">speed</span>
+                    Benchmark & Performance
+                </li>
+                <li class="nav-item" data-step="7" onclick="goToStep(7)">
+                    <span class="material-symbols-rounded">deployed_code</span>
+                    Deploy & Troubleshooting
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Step 0: Introdução -->
+            <div class="step-container active" id="step-0">
+                <div class="step-header">
+                    <h1 class="step-title">
+                        <span class="step-number-badge">1</span>
+                        Bem-vindo ao Treinamento
+                    </h1>
+                    <p class="step-subtitle">Aprenda a usar a simulação de pagamentos FinoraQi CORE com ML em &lt;1ms</p>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">info</span> O que é o FinoraQi CORE?</h3>
+                    <p>
+                        O <strong>FinoraQi CORE</strong> é um ambiente de treinamento que simula processamento de 
+                        pagamentos em tempo real, utilizando machine learning otimizado com <strong>Numba JIT</strong> 
+                        para inferência em menos de 1 milissegundo.
+                    </p>
+                    
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-content">
+                                <h4>ML Scoring &lt;1ms</h4>
+                                <p>Modelo Numba compilado para código nativo</p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔄</div>
+                            <div class="feature-content">
+                                <h4>WebSocket Real-time</h4>
+                                <p>Updates de cada etapa do processamento</p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <div class="feature-content">
+                                <h4>Benchmark Integrado</h4>
+                                <p>Teste de performance com 100 iterações</p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🛡️</div>
+                            <div class="feature-content">
+                                <h4>Anti-Fraude</h4>
+                                <p>Regras heurísticas + detecção de anomalias</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">target</span> O que você vai aprender</h3>
+                    <ul class="checklist">
+                        <li class="checklist-item">
+                            <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                            <div class="checklist-label">Entender a estrutura do projeto no GitHub</div>
+                        </li>
+                        <li class="checklist-item">
+                            <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                            <div class="checklist-label">Configurar o ambiente local (Docker ou manual)</div>
+                        </li>
+                        <li class="checklist-item">
+                            <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                            <div class="checklist-label">Executar simulações de pagamento via interface</div>
+                        </li>
+                        <li class="checklist-item">
+                            <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                            <div class="checklist-label">Consultar a API via código ou Swagger UI</div>
+                        </li>
+                        <li class="checklist-item">
+                            <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                            <div class="checklist-label">Interpretar métricas de performance e scoring ML</div>
+                        </li>
+                        <li class="checklist-item">
+                            <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                            <div class="checklist-label">Resolver problemas comuns e fazer deploy</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" disabled>← Anterior</button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Começar → <span class="material-symbols-rounded">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 1: Estrutura do Projeto -->
+            <div class="step-container" id="step-1">
+                <div class="step-header">
+                    <h1 class="step-title">
+                        <span class="step-number-badge">2</span>
+                        Estrutura do Projeto
+                    </h1>
+                    <p class="step-subtitle">Entenda como os arquivos estão organizados no repositório</p>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">folder_tree</span> Árvore de Diretórios</h3>
+                    <div class="flow-diagram">
+FinoraQi-website/
+├── <span class="highlight">public/</span>                    # Frontend estático
+│   ├── index.html              # Landing page
+│   ├── dashboard.html          # Dashboard do usuário
+│   ├── <span class="highlight">core.html ✅</span>            # 🎯 SIMULAÇÃO DE PAGAMENTOS
+│   ├── crm_enterprise.html     # Dashboard empresas
+│   └── onboarding.html         # Tutorial inicial
+│
+├── <span class="highlight">backend-fastapi/</span>          # Backend Python
+│   ├── app/
+│   │   ├── main.py             # Entry point FastAPI
+│   │   ├── api/v1/
+│   │   │   └── <span class="highlight">payment.py ✅</span>  # Endpoint /process
+│   │   ├── <span class="highlight">ml/</span>
+│   │   │   └── <span class="highlight">scoring.py ✅</span>  # Modelo Numba JIT
+│   │   └── db/models.py        # Schemas Pydantic
+│   ├── requirements.txt        # Dependências Python
+│   └── Dockerfile
+│
+├── js/
+│   ├── api.js                  # Cliente API frontend
+│   └── server.js               # Server Node (opcional)
+│
+├── docker-compose.yml          # Orquestração completa
+├── .env.example                # Template de config
+├── vercel.json                 # Deploy frontend
+└── README.md                   # Documentação principal
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">link</span> Links Importantes</h3>
+                    <a href="https://github.com/finoraqi-team/FinoraQi-website" class="external-link" target="_blank">
+                        <span class="material-symbols-rounded">code</span>
+                        Repositório Principal no GitHub
+                    </a>
+                    <a href="https://github.com/finoraqi-team/FinoraQi-website/tree/main/backend-fastapi" class="external-link" target="_blank">
+                        <span class="material-symbols-rounded">terminal</span>
+                        Backend FastAPI + ML
+                    </a>
+                    <a href="https://github.com/finoraqi-team/FinoraQi-website/tree/main/public" class="external-link" target="_blank">
+                        <span class="material-symbols-rounded">web</span>
+                        Frontend (arquivos HTML)
+                    </a>
+                    <a href="https://github.com/finoraqi-team/FinoraQi-website/blob/main/README.md" class="external-link" target="_blank">
+                        <span class="material-symbols-rounded">menu_book</span>
+                        Documentação Completa (README)
+                    </a>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Anterior</button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Próximo → <span class="material-symbols-rounded">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Como Rodar -->
+            <div class="step-container" id="step-2">
+                <div class="step-header">
+                    <h1 class="step-title">
+                        <span class="step-number-badge">3</span>
+                        Como Rodar o Projeto
+                    </h1>
+                    <p class="step-subtitle">Configure o ambiente local em 3 minutos</p>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">dns</span> Pré-requisitos</h3>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <span class="status-dot"></span>
+                            <span>Docker + Docker Compose</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-dot"></span>
+                            <span>OU Python 3.10+ e Node.js 18+</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-dot"></span>
+                            <span>Git instalado</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-dot"></span>
+                            <span>Portas 8000 e 8080 livres</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>🐳 Opção 1: Com Docker (Recomendado)</span>
+                            <span class="material-symbols-rounded">expand_more</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Clone e suba os containers:</p>
+                            <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">
+    <span class="material-symbols-rounded">content_copy</span> Copiar
+</button>
+<span class="comment"># 1. Clone o repositório</span>
+git clone https://github.com/finoraqi-team/FinoraQi-website.git
+cd FinoraQi-website
+
+<span class="comment"># 2. Copie template de variáveis</span>
+cp .env.example .env
+
+<span class="comment"># 3. Suba os containers</span>
+docker-compose up -d
+
+<span class="comment"># 4. Acesse no navegador:</span>
+<span class="comment"># 🎯 Simulação: http://localhost:8080/core.html</span>
+<span class="comment"># 📚 API Docs: http://localhost:8000/docs</span>
+<span class="comment"># 💚 Health: http://localhost:8000/health</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>🔧 Opção 2: Manual (Desenvolvimento)</span>
+                            <span class="material-symbols-rounded">expand_more</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Terminal 1 - Backend:</strong></p>
+                            <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">
+    <span class="material-symbols-rounded">content_copy</span> Copiar
+</button>
+cd backend-fastapi
+python -m venv venv
+<span class="comment"># Linux/Mac:</span>
+source venv/bin/activate
+<span class="comment"># Windows:</span>
+venv\Scripts\activate
+
+pip install -r requirements.txt
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+                            </div>
+                            
+                            <p><strong>Terminal 2 - Frontend:</strong></p>
+                            <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">
+    <span class="material-symbols-rounded">content_copy</span> Copiar
+</button>
+<span class="comment"># Na raiz do projeto:</span>
+python -m http.server 8080
+<span class="comment"># OU com Node:</span>
+npx serve public -p 8080
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">check_circle</span> Verificação</h3>
+                    <p>Após iniciar, confirme que tudo está funcionando:</p>
+                    <ul>
+                        <li>✅ <code>curl http://localhost:8000/health</code> retorna <code>{"status":"healthy"}</code></li>
+                        <li>✅ <code>http://localhost:8000/docs</code> abre o Swagger UI</li>
+                        <li>✅ <code>http://localhost:8080/core.html</code> carrega a simulação</li>
+                        <li>✅ Console do navegador mostra "✅ WebSocket conectado"</li>
+                    </ul>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Anterior</button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Próximo → <span class="material-symbols-rounded">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Usando a Simulação -->
+            <div class="step-container" id="step-3">
+                <div class="step-header">
+                    <h1 class="step-title">
+                        <span class="step-number-badge">4</span>
+                        Usando a Simulação
+                    </h1>
+                    <p class="step-subtitle">Aprenda a processar pagamentos e interpretar resultados</p>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">payments</span> Interface do core.html</h3>
+                    <div class="flow-diagram">
+┌─────────────────────────────────────┐
+│ 🏦 FinoraQi • CORE REAL TIME  [❓] 👤│
+├─────────────────────────────────────┤
+│                                     │
+│  [📝 Formulário de Pagamento]      │
+│  • ID Usuário: [user_demo_001    ] │
+│  • Valor (R$): [150.00           ] │
+│  • Descrição:  [Compra marketplace]│
+│  • Tipo:       [📉 Despesa ▼    ] │
+│  • Método:     [✨ PIX ▼        ] │
+│                                     │
+│  [⚡ Processar com ML (1ms)]       │
+│  [🚀 Rodar Benchmark (100x)]      │
+│                                     │
+│  [🔄 Painel de Processamento]     │
+│  [📊] Timer: 0.847ms              │
+│  [▓▓▓▓▓░░░░] 60%                  │
+│  [✓] Recebido → Validação → ML →  │
+│  [✓] Anti-Fraude → [⚡] Aprovado  │
+│                                     │
+│  [✅ Resultado]                    │
+│  • ID: tx_abc123 • Status: ✅     │
+│  • Risk: 🟢 Baixo • ML: 94.2%     │
+│                                     │
+│  [📈 Gráfico: Últimas 20 trans.]  │
+└─────────────────────────────────────┘
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">step</span> Passo a Passo</h3>
+                    <ol style="padding-left: 20px; color: var(--text-secondary);">
+                        <li style="margin-bottom: 12px;">
+                            <strong>Preencha o formulário:</strong><br>
+                            Use valores válidos. ID do usuário pode ser qualquer string única.
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            <strong>Clique em "⚡ Processar com ML":</strong><br>
+                            O frontend envia POST para a API e abre conexão WebSocket.
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            <strong>Acompanhe os steps em tempo real:</strong><br>
+                            Cada etapa é atualizada via WebSocket com latência em ms.
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            <strong>Analise o resultado:</strong><br>
+                            Status, risk_score, métricas do modelo e breakdown detalhado.
+                        </li>
+                        <li>
+                            <strong>Teste o benchmark:</strong><br>
+                            Clique em "Rodar Benchmark" para ver performance em 100 iterações.
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">data_object</span> Campos do Formulário</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Campo</th>
+                                <th>Tipo</th>
+                                <th>Obrigatório</th>
+                                <th>Exemplo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>user_id</code></td>
+                                <td>string</td>
+                                <td><span class="badge badge-success">Sim</span></td>
+                                <td><code>user_demo_001</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>amount</code></td>
+                                <td>number &gt; 0</td>
+                                <td><span class="badge badge-success">Sim</span></td>
+                                <td><code>150.00</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>description</code></td>
+                                <td>string</td>
+                                <td><span class="badge badge-success">Sim</span></td>
+                                <td><code>"Compra marketplace"</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>category</code></td>
+                                <td>enum</td>
+                                <td><span class="badge badge-info">Não</span></td>
+                                <td><code>expense|income|investment|transfer</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>payment_method</code></td>
+                                <td>enum</td>
+                                <td><span class="badge badge-info">Não</span></td>
+                                <td><code>pix|credit_card|debit_card</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Anterior</button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Próximo → <span class="material-symbols-rounded">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 4: API Reference -->
+            <div class="step-container" id="step-4">
+                <div class="step-header">
+                    <h1 class="step-title">
+                        <span class="step-number-badge">5</span>
+                        API Reference
+                    </h1>
+                    <p class="step-subtitle">Endpoints disponíveis e como consumir programaticamente</p>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">post_add</span> POST /api/v1/payment/process</h3>
+                    <p>Endpoint principal para processamento de pagamentos.</p>
+                    
+                    <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">
+    <span class="material-symbols-rounded">content_copy</span> Copiar
+</button>
+<span class="keyword">POST</span> <span class="string">http://localhost:8000/api/v1/payment/process</span>
+<span class="keyword">Content-Type:</span> <span class="string">application/json</span>
+
+{
+  <span class="string">"user_id"</span>: <span class="string">"user_demo_001"</span>,
+  <span class="string">"amount"</span>: <span class="number">150.00</span>,
+  <span class="string">"description"</span>: <span class="string">"Compra marketplace"</span>,
+  <span class="string">"category"</span>: <span class="string">"expense"</span>,
+  <span class="string">"payment_method"</span>: <span class="string">"pix"</span>
+}
+                    </div>
+
+                    <p><strong>Resposta de sucesso (200):</strong></p>
+                    <div class="code-block">
+{
+  <span class="string">"transaction_id"</span>: <span class="string">"tx_abc123xyz"</span>,
+  <span class="string">"status"</span>: <span class="string">"approved"</span>,
+  <span class="string">"amount"</span>: <span class="number">150.00</span>,
+  <span class="string">"processing_time_ms"</span>: <span class="number">0.847</span>,
+  <span class="string">"risk_level"</span>: <span class="string">"low"</span>,
+  <span class="string">"ml_score"</span>: <span class="number">0.942</span>,
+  <span class="string">"metadata"</span>: {
+    <span class="string">"ml_latency_ms"</span>: <span class="number">0.432</span>,
+    <span class="string">"features_used"</span>: <span class="number">14</span>,
+    <span class="string">"is_anomaly"</span>: <span class="keyword">false</span>,
+    <span class="string">"user_trust"</span>: <span class="number">0.94</span>,
+    <span class="string">"model_version"</span>: <span class="string">"v2.1.0-numba"</span>
+  }
+}
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">websocket</span> WebSocket /ws/payment/{user_id}</h3>
+                    <p>Conexão bidirecional para updates em tempo real do processamento.</p>
+                    
+                    <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">
+    <span class="material-symbols-rounded">content_copy</span> Copiar
+</button>
+<span class="comment">// Conectar</span>
+<span class="keyword">const</span> ws = <span class="keyword">new</span> <span class="function">WebSocket</span>(
+  <span class="string">'ws://localhost:8000/ws/payment/user_demo_001'</span>
+);
+
+<span class="comment">// Enviar dados</span>
+ws.<span class="function">send</span>(<span class="function">JSON</span>.<span class="function">stringify</span>({
+  <span class="string">type</span>: <span class="string">'process_payment'</span>,
+  <span class="string">data</span>: { <span class="comment">/* mesmos campos do POST */</span> }
+}));
+
+<span class="comment">// Receber updates</span>
+ws.<span class="function">onmessage</span> = (<span class="function">event</span>) => {
+  <span class="keyword">const</span> data = <span class="function">JSON</span>.<span class="function">parse</span>(event.data);
+  
+  <span class="keyword">if</span> (data.type === <span class="string">'progress'</span>) {
+    console.<span class="function">log</span>(<span class="string">`Stage: </span><span class="function">${data.stage}</span><span class="string">, Progress: </span><span class="function">${data.progress_percent}</span><span class="string">%`</span>);
+  }
+  
+  <span class="keyword">if</span> (data.type === <span class="string">'result'</span>) {
+    console.<span class="function">log</span>(<span class="string">'Resultado final:'</span>, data);
+  }
+};
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">health_and_safety</span> Endpoints Adicionais</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Endpoint</th>
+                                <th>Método</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/health</code></td>
+                                <td><span class="badge badge-info">GET</span></td>
+                                <td>Health check do serviço</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/v1/benchmark?iterations=100</code></td>
+                                <td><span class="badge badge-info">GET</span></td>
+                                <td>Teste de performance com N iterações</td>
+                            </tr>
+                            <tr>
+                                <td><code>/docs</code></td>
+                                <td><span class="badge badge-info">GET</span></td>
+                                <td>Swagger UI interativo</td>
+                            </tr>
+                            <tr>
+                                <td><code>/openapi.json</code></td>
+                                <td><span class="badge badge-info">GET</span></td>
+                                <td>Especificação OpenAPI 3.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <a href="http://localhost:8000/docs" class="external-link" target="_blank">
+                        <span class="material-symbols-rounded">open_in_new</span>
+                        Testar APIs no Swagger UI (localhost)
+                    </a>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Anterior</button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Próximo → <span class="material-symbols-rounded">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 5: Como Funciona o ML -->
+            <div class="step-container" id="step-5">
+                <div class="step-header">
+                    <h1 class="step-title">
+                        <span class="step-number-badge">6</span>
+                        Como Funciona o ML Scoring
+                    </h1>
+                    <p class="step-subtitle">Entenda a mágica por trás da inferência em &lt;1ms</p>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">psychology</span> Arquitetura do Modelo</h3>
+                    <div class="flow-diagram">
+<span class="highlight">[Dados de Entrada]</span>
+  ↓
+[Pré-processamento] → Normalização de features
+  ↓  
+<span class="highlight">[Numba JIT @jit(nopython=True)]</span> ← Compilação para código nativo
+  ↓
+[Weighted Scoring] → Cálculo do risk_score (0.0 a 1.0)
+  ↓
+[Clamp & Output] → Retorna score final
+  ↓
+<span class="highlight">[Tempo Total: ~0.4ms]</span> ⚡
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">code</span> Código do Scoring (simplificado)</h3>
+                    <p>Arquivo: <code>backend-fastapi/app/ml/scoring.py</code></p>
+                    
+                    <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">
+    <span class="material-symbols-rounded">content_copy</span> Copiar
+</button>
+<span class="keyword">from</span> numba <span class="keyword">import</span> jit, float64
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># Decorator Numba: compila para código nativo</span>
+<span class="keyword">@jit</span>(nopython=<span class="keyword">True</span>, cache=<span class="keyword">True</span>)
+<span class="keyword">def</span> <span class="function">calculate_risk_score</span>(
+    amount: float64,
+    user_trust: float64,
+    transaction_freq: float64,
+    time_of_day: float64,
+    <span class="comment"># ... +10 features</span>
+) -> float64:
+    <span class="comment"># Normalização</span>
+    norm_amount = np.<span class="function">log1p</span>(amount) / <span class="number">10.0</span>
+    
+    <span class="comment"># Weighted scoring</span>
+    base_score = (
+        <span class="number">0.25</span> * user_trust +
+        <span class="number">0.20</span> * (<span class="number">1</span> - norm_amount) +
+        <span class="number">0.15</span> * transaction_freq +
+        <span class="comment"># ... mais pesos</span>
+        <span class="number">0.0</span>
+    )
+    
+    <span class="comment"># Garante entre 0 e 1</span>
+    <span class="keyword">return</span> np.<span class="function">clip</span>(base_score, <span class="number">0.0</span>, <span class="number">1.0</span>)
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">bolt</span> Por que é tão rápido?</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Técnica</th>
+                                <th>Benefício</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Numba JIT</strong></td>
+                                <td>Compila Python → código nativo na primeira execução</td>
+                            </tr>
+                            <tr>
+                                <td><strong>cache=True</strong></td>
+                                <td>Reusa código compilado entre requests (sem recompilar)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NumPy vetorial</strong></td>
+                                <td>Operações em batch, sem loops Python lentos</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Features pré-calculadas</strong></td>
+                                <td>Evita computação redundante no scoring</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sem I/O no scoring</strong></td>
+                                <td>Tudo em memória, zero acesso a disco/rede</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Anterior</button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Próximo → <span class="material-symbols-rounded">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 6: Benchmark -->
+            <div class="step-container" id="step-6">
+                <div class="step-header">
+                    <h1 class="step-title">
+                        <span class="step-number-badge">7</span>
+                        Benchmark & Performance
+                    </h1>
+                    <p class="step-subtitle">Meça e otimize a performance do sistema</p>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">speed</span> Como Rodar o Benchmark</h3>
+                    <p>Na interface <code>core.html</code>, clique em <strong>"🚀 Rodar Benchmark (100 iterações)"</strong>.</p>
+                    
+                    <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">
+    <span class="material-symbols-rounded">content_copy</span> Copiar
+</button>
+<span class="comment"># Ou via curl:</span>
+curl http://localhost:8000/api/v1/benchmark?iterations=100
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">analytics</span> Interpretando os Resultados</h3>
+                    <p>Exemplo de output:</p>
+                    <div class="code-block">
+{
+  <span class="string">"min_ms"</span>: <span class="number">0.0234</span>,
+  <span class="string">"max_ms"</span>: <span class="number">2.1456</span>,
+  <span class="string">"mean_ms"</span>: <span class="number">0.8912</span>,
+  <span class="string">"p50_ms"</span>: <span class="number">0.8234</span>,
+  <span class="string">"p95_ms"</span>: <span class="number">1.4521</span>,
+  <span class="string">"p99_ms"</span>: <span class="number">1.9876</span>,
+  <span class="string">"std_ms"</span>: <span class="number">0.3421</span>,
+  <span class="string">"target_achieved"</span>: <span class="keyword">true</span>
+}
+                    </div>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Métrica</th>
+                                <th>O que significa</th>
+                                <th>Target</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>P99</strong></td>
+                                <td>99% das requests respondem em ≤ este valor</td>
+                                <td><span class="badge badge-success">&lt; 2ms</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Média</strong></td>
+                                <td>Tempo médio de resposta</td>
+                                <td><span class="badge badge-success">&lt; 1ms</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>target_achieved</strong></td>
+                                <td>% de requests abaixo de 1ms ≥ 90%</td>
+                                <td><span class="badge badge-success">true</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>std (desvio)</strong></td>
+                                <td>Consistência da performance</td>
+                                <td><span class="badge badge-info">Quanto menor, melhor</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">trending_up</span> Dicas de Otimização</h3>
+                    <ul>
+                        <li><strong>Primeira request é lenta (~2s):</strong> Normal! É o Numba compilando. Requests seguintes são &lt;1ms.</li>
+                        <li><strong>Use cache=True:</strong> Garante que a compilação seja reutilizada entre reinicializações.</li>
+                        <li><strong>Evite I/O no scoring:</strong> Mantenha o modelo puramente computacional.</li>
+                        <li><strong>Monitore em produção:</strong> Adicione logs de latência para detectar degradação.</li>
+                    </ul>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Anterior</button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Próximo → <span class="material-symbols-rounded">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 7: Deploy & Troubleshooting -->
+            <div class="step-container" id="step-7">
+                <div class="step-header">
+                    <h1 class="step-title">
+                        <span class="step-number-badge">8</span>
+                        Deploy & Troubleshooting
+                    </h1>
+                    <p class="step-subtitle">Coloque em produção e resolva problemas comuns</p>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>🚀 Deploy em Produção</span>
+                            <span class="material-symbols-rounded">expand_more</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Vercel (Frontend):</strong></p>
+                            <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">
+    <span class="material-symbols-rounded">content_copy</span> Copiar
+</button>
+npm i -g vercel
+vercel login
+vercel --prod
+<span class="comment"># Configure API_BASE_URL nas vars de ambiente</span>
+                            </div>
+                            
+                            <p><strong>Railway/Render (Backend):</strong></p>
+                            <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">
+    <span class="material-symbols-rounded">content_copy</span> Copiar
+</button>
+<span class="comment"># railway.toml</span>
+[build]
+builder = <span class="string">"nixpacks"</span>
+
+[deploy]
+startCommand = <span class="string">"uvicorn app.main:app --host 0.0.0.0 --port $PORT"</span>
+
+[env]
+PYTHON_VERSION = <span class="string">"3.10"</span>
+DATABASE_URL = <span class="string">"${{ secrets.DATABASE_URL }}"</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>🔧 Problemas Comuns</span>
+                            <span class="material-symbols-rounded">expand_more</span>
+                        </div>
+                        <div class="accordion-content">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Problema</th>
+                                        <th>Solução</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>API não responde em :8000</td>
+                                        <td><code>docker-compose logs -f backend</code> para ver erros</td>
+                                    </tr>
+                                    <tr>
+                                        <td>WebSocket não conecta</td>
+                                        <td>Verifique CORS no backend: <code>allow_origins=["*"]</code> para dev</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ML scoring lento (&gt;5ms)</td>
+                                        <td>Confirme <code>@jit(nopython=True)</code> e <code>cache=True</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Frontend 404 em assets</td>
+                                        <td>Verifique <code>vercel.json</code> servindo <code>public/**/*</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>🔐 Variáveis de Ambiente</span>
+                            <span class="material-symbols-rounded">expand_more</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>.env.production (obrigatórias):</strong></p>
+                            <div class="code-block">
+ENV=production
+SECRET_KEY=gerar_com_openssl_rand_base64_32
+DATABASE_URL=postgresql+asyncpg://user:pass@host:5432/db
+REDIS_URL=redis://user:pass@host:6379/0
+JWT_SECRET_KEY=outra_chave_forte_aqui
+CORS_ORIGINS=https://seu-frontend.vercel.app
+                            </div>
+                            <p style="margin-top: 12px; font-size: 13px; color: var(--text-muted);">
+                                ⚠️ Nunca commitar .env no Git! Use .gitignore e variáveis da plataforma de deploy.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><span class="material-symbols-rounded">support_agent</span> Suporte & Contribuição</h3>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🐛</div>
+                            <div class="feature-content">
+                                <h4>Reportar Bug</h4>
+                                <p><a href="https://github.com/finoraqi-team/FinoraQi-website/issues/new" class="external-link" target="_blank" style="margin: 0;">Abrir Issue no GitHub</a></p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💡</div>
+                            <div class="feature-content">
+                                <h4>Sugerir Feature</h4>
+                                <p><a href="https://github.com/finoraqi-team/FinoraQi-website/discussions" class="external-link" target="_blank" style="margin: 0;">Discussions no GitHub</a></p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🤝</div>
+                            <div class="feature-content">
+                                <h4>Contribuir</h4>
+                                <p>Fork → Branch → PR. Veja <code>CONTRIBUTING.md</code></p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📧</div>
+                            <div class="feature-content">
+                                <h4>Contato Direto</h4>
+                                <p><code>finoraqi.finance@gmail.com</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Anterior</button>
+                    <button class="btn btn-primary" onclick="completeOnboarding()">
+                        ✅ Concluir Onboarding <span class="material-symbols-rounded">celebration</span>
+                    </button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // === ESTADO ===
+        let currentStep = 0;
+        const totalSteps = 8;
+
+        // === NAVEGAÇÃO ===
+        function goToStep(step) {
+            if (step < 0 || step >= totalSteps) return;
+            
+            // Atualiza UI
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step-${step}`).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach((item, index) => {
+                item.classList.remove('active');
+                if (index === step) item.classList.add('active');
+                if (index < step) item.classList.add('completed');
+                if (index > step) item.classList.remove('completed');
+            });
+            
+            // Atualiza progresso
+            const progress = ((step + 1) / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `${step + 1}/${totalSteps}`;
+            
+            currentStep = step;
+            
+            // Mobile: fecha sidebar ao navegar
+            if (window.innerWidth <= 900) {
+                document.getElementById('sidebar').classList.remove('active');
+                document.getElementById('sidebarOverlay').classList.remove('active');
+            }
+            
+            // Scroll to top
+            document.querySelector('.main-content').scrollTop = 0;
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps - 1) {
+                goToStep(currentStep + 1);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                goToStep(currentStep - 1);
+            }
+        }
+
+        // === SIDEBAR MOBILE ===
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
+
+        // === SEARCH ===
+        function toggleSearch() {
+            const box = document.getElementById('searchBox');
+            box.style.display = box.style.display === 'none' ? 'block' : 'none';
+            if (box.style.display === 'block') {
+                document.getElementById('searchInput').focus();
+            }
+        }
+
+        function filterContent() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.content-card, .accordion-item');
+            
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        }
+
+        // === ACCORDION ===
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const isActive = content.classList.contains('active');
+            
+            // Fecha todos
+            document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+            
+            // Abre o clicado se não estava aberto
+            if (!isActive) {
+                content.classList.add('active');
+                header.classList.add('active');
+            }
+        }
+
+        // === CHECKLIST ===
+        function toggleCheck(el) {
+            el.classList.toggle('checked');
+        }
+
+        // === COPY CODE ===
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('code')?.textContent || 
+                        codeBlock.textContent.replace('Copiar', '').trim();
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<span class="material-symbols-rounded">check</span> Copiado!';
+                btn.style.background = 'var(--accent-green)';
+                btn.style.color = 'white';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }, 2000);
+            });
+        }
+
+        // === CONCLUIR ONBOARDING ===
+        function completeOnboarding() {
+            localStorage.setItem('finoraqi_onboarding_training_completed', 'true');
+            
+            alert('🎉 Onboarding concluído!\n\nAgora você está pronto para usar o FinoraQi CORE.\n\nAcesse: http://localhost:8080/core.html');
+            
+            window.location.href = 'core.html';
+        }
+
+        // === INIT ===
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('finoraqi_onboarding_training_completed') === 'true') {
+            }
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') nextStep();
+                if (e.key === 'ArrowLeft') prevStep();
+                if (e.key === 'Escape') {
+                    document.getElementById('sidebar').classList.remove('active');
+                    document.getElementById('sidebarOverlay').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
