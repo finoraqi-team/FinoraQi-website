@@ -11,7 +11,11 @@ pydantic-settings==2.1.0
 # Machine Learning otimizado
 numba==0.58.1  # JIT compiler para <1ms inference
 numpy==1.26.2  # Operações vetoriais rápidas
+<<<<<<< HEAD
 scipy==1.11.4  # Funções estatísticas (opcional-auditoriável)
+=======
+scipy==1.11.4  # Funções estatísticas (opcional)
+>>>>>>> 66a96c32d45bf85f2b923916243c320ef1507f1a
 
 # Banco de dados (async)
 asyncpg==0.29.0  # PostgreSQL driver assíncrono
@@ -35,6 +39,7 @@ structlog==23.2.0  # Logging estruturado
 pytest==7.4.3  # Testes
 pytest-asyncio==0.23.2  # Testes async
 black==23.11.0  # Formatação de código
+<<<<<<< HEAD
 ruff==0.1.6  # Linter rápido
 
 # backend-fastapi/requirements.txt
@@ -78,3 +83,6 @@ structlog==23.2.0
 # pytest==7.4.3
 # black==23.11.0
 
+=======
+ruff==0.1.6  # Linter rápido
+>>>>>>> 66a96c32d45bf85f2b923916243c320ef1507f1a

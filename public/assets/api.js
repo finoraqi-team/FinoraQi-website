@@ -2,10 +2,17 @@
  * Propósito: Utilitários de autenticação e gerenciamento de tokens
  * 
  * Funcionalidades:
+<<<<<<< HEAD
  * Armazenamento seguro de token (localStorage com fallback)
  * Refresh automático de token expirado
  * Logout com limpeza de estado
  * Verificação de permissões por role
+=======
+ * ✅ Armazenamento seguro de token (localStorage com fallback)
+ * ✅ Refresh automático de token expirado
+ * ✅ Logout com limpeza de estado
+ * ✅ Verificação de permissões por role
+>>>>>>> 66a96c32d45bf85f2b923916243c320ef1507f1a
  */
 
 // Storage wrapper com fallback
