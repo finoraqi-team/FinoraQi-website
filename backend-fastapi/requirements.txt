@@ -1,0 +1,38 @@
+# Dependências Python do backend FastAPI
+
+# Framework principal
+fastapi==0.104.1
+uvicorn[standard]==0.24.0  # ASGI server com hot reload
+
+# Validação e schemas
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Machine Learning otimizado
+numba==0.58.1  # JIT compiler para <1ms inference
+numpy==1.26.2  # Operações vetoriais rápidas
+scipy==1.11.4  # Funções estatísticas (opcional)
+
+# Banco de dados (async)
+asyncpg==0.29.0  # PostgreSQL driver assíncrono
+sqlalchemy==2.0.23  # ORM (opcional)
+alembic==1.13.1  # Migrations
+
+# WebSocket e realtime
+websockets==12.0
+
+# Utilitários
+python-dotenv==1.0.0  # Variáveis de ambiente
+python-jose[cryptography]==3.3.0  # JWT tokens
+passlib[bcrypt]==1.7.4  # Hash de senhas
+httpx==0.25.2  # Cliente HTTP async para testes
+
+# Monitoramento (opcional)
+prometheus-client==0.19.0  # Métricas para Prometheus
+structlog==23.2.0  # Logging estruturado
+
+# Desenvolvimento
+pytest==7.4.3  # Testes
+pytest-asyncio==0.23.2  # Testes async
+black==23.11.0  # Formatação de código
+ruff==0.1.6  # Linter rápido

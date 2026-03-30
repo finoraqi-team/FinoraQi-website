@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinoraQi® -  CORE REAL TIME</title>
+    <title>FinoraQi® - CORE REAL TIME</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <img src="../public/logo.png" alt="logo" width="40" height="40" class="logo">
+    
     <style>
         :root {
             --bg-primary: #0a0e1a;
@@ -87,7 +87,7 @@
 
         .logo {
             display: flex;
-            align-items: center;
+            align-items: center;;
             gap: 12px;
         }
 
@@ -644,13 +644,18 @@
     <div class="container">
         <header class="header">
             <div class="logo">
-                <div class="logo-icon">FQ</div>
+                <div class="logo-icon">
+                    <img src="../public/logo.png" alt="logo" width="40" height="40">
+                </div>
                 <div class="logo-text">FinoraQi</div>
             </div>
             <div class="status-badge">
                 <span class="status-dot"></span>
                 <span>API Online • <span id="apiLatency">--</span>ms</span>
             </div>
+
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='index.html'"><span class="material-symbols-rounded">logout</span></button>
+
         </header>
 
         <div class="content">
@@ -701,7 +706,7 @@
 
                 <button class="btn btn-primary" id="processBtn" onclick="processPayment()">
                     <span class="material-symbols-rounded">bolt</span>
-                    <span class="btn-text">Processar com ML (<1ms)</span>
+                    <span class="btn-text">Processar com ML (1ms)< /span>
                 </button>
 
                 <button class="btn btn-secondary" onclick="runBenchmark()" style="margin-top: 12px;">
@@ -961,9 +966,10 @@
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data);
 
-                if (data.type === 'progress' || data.stage) {''
+                if (data.type === 'progress' || data.stage) {
+                    ''
                     updateProcessingStep(data);
-                }           
+                }
 
                 if (data.type === 'result' || data.transaction_id) {
                     showResult(data);
@@ -1248,4 +1254,4 @@ Timestamp: ${new Date().toISOString()}`);
     </script>
 </body>
 
-</html>c
+</html>
