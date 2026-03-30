@@ -1001,7 +1001,8 @@
                         <div class="user-avatar" id="headerAvatar">U</div>
                         <span id="headerName">Usuário</span>
                     </div>
-                    <button class="btn btn-ghost btn-sm" onclick="window.location.href='index.html'"><span class="material-symbols-rounded">logout</span></button>
+                    <button class="btn btn-ghost btn-sm" onclick="window.location.href='index.html'"><span
+                            class="material-symbols-rounded">logout</span></button>
                 </div>
             </header>
             <div class="content">
@@ -1949,6 +1950,15 @@
             document.getElementById('reportEndDate').value = new Date().toISOString().split('T')[0];
             setInterval(loadDashboard, 60000);
         });
+
+        async function loadDashboard() {
+            const user = JSON.parse(localStorage.getItem('finoraqi_user'));
+            const res = await fetch(`/api/v1/user/${user.id}/summary`, {
+                headers: { 'Authorization': `Bearer ${user.token}` }
+            });
+            const data = await res.json();
+            // Renderiza cards e gráfico com os dados
+        }
     </script>
 </body>
 

@@ -1,3 +1,8 @@
+# =============================================================================
+# FINORAQI - .gitignore
+# Arquivos e pastas que NÃO devem ser versionados
+# =============================================================================
+
 node_modules/
 .env
 .env.local
@@ -8,3 +13,88 @@ build/
 coverage/
 .nyc_output/
 !public/**/*
+
+# --- Dependências ---
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-wheel-metadata/
+
+# --- Banco de Dados & Cache ---
+*.db
+*.sqlite
+*.sqlite3
+postgres_data/
+redis_data/
+.numba_cache/
+.ml_cache/
+
+# --- Variáveis de Ambiente & Secrets ---
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+secrets/
+
+# --- Logs & Temporários ---
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# --- IDE & Editor ---
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# --- Build & Deploy ---
+dist/
+build/
+*.egg-info/
+.vercel/
+.railway/
+render.yaml
+
+# --- Testes & Coverage ---
+.pytest_cache/
+.coverage
+htmlcov/
+.xml
+.tox/
+
+# --- Documentação Gerada ---
+docs/_build/
+site/
+
+# --- Docker (opcional - se não quiser versionar imagens) ---
+*.tar
+*.tar.gz
+
+# --- Frontend build (se usar bundler) ---
+public/dist/
+public/build/
+
+# --- Arquivos de sistema ---
+*.DS_Store
+ehthumbs.db
+Desktop.ini
+
+# --- Chaves SSH (se usar deploy com chave) ---
+id_rsa
+id_rsa.pub
+*.ppk

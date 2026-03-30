@@ -2863,6 +2863,19 @@
         document.getElementById('globalSearch')?.addEventListener('input', function (e) { const term = e.target.value.toLowerCase(); if (term.length < 2) return; const projects = StorageService.getProjects().filter(p => p.name.toLowerCase().includes(term) || p.code.toLowerCase().includes(term)); if (projects.length > 0) { showNotification('info', 'Busca', `${projects.length} projeto(s) encontrado(s)`); } else { showNotification('info', 'Busca', 'Nenhum projeto encontrado'); } });
         function toggleTheme() { showNotification('info', 'Tema', 'Funcionalidade em desenvolvimento'); }
         document.addEventListener('DOMContentLoaded', () => { StorageService.init(); UserService.init(); UserService.updateUI(); updateMetrics(); loadDashboard(); initChart(); document.getElementById('reportPeriod').value = new Date().toISOString().slice(0, 7); setInterval(() => { updateMetrics(); if (document.getElementById('page-dashboard').classList.contains('active')) loadDashboard(); if (document.getElementById('page-financas').classList.contains('active')) loadFinancas(); if (document.getElementById('page-projetos').classList.contains('active')) loadProjetos(); }, 60000); document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { document.getElementById('sidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); } if (e.key === 'k' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); document.querySelector('.search-command input')?.focus(); } }); });
+
+        const enterpriseData = {
+            company_id: "comp_abc123",
+            teams: [
+                { id: "team_finance", name: "Financeiro", members: 12 },
+                { id: "team_sales", name: "Vendas", members: 8 }
+            ],
+            permissions: {
+                can_export: true,
+                can_manage_users: true,
+                can_view_analytics: true
+            }
+        };
     </script>
 </body>
 

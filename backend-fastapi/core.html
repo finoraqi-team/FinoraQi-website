@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinoraQi® -  CORE REAL TIME</title>
+    <title>FinoraQi® - CORE REAL TIME</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet"
@@ -861,6 +861,14 @@
         </div>
     </div>
 
+    <div id="notification" class="notification">
+        <span class="material-symbols-rounded" id="notifIcon">info</span>
+        <div>
+            <strong id="notifTitle">Info</strong>
+            <p id="notifMessage"></p>
+        </div>
+    </div>
+
     <script>
         // === CONFIG ===
         const API_BASE = 'http://localhost:8000';
@@ -949,9 +957,10 @@
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data);
 
-                if (data.type === 'progress' || data.stage) {''
+                if (data.type === 'progress' || data.stage) {
+                    ''
                     updateProcessingStep(data);
-                }           
+                }
 
                 if (data.type === 'result' || data.transaction_id) {
                     showResult(data);
@@ -1233,7 +1242,29 @@ Timestamp: ${new Date().toISOString()}`);
                 if (e.key === 'Enter') processPayment();
             });
         });
+
+        // === CONFIG ===
+        const API_BASE = 'http://localhost:8000';  // deploy
+
+        // === FUNÇÕES PRINCIPAIS ===
+        async function processPayment() { /* ... código acima ... */ }
+        function connectPaymentWebSocket() { /* ... código acima ... */ }
+        function updateProcessingStep() { /* ... código acima ... */ }
+        function processPaymentHttp() { /* ... código acima ... */ }
+
+        // === FUNÇÕES UTILITÁRIAS ===
+        function resetProcessingSteps() { /* ... */ }
+        function showResult() { /* ... */ }
+        function resetForm() { /* ... */ }
+        function formatCurrency() { /* ... */ }
+        function formatMs() { /* ... */ }
+        function showNotification() { /* ... */ }
+        function addToChart() { /* ... */ }
+
+        // === INIT ===
+        document.addEventListener('DOMContentLoaded', () => { /* ... */ });
     </script>
+
 </body>
 
 </html>

@@ -306,6 +306,7 @@
         .section-title {
             text-align: center;
             margin-bottom: 3rem;
+            align-items: center;
         }
 
         .section-title h2 {
@@ -1170,6 +1171,41 @@
                 height: 80px;
             }
         }
+
+        .stakeholders-section {
+            padding: 60px 20px;
+            background: #f5f7fa;
+            text-align: center;
+        }
+
+        .stakeholders-section h2 {
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #dbcf27;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            background: #79a0df;
+            color: rgb(117, 112, 112);
+            border-radius: 8px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -1178,7 +1214,7 @@
     <div class="starry-overlay"></div>
     <header>
         <div class="logo" onclick="window.scrollTo(0,0)">
-            <img src="../public/logo.png" width="40" height="40"/>
+            <img src="../public/logo.png" width="40" height="40" />
             <div>
                 <div class="logo-text">Finora</div>
                 <div class="logo-subtitle">Qi</div>
@@ -1195,9 +1231,9 @@
     </header>
 
     <div class="section-title">
-        <img src = "../public/logo.png" height="120" width="120"/>
+        <img src="../public/logo.png" height="200" width="200" />
     </div>
-    
+
     <section class="hero" id="inicio">
         <div class="hero-badge">Soluções Financeiras para a Nova Geração</div>
         <h1>Planejamento de gastos e lucros</h1>
@@ -1341,7 +1377,11 @@
             <button class="btn-buy" onclick="window.location.href='crm_enterprise.html'">Teste Empresarial</button>
             <!-- <button class="btn-buy" onclick="window.location.href='core.html'">Treinamento do CORE</button> -->
             <a href="onboarding_core.html" class="btn-login">Treinar Core</a>
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 66a96c3 (v1.002)
         </div>
     </section>
     <section class="api-section" id="api">
@@ -1412,7 +1452,7 @@
             </div>
         </div>
     </section>
-    <section class="auth-section" id="auth">
+    <!-- <section class="auth-section" id="auth">
         <div class="auth-container">
             <div class="auth-box">
                 <div id="alertContainer"></div>
@@ -1506,9 +1546,35 @@
                 </form>
             </div>
         </div>
+    </section> -->
+
+    <section id="stakeholders" class="stakeholders-section">
+        <div class="container">
+            <h2>Contato para Stakeholders</h2>
+            <p>Se você é investidor, parceiro ou tem interesse em colaborar com a Finora Qi, entre em contato conosco.
+            </p>
+
+            <form action="https://formspree.io/f/SEU_ENDPOINT" method="POST">
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" name="name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Mensagem</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
     </section>
 
-    <!-- Adicione esta seção após a seção products e antes da trial-section -->
     <section class="partners-section" id="parceiros">
         <div class="container">
             <div class="section-title">
@@ -1537,13 +1603,13 @@
                     </div> -->
                 </div>
                 <!-- <div class="partners-track"> -->
-                    <!-- <div class="partner-logo">
+                <!-- <div class="partner-logo">
                         <img src="assets/lead.png" alt="PROA">
                     </div> -->
-                    <!-- <div class="partner-logo">
+                <!-- <div class="partner-logo">
                         <img src="assets/lead-2.png" alt="Serasa Experience">
                     </div> -->
-                    <!-- <div class="partner-logo">
+                <!-- <div class="partner-logo">
                         <img src="assets/logo-parceiro-3.png" alt="Parceiro 3">
                     </div>
                     <div class="partner-logo">
@@ -1557,7 +1623,7 @@
                     </div> -->
                 <!-- </div>
             </div> -->
-        </div>
+            </div>
     </section>
 
     <footer id="contato">
@@ -1601,10 +1667,10 @@
             setTimeout(() => { alert.classList.remove('show'); setTimeout(() => alert.remove(), 300); }, 5000);
         }
         function scrollToSection(id) {
-          document.getElementById(id).scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
+            document.getElementById(id).scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
         }
         function switchAuthTab(tab) {
             const tabs = document.querySelectorAll('.auth-tab');

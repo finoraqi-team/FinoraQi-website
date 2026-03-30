@@ -18,3 +18,59 @@
 "nodemon": "^3.0.1"
 }
 }
+{
+  "name": "finoraqi-website",
+  "version": "2.1.0",
+  "description": "Plataforma de gestão financeira com ML scoring <1ms",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve public -p 8080",
+    "build": "echo 'Frontend estático - sem build step'",
+    "preview": "npx serve public -p 8081",
+    "lint": "npx eslint js/ assets/",
+    "format": "npx prettier --write 'public/**/*.html' 'js/**/*.js'",
+    "test": "echo 'Testes manuais via interface'",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f backend",
+    "deploy:vercel": "vercel --prod",
+    "docs": "npx marked README.md > public/docs/index.html"
+  },
+  "keywords": [
+    "fintech",
+    "machine-learning",
+    "fastapi",
+    "numba",
+    "realtime",
+    "payments"
+  ],
+  "author": "FinoraQi Team",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.1.0",
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "eslintConfig": {
+    "extends": ["eslint:recommended", "prettier"],
+    "env": {
+      "browser": true,
+      "es2022": true
+    },
+    "rules": {
+      "no-console": "warn",
+      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    }
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "printWidth": 100
+  }
+}

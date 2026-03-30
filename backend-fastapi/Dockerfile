@@ -53,8 +53,8 @@ COPY requirements-dev.txt ./
 # --prefix=/install: instala em local fácil de copiar para stage final
 RUN pip install --user --no-cache-dir --prefix=/install -r requirements.txt \
     && if [ "$INSTALL_DEV" = "true" ]; then \
-         pip install --user --no-cache-dir --prefix=/install -r requirements-dev.txt; \
-       fi
+    pip install --user --no-cache-dir --prefix=/install -r requirements-dev.txt; \
+    fi
 
 # -----------------------------------------------------------------------------
 # STAGE 2: Runtime (imagem final mínima)
@@ -144,10 +144,148 @@ EXPOSE 8000
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
 CMD ["uvicorn", \
-     "app.main:app", \
-     "--host", "0.0.0.0", \
-     "--port", "8000", \
-     "--workers", "2", \
-     "--loop", "uvloop", \
-     "--http", "httptools", \
-     "--lifespan", "on"]
+    "app.main:app", \
+    "--host", "0.0.0.0", \
+    "--port", "8000", \
+    "--workers", "2", \
+    "--loop", "uvloop", \
+    "--http", "httptools", \
+    "--lifespan", "on"]
+
+# Instala dependências de build
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copia requirements primeiro para cache de layers
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# Stage final (menor)
+FROM python:3.11-slim
+
+# Cria usuário não-root para segurança
+RUN useradd -m -u 1000 appuser
+
+WORKDIR /app
+
+# Copia dependências instaladas do builder
+COPY --from=builder /root/.local /home/appuser/.local
+ENV PATH=/home/appuser/.local/bin:$PATH
+
+# Copia código da aplicação
+COPY --chown=appuser:appuser app/ ./app/
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python -c "import httpx; httpx.get('http://localhost:8000/health')" || exit 1
+
+# Usuário não-root
+USER appuser
+
+# Porta padrão
+EXPOSE 8000
+
+# Comando de inicialização
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--no-access-log"]
+
+# backend-fastapi/Dockerfile
+# Build otimizado para Railway
+
+# Instala dependências de build do Numba
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copia requirements primeiro para cache de layers
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# Stage final (menor e mais seguro)
+FROM python:3.11-slim
+
+# Instala apenas runtime dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Cria usuário não-root para segurança
+RUN useradd -m -u 1000 appuser
+
+WORKDIR /app
+
+# Copia dependências instaladas do builder
+COPY --from=builder /root/.local /home/appuser/.local
+ENV PATH=/home/appuser/.local/bin:$PATH
+
+# Copia código da aplicação
+COPY --chown=appuser:appuser app/ ./app/
+
+# Health check nativo do Docker
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Usuário não-root
+USER appuser
+
+# Porta (Railway injeta $PORT automaticamente)
+EXPOSE 8000
+
+# Comando de inicialização (pode ser sobrescrito pelo railway.toml)
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# backend-fastapi/Dockerfile
+# Build otimizado para Railway
+
+# Instala dependências de build do Numba
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copia requirements primeiro para cache de layers
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# Stage final (menor e mais seguro)
+FROM python:3.11-slim
+
+# Instala apenas runtime dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Cria usuário não-root para segurança
+RUN useradd -m -u 1000 appuser
+
+WORKDIR /app
+
+# Copia dependências instaladas do builder
+COPY --from=builder /root/.local /home/appuser/.local
+ENV PATH=/home/appuser/.local/bin:$PATH
+
+# Copia código da aplicação
+COPY --chown=appuser:appuser app/ ./app/
+
+# Health check nativo do Docker
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Usuário não-root
+USER appuser
+
+# Porta (Railway injeta $PORT automaticamente)
+EXPOSE 8000
+
+# Comando de inicialização (pode ser sobrescrito pelo railway.toml)
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

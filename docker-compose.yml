@@ -1,0 +1,103 @@
+# Propósito: Subir todo o stack localmente com um comando
+# Uso: docker-compose up -d
+
+version: '3.8'
+
+services:
+  # Backend FastAPI + ML
+  backend:
+    build: 
+      context: ./backend-fastapi
+      dockerfile: Dockerfile
+    container_name: finoraqi-backend
+    ports:
+      - "8000:8000"  # API acessível em localhost:8000
+    environment:
+      - ENV=development
+      - DATABASE_URL=postgresql+asyncpg://user:pass@db:5432/finoraqi
+      - REDIS_URL=redis://redis:6379/0
+      - JWT_SECRET_KEY=dev_secret_change_in_prod
+      - CORS_ORIGINS=["http://localhost:8080", "http://localhost:3000"]
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - ./backend-fastapi/app:/app/app  # Hot reload em dev
+      - ml_cache:/app/.numba_cache  # Cache do Numba entre restarts
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s  # Tempo para compilar Numba na primeira vez
+    restart: unless-stopped
+
+  # Frontend estático (servido pelo próprio backend em prod, ou separado em dev)
+  frontend:
+    image: nginx:alpine
+    container_name: finoraqi-frontend
+    ports:
+      - "8080:80"  # Frontend em localhost:8080
+    volumes:
+      - ./public:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # Banco de dados PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: finoraqi-db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: finoraqi
+    ports:
+      - "5432:5432"  # Opcional: acessar com pgAdmin local
+    volumes:
+      - postgres_/var/lib/postgresql/data
+      - ./backend-fastapi/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d finoraqi"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Cache/Queue com Redis
+  redis:
+    image: redis:7-alpine
+    container_name: finoraqi-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+
+  # (Opcional) Adminer para gerenciar o banco via web
+  adminer:
+    image: adminer:latest
+    container_name: finoraqi-adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    profiles:
+      - tools  # Só sobe com: docker-compose --profile tools up
+
+volumes:
+  postgres-
+  redis-
+  ml_cache:  # Persiste compilações Numba entre containers
+
+# Perfis para ambientes diferentes
+# Uso: docker-compose --profile prod up
+profiles:
+  dev:
+    services: [backend, frontend, db, redis, adminer]
+  prod:
+    services: [backend, frontend, db, redis]
