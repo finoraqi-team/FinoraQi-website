@@ -214,7 +214,11 @@ pytest --cov=app
 
 ## Opensource em utilização 
 
-[Preview Nepal](https://www.finoraq.org/)
+[Preview Spread - Nepal <img width="30" height="30" alt="nepal" src="https://github.com/user-attachments/assets/1e7077ae-5891-45e1-b110-5d61349ffce9" />
+](https://www.finoraq.org/)
+
+[Preview 1ms - Serasa <img width="30" height="30" alt="serasa" src="https://github.com/user-attachments/assets/bf8281d4-0e0f-430b-9d43-463c495e9f04" />](https://www.serasa.com.br/score/blog/o-que-e-score-em-tempo-real/)
+
 
 ---
 
