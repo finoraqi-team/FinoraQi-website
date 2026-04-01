@@ -1222,6 +1222,85 @@
             border-radius: 8px;
             cursor: pointer;
         }
+
+        .stock-ticker-wrapper {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .stock-ticker-track {
+            display: flex;
+            gap: 3rem;
+            animation: scrollTicker 30s linear infinite;
+            width: max-content;
+            padding-left: 100%;
+        }
+
+        .stock-ticker-wrapper:hover .stock-ticker-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollTicker {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .stock-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .stock-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .stock-symbol {
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .stock-price {
+            color: #e2e8f0;
+        }
+
+        .stock-change {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .up {
+            color: #10b981;
+        }
+
+        .down {
+            color: #ef4444;
+        }
+        
     </style>
 </head>
 
@@ -1244,6 +1323,44 @@
             <!-- <a href="#auth" class="btn-login">Entrar</a> -->
         </nav>
     </header>
+
+    <div class="stock-ticker-wrapper">
+        <div class="stock-ticker-track" id="tickerTrack">
+            <div class="stock-item"><span class="stock-symbol">PETR4</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">VALE3</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">ITUB4</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">BBDC4</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">MGLU3</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">AAPL</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">GOOGL</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">BTC-USD</span><span class="stock-price">R$
+                    0,00</span><span class="stock-change">...</span></div>
+
+            <div class="stock-item"><span class="stock-symbol">PETR4</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">VALE3</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">ITUB4</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">BBDC4</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">MGLU3</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">AAPL</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">GOOGL</span><span class="stock-price">R$ 0,00</span><span
+                    class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">BTC-USD</span><span class="stock-price">R$
+                    0,00</span><span class="stock-change">...</span></div>
+        </div>
+    </div>
 
     <div class="section-title">
         <img src="../public/logo.png" height="200" width="200" />
@@ -1798,6 +1915,14 @@
                 if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
             });
         });
+
+async function fetchRealStockDataProxy() {
+    const symbols = ['PETR4.SA', 'VALE3.SA', 'ITUB4.SA', 'BBDC4.SA', 'MGLU3.SA', 'AAPL', 'GOOGL', 'BTC-USD'];
+    const names = ['PETR4', 'VALE3', 'ITUB4', 'BBDC4', 'MGLU3', 'AAPL34', 'GOOG34', 'BTCBRL'];
+    
+    console.log("Tentando buscar dados reais... (Recomenda-se usar a versão com API Key para estabilidade)");
+    
+}
 
         const counters = document.querySelectorAll('.stat-number');
         let started = false;
