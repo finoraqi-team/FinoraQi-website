@@ -3,13 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinoraQi® - CRM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FinoraQi® - CRM Finance</title>
     <link rel="icon" type="logo" href="../public/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
@@ -30,12 +29,14 @@
             --text-muted: #64748b;
             --border-color: rgba(148, 163, 184, 0.1);
             --shadow-neon: 0 0 20px rgba(59, 130, 246, 0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -47,8 +48,8 @@
         }
 
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
 
         ::-webkit-scrollbar-track {
@@ -69,15 +70,17 @@
             min-height: 100vh;
         }
 
+        /* Sidebar */
         .sidebar {
             width: 280px;
             background: var(--bg-secondary);
             border-right: 1px solid var(--border-color);
             position: fixed;
             height: 100vh;
-            overflow-y: auto;
             z-index: 1000;
-            transition: transform 0.3s;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar-header {
@@ -89,20 +92,45 @@
         }
 
         .logo {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient-primary);
-            border-radius: 12px;
             display: flex;
             align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
             justify-content: center;
-            font-weight: 800;
-            font-size: 20px;
-            box-shadow: var(--shadow-neon);
+        }
+
+        .logo img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            animation: rotate 10s linear infinite;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .logo img:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .brand-subtitle {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
         .brand-name {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
@@ -112,6 +140,8 @@
         .nav-menu {
             padding: 24px 16px;
             list-style: none;
+            flex: 1;
+            overflow-y: auto;
         }
 
         .nav-item {
@@ -122,11 +152,11 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 14px 16px;
+            padding: 12px 16px;
             color: var(--text-secondary);
             text-decoration: none;
             border-radius: 12px;
-            transition: all 0.3s;
+            transition: var(--transition);
             cursor: pointer;
             font-weight: 500;
         }
@@ -144,43 +174,24 @@
         }
 
         .sidebar-footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
             padding: 24px;
             border-top: 1px solid var(--border-color);
+            background: var(--bg-secondary);
         }
 
-        .mini-stat {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .mini-stat-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient-primary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-
+        /* Main Content */
         .main-content {
             flex: 1;
             margin-left: 280px;
             min-height: 100vh;
+            transition: var(--transition);
+            background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.05), transparent 40%);
         }
 
         .header {
             height: 80px;
-            background: var(--bg-secondary);
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
@@ -203,29 +214,31 @@
             border: none;
             color: var(--text-primary);
             cursor: pointer;
+            font-size: 24px;
         }
 
         .search-bar {
             position: relative;
-            width: 400px;
+            width: 300px;
         }
 
         .search-bar input {
             width: 100%;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px 16px 12px 44px;
+            border-radius: 10px;
+            padding: 10px 16px 10px 40px;
             color: var(--text-primary);
             outline: none;
         }
 
         .search-bar .material-symbols-rounded {
             position: absolute;
-            left: 14px;
+            left: 10px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
+            font-size: 20px;
         }
 
         .header-right {
@@ -245,22 +258,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
+            transition: var(--transition);
         }
 
         .icon-btn:hover {
             background: var(--bg-hover);
             color: var(--text-primary);
-        }
-
-        .icon-btn .badge {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            width: 8px;
-            height: 8px;
-            background: var(--accent-pink);
-            border-radius: 50%;
+            transform: translateY(-2px);
         }
 
         .user-profile {
@@ -271,6 +275,12 @@
             background: var(--bg-card);
             border-radius: 12px;
             cursor: pointer;
+            border: 1px solid transparent;
+            transition: var(--transition);
+        }
+
+        .user-profile:hover {
+            border-color: var(--accent-blue);
         }
 
         .user-avatar {
@@ -292,23 +302,26 @@
             object-fit: cover;
         }
 
+        /* Content Area */
         .content {
             padding: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .page {
             display: none;
+            animation: fadeIn 0.4s ease-out;
         }
 
         .page.active {
             display: block;
-            animation: fadeIn 0.5s;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(10px);
             }
 
             to {
@@ -327,7 +340,7 @@
         }
 
         .page-title {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
             background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
             -webkit-background-clip: text;
@@ -335,16 +348,16 @@
         }
 
         .btn {
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 10px;
             border: none;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
         .btn-primary {
@@ -365,9 +378,9 @@
         }
 
         .btn-danger {
-            background: rgba(239, 68, 68, 0.2);
+            background: rgba(239, 68, 68, 0.1);
             color: #ef4444;
-            border: 1px solid #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
         }
 
         .btn-danger:hover {
@@ -375,9 +388,15 @@
             color: white;
         }
 
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* Metrics & Cards */
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 20px;
             margin-bottom: 32px;
         }
@@ -387,12 +406,15 @@
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 24px;
-            transition: all 0.3s;
+            transition: var(--transition);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
         .metric-card:hover {
             transform: translateY(-4px);
+            border-color: var(--accent-blue);
             box-shadow: var(--shadow-neon);
         }
 
@@ -410,6 +432,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 24px;
         }
 
         .metric-icon.blue {
@@ -422,40 +445,18 @@
             color: var(--accent-green);
         }
 
-        .metric-icon.purple {
-            background: rgba(139, 92, 246, 0.15);
-            color: var(--accent-purple);
-        }
-
         .metric-icon.orange {
             background: rgba(245, 158, 11, 0.15);
             color: var(--accent-orange);
         }
 
-        .metric-icon.pink {
-            background: rgba(236, 72, 153, 0.15);
-            color: var(--accent-pink);
-        }
-
-        .metric-change {
-            font-size: 13px;
-            font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 6px;
-        }
-
-        .metric-change.positive {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--accent-green);
-        }
-
-        .metric-change.negative {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
+        .metric-icon.purple {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--accent-purple);
         }
 
         .metric-value {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 700;
             margin-bottom: 4px;
         }
@@ -465,9 +466,10 @@
             color: var(--text-secondary);
         }
 
+        /* Charts & Lists */
         .content-grid {
             display: grid;
-            grid-template-columns: 1fr 400px;
+            grid-template-columns: 1fr 350px;
             gap: 24px;
         }
 
@@ -478,121 +480,11 @@
             padding: 24px;
         }
 
-        .chart-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .time-filters {
-            display: flex;
-            gap: 8px;
-            background: var(--bg-secondary);
-            padding: 4px;
-            border-radius: 10px;
-        }
-
-        .time-btn {
-            padding: 8px 16px;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .time-btn.active {
-            background: var(--gradient-primary);
-            color: white;
-        }
-
-        .right-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
         .panel {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 24px;
-        }
-
-        .panel-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .panel-title {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .form-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 32px;
-        }
-
-        .form-section {
-            margin-bottom: 32px;
-        }
-
-        .form-section h3 {
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-            margin-top: 32px;
         }
 
         .transaction-list {
@@ -610,12 +502,13 @@
             padding: 16px;
             background: var(--bg-secondary);
             border-radius: 12px;
-            transition: all 0.3s;
-            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
         }
 
         .transaction-item:hover {
             background: var(--bg-hover);
+            border-color: var(--border-color);
             transform: translateX(4px);
         }
 
@@ -642,11 +535,6 @@
         .transaction-icon.expense {
             background: rgba(239, 68, 68, 0.15);
             color: #ef4444;
-        }
-
-        .transaction-icon.investment {
-            background: rgba(139, 92, 246, 0.15);
-            color: var(--accent-purple);
         }
 
         .transaction-details h4 {
@@ -677,11 +565,6 @@
             color: #ef4444;
         }
 
-        .transaction-date {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
         .transaction-actions {
             display: flex;
             gap: 8px;
@@ -699,6 +582,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: var(--transition);
         }
 
         .icon-btn-small:hover {
@@ -706,31 +590,78 @@
             color: var(--text-primary);
         }
 
-        .icon-btn-small.danger {
+        .icon-btn-small.danger:hover {
+            background: rgba(239, 68, 68, 0.1);
             color: #ef4444;
         }
 
+        /* Forms */
+        .form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        /* Specific Components */
         .goal-item {
             background: var(--bg-secondary);
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
         }
 
-        .goal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .goal-name {
-            font-weight: 600;
-        }
-
-        .goal-target {
-            font-size: 14px;
-            color: var(--text-muted);
+        .goal-item:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-2px);
         }
 
         .goal-progress {
@@ -738,23 +669,80 @@
             background: var(--bg-hover);
             border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 8px;
+            margin: 12px 0;
         }
 
         .goal-progress-bar {
             height: 100%;
             background: var(--gradient-primary);
             border-radius: 4px;
-            transition: width 0.3s;
+            transition: width 1s ease-out;
         }
 
-        .goal-stats {
+        .wallet-card,
+        .investment-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .wallet-card:hover,
+        .investment-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        /* Profile Upload */
+        .profile-upload-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 24px;
+            cursor: pointer;
+        }
+
+        .profile-upload-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg-card);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            transition: var(--transition);
+        }
+
+        .profile-upload-container:hover .profile-upload-img {
+            filter: brightness(0.8);
+            transform: scale(1.05);
+        }
+
+        .profile-upload-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--text-muted);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
         }
 
+        .profile-upload-container:hover .profile-upload-overlay {
+            opacity: 1;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -784,21 +772,21 @@
             border: 1px solid var(--border-color);
             border-radius: 20px;
             width: 90%;
-            max-width: 600px;
+            max-width: 500px;
             max-height: 90vh;
             overflow-y: auto;
-            animation: modalSlideIn 0.3s ease;
+            animation: slideUp 0.3s ease;
         }
 
-        @keyframes modalSlideIn {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(-20px) scale(0.98);
+                transform: translateY(20px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
         }
 
@@ -811,19 +799,18 @@
         }
 
         .modal-close {
-            background: var(--bg-tertiary);
+            background: transparent;
             border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
             color: var(--text-secondary);
             cursor: pointer;
+            font-size: 24px;
         }
 
         .modal-body {
             padding: 24px;
         }
 
+        /* Notification */
         .notification {
             position: fixed;
             top: 20px;
@@ -839,6 +826,7 @@
             z-index: 10000;
             transform: translateX(400px);
             transition: transform 0.3s;
+            border: 1px solid var(--border-color);
         }
 
         .notification.show {
@@ -853,48 +841,20 @@
             border-left-color: #ef4444;
         }
 
-        .notification.info {
-            border-left-color: var(--accent-blue);
-        }
-
         .overlay {
             display: none;
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.5);
             z-index: 999;
+            backdrop-filter: blur(2px);
         }
 
         .overlay.active {
             display: block;
         }
 
-        .wallet-card,
-        .investment-card {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-        }
-
-        .date-range-picker {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .date-range-picker input {
-            flex: 1;
-            min-width: 150px;
-        }
-
-        @media (max-width: 1200px) {
-            .metrics-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
+        @media (max-width: 1024px) {
             .content-grid {
                 grid-template-columns: 1fr;
             }
@@ -903,6 +863,7 @@
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
+                width: 260px;
             }
 
             .sidebar.active {
@@ -929,27 +890,28 @@
                 grid-template-columns: 1fr;
             }
 
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
+            .header {
+                padding: 0 16px;
             }
-        }
 
-        .brand-subtitle {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            .content {
+                padding: 16px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="app-container">
+        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
-                    <img src="../public/logo.png" alt="logo" width="24" height="24">
+                    <img src="../public/logo.png" alt="logo" width="35" height="35">
                 </div>
                 <div class="brand-name">FinoraQi</div>
                 <div class="brand-subtitle">CRM Finance</div>
@@ -969,20 +931,25 @@
                             class="material-symbols-rounded">target</span><span>Metas</span></a></li>
                 <li class="nav-item"><a class="nav-link" onclick="navigateTo('relatorios')"><span
                             class="material-symbols-rounded">assessment</span><span>Relatórios</span></a></li>
-                <li class="nav-item"><a class="nav-link" onclick="navigateTo('configuracoes')"><span
-                            class="material-symbols-rounded">settings</span><span>Configurações</span></a></li>
+                <li class="nav-item"><a class="nav-link" onclick="navigateTo('perfil')"><span
+                            class="material-symbols-rounded">person</span><span>Meu Perfil</span></a></li>
             </ul>
             <div class="sidebar-footer">
-                <div class="mini-stat">
-                    <div class="mini-stat-icon">💰</div>
-                    <div class="mini-stat-content">
-                        <h4 id="sidebarBalance">R$ 0,00</h4>
-                        <p id="sidebarProfit">+0% este mês</p>
+                <div
+                    style="background: var(--bg-card); padding: 12px; border-radius: 12px; display: flex; align-items: center; gap: 12px;">
+                    <div style="color: var(--accent-green); font-size: 20px;">💰</div>
+                    <div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Saldo Total</div>
+                        <div style="font-weight: 700;" id="sidebarBalance">R$ 0,00</div>
                     </div>
                 </div>
             </div>
         </aside>
+
+        <!-- Overlay Mobile -->
         <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Main Content -->
         <main class="main-content">
             <header class="header">
                 <div class="header-left">
@@ -990,7 +957,7 @@
                             class="material-symbols-rounded">menu</span></button>
                     <div class="search-bar">
                         <span class="material-symbols-rounded">search</span>
-                        <input type="text" placeholder="Pesquisar transações, categorias..." id="globalSearch">
+                        <input type="text" placeholder="Buscar..." id="globalSearch">
                     </div>
                 </div>
                 <div class="header-right">
@@ -1006,32 +973,28 @@
                             class="material-symbols-rounded">logout</span></button>
                 </div>
             </header>
+
             <div class="content">
+                <!-- Dashboard -->
                 <div id="page-dashboard" class="page active">
                     <div class="page-header">
-                        <h1 class="page-title">CRM Pessoal</h1>
-                        <div style="display: flex; gap: 12px;">
-                            <button class="btn btn-secondary" onclick="exportData()"><span
-                                    class="material-symbols-rounded">download</span> Exportar</button>
-                            <button class="btn btn-primary" onclick="openTransactionModal('income')"><span
-                                    class="material-symbols-rounded">add</span> Nova Receita</button>
-                        </div>
+                        <h1 class="page-title">Visão Geral</h1>
+                        <button class="btn btn-primary" onclick="openTransactionModal('income')"><span
+                                class="material-symbols-rounded">add</span> Nova Transação</button>
                     </div>
                     <div class="metrics-grid">
-                        <div class="metric-card" onclick="navigateTo('receitas')">
+                        <div class="metric-card">
                             <div class="metric-header">
                                 <div class="metric-icon green"><span class="material-symbols-rounded">trending_up</span>
                                 </div>
-                                <span class="metric-change positive" id="metricIncomeChange">+0%</span>
                             </div>
                             <div class="metric-value" id="metricIncome">R$ 0,00</div>
                             <div class="metric-label">Receitas Totais</div>
                         </div>
-                        <div class="metric-card" onclick="navigateTo('despesas')">
+                        <div class="metric-card">
                             <div class="metric-header">
                                 <div class="metric-icon orange"><span
                                         class="material-symbols-rounded">trending_down</span></div>
-                                <span class="metric-change negative" id="metricExpenseChange">-0%</span>
                             </div>
                             <div class="metric-value" id="metricExpense">R$ 0,00</div>
                             <div class="metric-label">Despesas Totais</div>
@@ -1042,924 +1005,626 @@
                                         class="material-symbols-rounded">account_balance_wallet</span></div>
                             </div>
                             <div class="metric-value" id="metricBalance">R$ 0,00</div>
-                            <div class="metric-label">Saldo Líquido</div>
+                            <div class="metric-label">Saldo Atual</div>
                         </div>
-                        <div class="metric-card" onclick="navigateTo('investimentos')">
+                        <div class="metric-card">
                             <div class="metric-header">
                                 <div class="metric-icon purple"><span class="material-symbols-rounded">savings</span>
                                 </div>
-                                <span class="metric-change positive" id="metricProfitChange">+0%</span>
                             </div>
                             <div class="metric-value" id="metricProfit">R$ 0,00</div>
-                            <div class="metric-label">Lucro Líquido</div>
+                            <div class="metric-label">Patrimônio Líquido</div>
                         </div>
                     </div>
                     <div class="content-grid">
                         <div class="chart-container">
-                            <div class="chart-header">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
                                 <h3>Fluxo Financeiro</h3>
-                                <div class="time-filters">
-                                    <button class="time-btn" onclick="updateChartPeriod('7')">7D</button>
-                                    <button class="time-btn active" onclick="updateChartPeriod('30')">30D</button>
-                                    <button class="time-btn" onclick="updateChartPeriod('90')">90D</button>
-                                    <button class="time-btn" onclick="updateChartPeriod('365')">1A</button>
+                                <div style="display:flex; gap:5px;">
+                                    <button class="btn btn-sm btn-secondary" onclick="updateChartPeriod(7)">7D</button>
+                                    <button class="btn btn-sm btn-secondary active" onclick="updateChartPeriod(30)"
+                                        style="background:var(--accent-blue); color:white; border:none;">30D</button>
+                                    <button class="btn btn-sm btn-secondary"
+                                        onclick="updateChartPeriod(90)">90D</button>
                                 </div>
                             </div>
-                            <div id="mainChart" style="height: 350px;"></div>
+                            <div id="mainChart" style="height: 320px;"></div>
                         </div>
                         <div class="panel">
-                            <div class="panel-header">
-                                <h3 class="panel-title">Últimas Transações</h3>
-                                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;"
-                                    onclick="navigateTo('receitas')">Ver todas</button>
-                            </div>
+                            <h3 style="margin-bottom: 20px;">Últimas Atividades</h3>
                             <div class="transaction-list" id="recentTransactions"></div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Receitas -->
                 <div id="page-receitas" class="page">
                     <div class="page-header">
-                        <h1 class="page-title">Receitas</h1>
-                        <button class="btn btn-primary" onclick="openTransactionModal('income')"><span
-                                class="material-symbols-rounded">add</span> Nova Receita</button>
+                        <h1 class="page-title">Receitas</h1><button class="btn btn-primary"
+                            onclick="openTransactionModal('income')">+ Nova Receita</button>
                     </div>
                     <div class="form-card">
                         <div class="form-row">
-                            <div class="form-group">
-                                <label>Filtrar por Categoria</label>
-                                <select id="filterCategoryIncome" onchange="filterTransactions('income')">
+                            <div class="form-group"><label>Categoria</label><select id="filterCatInc"
+                                    onchange="renderList('income')">
                                     <option value="">Todas</option>
                                     <option value="Salário">Salário</option>
                                     <option value="Freelance">Freelance</option>
-                                    <option value="Investimentos">Investimentos</option>
-                                    <option value="Rendimentos">Rendimentos</option>
                                     <option value="Outros">Outros</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Período</label>
-                                <select id="filterPeriodIncome" onchange="filterTransactions('income')">
-                                    <option value="all">Todo o período</option>
-                                    <option value="month">Este mês</option>
-                                    <option value="last30">Últimos 30 dias</option>
-                                    <option value="year">Este ano</option>
-                                </select>
-                            </div>
+                                </select></div>
                         </div>
                     </div>
-                    <div class="panel" style="margin-top: 24px;">
-                        <div class="transaction-list" id="incomeList"></div>
-                    </div>
+                    <div class="transaction-list" id="list-income"></div>
                 </div>
+
+                <!-- Despesas -->
                 <div id="page-despesas" class="page">
                     <div class="page-header">
-                        <h1 class="page-title">Despesas</h1>
-                        <button class="btn btn-primary" onclick="openTransactionModal('expense')"><span
-                                class="material-symbols-rounded">add</span> Nova Despesa</button>
+                        <h1 class="page-title">Despesas</h1><button class="btn btn-primary"
+                            onclick="openTransactionModal('expense')">+ Nova Despesa</button>
                     </div>
                     <div class="form-card">
                         <div class="form-row">
-                            <div class="form-group">
-                                <label>Filtrar por Categoria</label>
-                                <select id="filterCategoryExpense" onchange="filterTransactions('expense')">
+                            <div class="form-group"><label>Categoria</label><select id="filterCatExp"
+                                    onchange="renderList('expense')">
                                     <option value="">Todas</option>
+                                    <option value="Moradia">Moradia</option>
                                     <option value="Alimentação">Alimentação</option>
                                     <option value="Transporte">Transporte</option>
-                                    <option value="Moradia">Moradia</option>
-                                    <option value="Saúde">Saúde</option>
                                     <option value="Lazer">Lazer</option>
-                                    <option value="Educação">Educação</option>
-                                    <option value="Outros">Outros</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Período</label>
-                                <select id="filterPeriodExpense" onchange="filterTransactions('expense')">
-                                    <option value="all">Todo o período</option>
-                                    <option value="month">Este mês</option>
-                                    <option value="last30">Últimos 30 dias</option>
-                                    <option value="year">Este ano</option>
-                                </select>
-                            </div>
+                                </select></div>
                         </div>
                     </div>
-                    <div class="panel" style="margin-top: 24px;">
-                        <div class="transaction-list" id="expenseList"></div>
-                    </div>
+                    <div class="transaction-list" id="list-expense"></div>
                 </div>
+
+                <!-- Carteiras -->
                 <div id="page-carteiras" class="page">
                     <div class="page-header">
-                        <h1 class="page-title">Carteiras</h1>
-                        <button class="btn btn-primary" onclick="openWalletModal()"><span
-                                class="material-symbols-rounded">add</span> Nova Carteira</button>
+                        <h1 class="page-title">Minhas Carteiras</h1><button class="btn btn-primary"
+                            onclick="openWalletModal()">+ Nova Carteira</button>
                     </div>
                     <div id="walletsList"></div>
                 </div>
+
+                <!-- Investimentos -->
                 <div id="page-investimentos" class="page">
                     <div class="page-header">
-                        <h1 class="page-title">Investimentos</h1>
-                        <button class="btn btn-primary" onclick="openInvestmentModal()"><span
-                                class="material-symbols-rounded">add</span> Novo Investimento</button>
+                        <h1 class="page-title">Investimentos</h1><button class="btn btn-primary"
+                            onclick="openInvestmentModal()">+ Novo Investimento</button>
                     </div>
-                    <div class="metrics-grid" id="investmentMetrics"></div>
-                    <div class="chart-container">
-                        <div class="chart-header">
-                            <h3>Evolução dos Investimentos</h3>
-                        </div>
-                        <div id="investmentChart" style="height: 300px;"></div>
-                    </div>
-                    <div class="panel" style="margin-top: 24px;">
-                        <h4 style="margin-bottom: 16px;">Carteira de Investimentos</h4>
-                        <div id="investmentList"></div>
-                    </div>
+                    <div class="metrics-grid" id="invMetrics"></div>
+                    <div id="investmentsList"></div>
                 </div>
+
+                <!-- Metas -->
                 <div id="page-metas" class="page">
                     <div class="page-header">
-                        <h1 class="page-title">Metas Financeiras</h1>
-                        <button class="btn btn-primary" onclick="openGoalModal()"><span
-                                class="material-symbols-rounded">add</span> Nova Meta</button>
+                        <h1 class="page-title">Metas Financeiras</h1><button class="btn btn-primary"
+                            onclick="openGoalModal()">+ Nova Meta</button>
                     </div>
                     <div id="goalsList"></div>
                 </div>
+
+                <!-- Relatórios -->
                 <div id="page-relatorios" class="page">
                     <div class="page-header">
                         <h1 class="page-title">Relatórios</h1>
                     </div>
-                    <div class="form-card" style="max-width: 700px;">
-                        <div class="form-section">
-                            <h3>Exportar Relatório XLSX</h3>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Data Início</label>
-                                    <input type="date" id="reportStartDate">
-                                </div>
-                                <div class="form-group">
-                                    <label>Data Fim</label>
-                                    <input type="date" id="reportEndDate">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Tipo de Dados</label>
-                                <select id="reportType">
-                                    <option value="all">Todas as Transações</option>
-                                    <option value="income">Apenas Receitas</option>
-                                    <option value="expense">Apenas Despesas</option>
-                                    <option value="investments">Investimentos</option>
-                                    <option value="wallets">Carteiras</option>
-                                </select>
-                            </div>
-                            <div class="form-actions" style="justify-content: flex-start;">
-                                <button class="btn btn-primary" onclick="exportReportXLSX()"><span
-                                        class="material-symbols-rounded">download</span> Exportar XLSX</button>
-                            </div>
-                        </div>
-                        <div id="reportContent" style="margin-top: 24px;"></div>
+                    <div class="form-card">
+                        <h3>Exportar Dados</h3>
+                        <p style="color:var(--text-muted); margin-bottom:20px;">Baixe todos os seus dados financeiros em
+                            formato Excel.</p>
+                        <button class="btn btn-primary" onclick="exportToExcel()"><span
+                                class="material-symbols-rounded">download</span> Baixar Excel (.xlsx)</button>
+                        <hr style="border:0; border-top:1px solid var(--border-color); margin:20px 0;">
+                        <button class="btn btn-secondary" onclick="clearAllData()"
+                            style="color:#ef4444; border-color:#ef4444;"><span
+                                class="material-symbols-rounded">delete_sweep</span> Apagar Todos os Dados</button>
                     </div>
                 </div>
-                <div id="page-configuracoes" class="page">
-                    <div class="page-header">
-                        <h1 class="page-title">Configurações</h1>
-                    </div>
-                    <div class="form-card" style="max-width: 700px;">
-                        <div class="form-section">
-                            <h3>💰 Configurações Financeiras</h3>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Moeda</label>
-                                    <select id="settingsCurrency">
-                                        <option value="BRL">Real (R$)</option>
-                                        <option value="USD">Dólar ($)</option>
-                                        <option value="EUR">Euro (€)</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Dia do Fechamento</label>
-                                    <select id="settingsClosingDay">
-                                        <option value="1">Dia 1</option>
-                                        <option value="5" selected>Dia 5</option>
-                                        <option value="10">Dia 10</option>
-                                        <option value="25">Dia 25</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <button class="btn btn-secondary" onclick="resetSettings()"><span
-                                    class="material-symbols-rounded">refresh</span> Restaurar Padrões</button>
-                            <button class="btn btn-primary" onclick="saveSettings()"><span
-                                    class="material-symbols-rounded">save</span> Salvar Configurações</button>
-                        </div>
-                    </div>
-                </div>
+
+                <!-- Perfil -->
                 <div id="page-perfil" class="page">
                     <div class="page-header">
                         <h1 class="page-title">Meu Perfil</h1>
                     </div>
-                    <div class="form-card" style="max-width: 600px;">
-                        <div style="text-align: center; margin-bottom: 32px;">
-                            <div class="user-avatar"
-                                style="width: 100px; height: 100px; margin: 0 auto 16px; font-size: 36px;"
-                                id="profileAvatar">U</div>
-                            <h3 id="profileName">Usuário</h3>
-                            <p style="color: var(--text-muted);" id="profileEmail">email@exemplo.com</p>
+                    <div class="form-card" style="max-width: 600px; margin: 0 auto;">
+                        <div style="text-align: center;">
+                            <div class="profile-upload-container"
+                                onclick="document.getElementById('photoInput').click()">
+                                <img src="" alt="Foto" class="profile-upload-img" id="profilePreview">
+                                <div class="profile-upload-overlay"><span class="material-symbols-rounded"
+                                        style="color:white;">camera_alt</span></div>
+                                <input type="file" id="photoInput" class="file-input" accept="image/*"
+                                    onchange="previewImage(this)">
+                            </div>
+                            <h3 id="displayName">Usuário</h3>
+                            <p style="color:var(--text-muted);" id="displayEmail">email@exemplo.com</p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="margin-top:30px;">
                             <label>Nome Completo</label>
-                            <input type="text" id="inputName" value="Usuário">
+                            <input type="text" id="inputName" placeholder="Seu nome">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" id="inputEmail" value="user@finoraqi.com" readonly>
+                            <input type="email" id="inputEmail" placeholder="seu@email.com">
                         </div>
                         <div class="form-actions">
-                            <button class="btn btn-primary" onclick="saveProfile()"><span
-                                    class="material-symbols-rounded">save</span> Salvar Alterações</button>
+                            <button class="btn btn-primary" style="width:100%; justify-content:center;"
+                                onclick="saveProfile()"><span class="material-symbols-rounded">save</span> Salvar
+                                Alterações</button>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
-    <div class="modal" id="transactionModal">
-        <div class="modal-overlay" onclick="closeTransactionModal()"></div>
+
+    <!-- Modals -->
+    <div class="modal" id="transModal">
+        <div class="modal-overlay" onclick="closeModal('transModal')"></div>
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle">Nova Transação</h3>
-                <button class="modal-close" onclick="closeTransactionModal()"><span
-                        class="material-symbols-rounded">close</span></button>
+                <h3 id="modalTitle">Transação</h3><button class="modal-close"
+                    onclick="closeModal('transModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="transactionForm" onsubmit="saveTransaction(event)">
+                <form onsubmit="saveTransaction(event)">
                     <input type="hidden" id="transId">
-                    <input type="hidden" id="transType">
-                    <div class="form-group">
-                        <label>Tipo *</label>
-                        <select id="inputType" required onchange="updateModalTitle()">
-                            <option value="income">📈 Receita</option>
-                            <option value="expense">📉 Despesa</option>
-                            <option value="investment">💰 Investimento</option>
-                        </select>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Valor (R$) *</label>
-                            <input type="number" id="inputAmount" step="0.01" min="0.01" required placeholder="0,00">
-                        </div>
-                        <div class="form-group">
-                            <label>Data *</label>
-                            <input type="date" id="inputDate" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Categoria *</label>
-                        <select id="inputCategory" required></select>
-                    </div>
-                    <div class="form-group">
-                        <label>Descrição</label>
-                        <input type="text" id="inputDescription" placeholder="Ex: Salário mensal, Compra mercado...">
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary"
-                            onclick="closeTransactionModal()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary"><span class="material-symbols-rounded">save</span>
-                            Salvar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal" id="investmentModal">
-        <div class="modal-overlay" onclick="closeInvestmentModal()"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Novo Investimento</h3>
-                <button class="modal-close" onclick="closeInvestmentModal()"><span
-                        class="material-symbols-rounded">close</span></button>
-            </div>
-            <div class="modal-body">
-                <form id="investmentForm" onsubmit="saveInvestment(event)">
-                    <div class="form-group">
-                        <label>Nome do Investimento *</label>
-                        <input type="text" id="invName" required placeholder="Ex: Tesouro Direto, Ações XYZ">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Valor Aplicado (R$) *</label>
-                            <input type="number" id="invAmount" step="0.01" min="0.01" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Taxa Anual (%)</label>
-                            <input type="number" id="invRate" step="0.01" placeholder="Ex: 12.5">
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label>Tipo</label>
-                        <select id="invType">
-                            <option value="fixed">Renda Fixa</option>
-                            <option value="variable">Renda Variável</option>
-                            <option value="fund">Fundos</option>
-                            <option value="crypto">Criptomoedas</option>
+                        <select id="transType" onchange="updateModalCats()" required>
+                            <option value="income">Receita</option>
+                            <option value="expense">Despesa</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>Data de Aplicação *</label>
-                        <input type="date" id="invDate" required>
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary"
-                            onclick="closeInvestmentModal()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary"><span class="material-symbols-rounded">save</span>
-                            Salvar Investimento</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal" id="goalModal">
-        <div class="modal-overlay" onclick="closeGoalModal()"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Nova Meta Financeira</h3>
-                <button class="modal-close" onclick="closeGoalModal()"><span
-                        class="material-symbols-rounded">close</span></button>
-            </div>
-            <div class="modal-body">
-                <form id="goalForm" onsubmit="saveGoal(event)">
-                    <div class="form-group">
-                        <label>Nome da Meta *</label>
-                        <input type="text" id="goalName" required placeholder="Ex: Reserva de emergência, Viagem">
-                    </div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>Valor Alvo (R$) *</label>
-                            <input type="number" id="goalTarget" step="0.01" min="0.01" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Prazo *</label>
-                            <input type="date" id="goalDeadline" required>
-                        </div>
+                        <div class="form-group"><label>Valor (R$)</label><input type="number" step="0.01"
+                                id="transAmount" required></div>
+                        <div class="form-group"><label>Data</label><input type="date" id="transDate" required></div>
                     </div>
-                    <div class="form-group">
-                        <label>Valor já economizado (R$)</label>
-                        <input type="number" id="goalSaved" step="0.01" min="0" value="0">
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" onclick="closeGoalModal()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary"><span class="material-symbols-rounded">save</span>
-                            Salvar Meta</button>
-                    </div>
+                    <div class="form-group"><label>Categoria</label><select id="transCat" required></select></div>
+                    <div class="form-group"><label>Descrição</label><input type="text" id="transDesc"></div>
+                    <div class="form-actions"><button type="button" class="btn btn-secondary"
+                            onclick="closeModal('transModal')">Cancelar</button><button type="submit"
+                            class="btn btn-primary">Salvar</button></div>
                 </form>
             </div>
         </div>
     </div>
+
     <div class="modal" id="walletModal">
-        <div class="modal-overlay" onclick="closeWalletModal()"></div>
+        <div class="modal-overlay" onclick="closeModal('walletModal')"></div>
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Nova Carteira</h3>
-                <button class="modal-close" onclick="closeWalletModal()"><span
-                        class="material-symbols-rounded">close</span></button>
+                <h3>Nova Carteira</h3><button class="modal-close" onclick="closeModal('walletModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="walletForm" onsubmit="saveWallet(event)">
-                    <div class="form-group">
-                        <label>Nome da Carteira *</label>
-                        <input type="text" id="walletName" required placeholder="Ex: Nubank, Inter, XP">
+                <form onsubmit="saveWallet(event)">
+                    <input type="hidden" id="walletId">
+                    <div class="form-group"><label>Nome</label><input type="text" id="wName" required
+                            placeholder="Ex: Nubank"></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Tipo</label><select id="wType">
+                                <option value="checking">Corrente</option>
+                                <option value="savings">Poupança</option>
+                                <option value="credit">Crédito</option>
+                            </select></div>
+                        <div class="form-group"><label>Saldo Inicial</label><input type="number" step="0.01"
+                                id="wBalance" value="0"></div>
                     </div>
-                    <div class="form-group">
-                        <label>Tipo</label>
-                        <select id="walletType">
-                            <option value="checking">Conta Corrente</option>
-                            <option value="savings">Poupança</option>
-                            <option value="investment">Investimento</option>
-                            <option value="credit">Cartão de Crédito</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Saldo Inicial (R$)</label>
-                        <input type="number" id="walletBalance" step="0.01" min="0" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label>Instituição</label>
-                        <input type="text" id="walletInstitution" placeholder="Ex: Banco Nubank">
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" onclick="closeWalletModal()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary"><span class="material-symbols-rounded">save</span>
-                            Salvar Carteira</button>
-                    </div>
+                    <div class="form-actions"><button type="button" class="btn btn-secondary"
+                            onclick="closeModal('walletModal')">Cancelar</button><button type="submit"
+                            class="btn btn-primary">Salvar</button></div>
                 </form>
             </div>
         </div>
     </div>
+
+    <div class="modal" id="invModal">
+        <div class="modal-overlay" onclick="closeModal('invModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Novo Investimento</h3><button class="modal-close" onclick="closeModal('invModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="saveInvestment(event)">
+                    <input type="hidden" id="invId">
+                    <div class="form-group"><label>Nome</label><input type="text" id="iName" required
+                            placeholder="Ex: Tesouro Selic"></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Valor Aplicado</label><input type="number" step="0.01"
+                                id="iAmount" required></div>
+                        <div class="form-group"><label>Rentabilidade (%)</label><input type="number" step="0.01"
+                                id="iRate" placeholder="Ex: 10.5"></div>
+                    </div>
+                    <div class="form-actions"><button type="button" class="btn btn-secondary"
+                            onclick="closeModal('invModal')">Cancelar</button><button type="submit"
+                            class="btn btn-primary">Salvar</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="goalModal">
+        <div class="modal-overlay" onclick="closeModal('goalModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nova Meta</h3><button class="modal-close" onclick="closeModal('goalModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="saveGoal(event)">
+                    <input type="hidden" id="goalId">
+                    <div class="form-group"><label>Objetivo</label><input type="text" id="gName" required
+                            placeholder="Ex: Viagem"></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Valor Alvo</label><input type="number" step="0.01" id="gTarget"
+                                required></div>
+                        <div class="form-group"><label>Já Guardado</label><input type="number" step="0.01" id="gSaved"
+                                value="0"></div>
+                    </div>
+                    <div class="form-actions"><button type="button" class="btn btn-secondary"
+                            onclick="closeModal('goalModal')">Cancelar</button><button type="submit"
+                            class="btn btn-primary">Salvar</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : '/api';
-        let currentPeriod = 30;
-        let currentUser = null;
-        let authToken = null;
-        const StorageService = {
-            init() {
-                if (!localStorage.getItem('finoraqi_crm')) {
-                    localStorage.setItem('finoraqi_crm', JSON.stringify({
-                        user: { name: 'Usuário', email: 'user@finoraqi.com', photo: null, settings: { currency: 'BRL', closingDay: 5, revenueShare: { bank: 40, bureau: 35, finoraqi: 25 }, notifications: { goals: true, autoCategorize: true } } },
-                        transactions: [],
-                        investments: [],
-                        goals: [],
-                        wallets: [],
-                        categories: { income: ['Salário', 'Freelance', 'Investimentos', 'Rendimentos', 'Outros'], expense: ['Alimentação', 'Transporte', 'Moradia', 'Saúde', 'Lazer', 'Educação', 'Outros'] }
-                    }));
-                }
+        // --- Storage Service (Local Database) ---
+        const DB = {
+            key: 'finoraqi_db_v2',
+            data: {
+                user: { name: 'Usuário', email: 'user@finoraqi.com', photo: null },
+                transactions: [],
+                wallets: [],
+                investments: [],
+                goals: []
             },
-            get() { return JSON.parse(localStorage.getItem('finoraqi_crm')); },
-            save(data) { localStorage.setItem('finoraqi_crm', JSON.stringify(data)); },
-            getUser() { return this.get().user; },
-            saveUser(user) { const d = this.get(); d.user = user; this.save(d); },
-            getTransactions() { return this.get().transactions; },
-            saveTransaction(t) { const d = this.get(); t.id = t.id || 't_' + Date.now(); t.createdAt = t.createdAt || new Date().toISOString(); d.transactions.push(t); this.save(d); return t; },
-            updateTransaction(id, data) { const d = this.get(); const idx = d.transactions.findIndex(t => t.id === id); if (idx >= 0) { d.transactions[idx] = { ...d.transactions[idx], ...data, updatedAt: new Date().toISOString() }; this.save(d); return d.transactions[idx]; } return null; },
-            deleteTransaction(id) { const d = this.get(); d.transactions = d.transactions.filter(t => t.id !== id); this.save(d); },
-            getInvestments() { return this.get().investments; },
-            saveInvestment(inv) { const d = this.get(); inv.id = inv.id || 'i_' + Date.now(); inv.createdAt = new Date().toISOString(); d.investments.push(inv); this.save(d); return inv; },
-            getGoals() { return this.get().goals; },
-            saveGoal(goal) { const d = this.get(); goal.id = goal.id || 'g_' + Date.now(); goal.createdAt = new Date().toISOString(); d.goals.push(goal); this.save(d); return goal; },
-            updateGoal(id, data) { const d = this.get(); const idx = d.goals.findIndex(g => g.id === id); if (idx >= 0) { d.goals[idx] = { ...d.goals[idx], ...data }; this.save(d); return d.goals[idx]; } return null; },
-            deleteGoal(id) { const d = this.get(); d.goals = d.goals.filter(g => g.id !== id); this.save(d); },
-            getWallets() { return this.get().wallets; },
-            saveWallet(w) { const d = this.get(); w.id = w.id || 'w_' + Date.now(); w.createdAt = new Date().toISOString(); d.wallets.push(w); this.save(d); return w; },
-            updateWallet(id, data) { const d = this.get(); const idx = d.wallets.findIndex(w => w.id === id); if (idx >= 0) { d.wallets[idx] = { ...d.wallets[idx], ...data }; this.save(d); return d.wallets[idx]; } return null; },
-            deleteWallet(id) { const d = this.get(); d.wallets = d.wallets.filter(w => w.id !== id); this.save(d); }
+            init() {
+                const stored = localStorage.getItem(this.key);
+                if (stored) this.data = JSON.parse(stored);
+                else this.save();
+            },
+            save() { localStorage.setItem(this.key, JSON.stringify(this.data)); },
+            getUser() { return this.data.user; },
+            saveUser(u) { this.data.user = u; this.save(); },
+            getTrans() { return this.data.transactions; },
+            addTrans(t) { t.id = Date.now().toString(); this.data.transactions.push(t); this.save(); },
+            updateTrans(id, d) { const i = this.data.transactions.findIndex(x => x.id === id); if (i > -1) { this.data.transactions[i] = { ...this.data.transactions[i], ...d }; this.save(); } },
+            delTrans(id) { this.data.transactions = this.data.transactions.filter(x => x.id !== id); this.save(); },
+            getWallets() { return this.data.wallets; },
+            addWallet(w) { w.id = Date.now().toString(); this.data.wallets.push(w); this.save(); },
+            delWallet(id) { this.data.wallets = this.data.wallets.filter(x => x.id !== id); this.save(); },
+            getInv() { return this.data.investments; },
+            addInv(i) { i.id = Date.now().toString(); this.data.investments.push(i); this.save(); },
+            delInv(id) { this.data.investments = this.data.investments.filter(x => x.id !== id); this.save(); },
+            getGoals() { return this.data.goals; },
+            addGoal(g) { g.id = Date.now().toString(); this.data.goals.push(g); this.save(); },
+            delGoal(id) { this.data.goals = this.data.goals.filter(x => x.id !== id); this.save(); },
+            clear() { localStorage.removeItem(this.key); location.reload(); }
         };
-        const FinanceCalc = {
-            formatCurrency(v) { return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v); },
-            formatDate(d) { return new Date(d).toLocaleDateString('pt-BR'); },
-            calculateYield(principal, apr, days, type = 'simple') { const rate = apr / 100; if (type === 'compound') { const dailyRate = Math.pow(1 + rate, 1 / 365) - 1; return principal * Math.pow(1 + dailyRate, days); } return principal * (1 + rate * days / 365); }
-        };
+
+        // --- Utils ---
+        const fmtMoney = v => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v);
+        const fmtDate = d => new Date(d).toLocaleDateString('pt-BR');
+        let chartInstance = null;
+        let chartDays = 30;
+
+        // --- Navigation ---
         function navigateTo(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.getElementById(`page-${page}`)?.classList.add('active');
+            document.getElementById(`page-${page}`).classList.add('active');
             event?.target?.closest('.nav-link')?.classList.add('active');
+            if (window.innerWidth <= 768) toggleSidebar();
+
             if (page === 'dashboard') loadDashboard();
-            if (page === 'receitas') loadTransactions('income');
-            if (page === 'despesas') loadTransactions('expense');
+            if (page === 'receitas') renderList('income');
+            if (page === 'despesas') renderList('expense');
             if (page === 'carteiras') loadWallets();
             if (page === 'investimentos') loadInvestments();
             if (page === 'metas') loadGoals();
-            if (page === 'configuracoes') loadSettings();
             if (page === 'perfil') loadProfile();
         }
+
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('active');
             document.getElementById('overlay').classList.toggle('active');
         }
+
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        // --- Dashboard & Chart (Real-time) ---
         function loadDashboard() {
-            const data = StorageService.get();
-            const { transactions, user } = data;
-            const income = transactions.filter(t => t.type === 'income').reduce((a, t) => a + t.amount, 0);
-            const expense = transactions.filter(t => t.type === 'expense').reduce((a, t) => a + t.amount, 0);
+            const trans = DB.getTrans();
+            const income = trans.filter(t => t.type === 'income').reduce((a, b) => a + parseFloat(b.amount), 0);
+            const expense = trans.filter(t => t.type === 'expense').reduce((a, b) => a + parseFloat(b.amount), 0);
             const balance = income - expense;
-            const profit = balance > 0 ? balance : 0;
-            document.getElementById('metricIncome').textContent = FinanceCalc.formatCurrency(income);
-            document.getElementById('metricExpense').textContent = FinanceCalc.formatCurrency(expense);
-            document.getElementById('metricBalance').textContent = FinanceCalc.formatCurrency(balance);
-            document.getElementById('metricProfit').textContent = FinanceCalc.formatCurrency(profit);
-            document.getElementById('sidebarBalance').textContent = FinanceCalc.formatCurrency(balance);
-            const profitPct = income > 0 ? ((profit / income) * 100).toFixed(1) : 0;
-            document.getElementById('sidebarProfit').textContent = `+${profitPct}% este mês`;
-            const recent = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+
+            document.getElementById('metricIncome').innerText = fmtMoney(income);
+            document.getElementById('metricExpense').innerText = fmtMoney(expense);
+            document.getElementById('metricBalance').innerText = fmtMoney(balance);
+            document.getElementById('sidebarBalance').innerText = fmtMoney(balance);
+
+            // Recent List
+            const recent = [...trans].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
             document.getElementById('recentTransactions').innerHTML = recent.length ? recent.map(t => `
-<div class="transaction-item" onclick="editTransaction('${t.id}')">
-<div class="transaction-left">
-<div class="transaction-icon ${t.type}"><span class="material-symbols-rounded">${t.type === 'income' ? 'trending_up' : t.type === 'investment' ? 'savings' : 'trending_down'}</span></div>
-<div class="transaction-details"><h4>${t.category}</h4><p>${t.description || 'Sem descrição'} • ${FinanceCalc.formatDate(t.date)}</p></div>
-</div>
-<div class="transaction-right">
-<div class="transaction-amount ${t.type}">${t.type === 'income' ? '+' : '-'}${FinanceCalc.formatCurrency(t.amount)}</div>
-<div class="transaction-date">${t.type === 'income' ? 'Receita' : t.type === 'investment' ? 'Investimento' : 'Despesa'}</div>
-</div>
-</div>`).join('') : '<p style="color: var(--text-muted); text-align: center; padding: 20px;">Nenhuma transação registrada</p>';
-            renderMainChart();
-            document.getElementById('headerName').textContent = user.name;
-            document.getElementById('headerAvatar').textContent = user.name.charAt(0).toUpperCase();
+                <div class="transaction-item">
+                    <div class="transaction-left">
+                        <div class="transaction-icon ${t.type}"><span class="material-symbols-rounded">${t.type === 'income' ? 'trending_up' : 'trending_down'}</span></div>
+                        <div class="transaction-details"><h4>${t.category}</h4><p>${t.desc || 'Sem desc'} • ${fmtDate(t.date)}</p></div>
+                    </div>
+                    <div class="transaction-amount ${t.type}">${t.type === 'income' ? '+' : '-'}${fmtMoney(t.amount)}</div>
+                </div>
+            `).join('') : '<p style="text-align:center;color:var(--text-muted)">Nenhuma transação</p>';
+
+            updateUserUI(DB.getUser());
+            renderChart();
         }
-        function renderMainChart() {
-            const data = StorageService.get();
-            const transactions = data.transactions;
-            const days = currentPeriod;
-            const labels = [], incomeData = [], expenseData = [];
-            for (let i = days - 1; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                const dateStr = date.toISOString().split('T')[0];
-                labels.push(date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }));
-                const dayIncome = transactions.filter(t => t.type === 'income' && t.date.startsWith(dateStr)).reduce((a, t) => a + t.amount, 0);
-                const dayExpense = transactions.filter(t => t.type === 'expense' && t.date.startsWith(dateStr)).reduce((a, t) => a + t.amount, 0);
-                incomeData.push(dayIncome);
-                expenseData.push(dayExpense);
+
+        function renderChart() {
+            const trans = DB.getTrans();
+            const labels = [], incData = [], expData = [];
+            for (let i = chartDays - 1; i >= 0; i--) {
+                const d = new Date(); d.setDate(d.getDate() - i);
+                const ds = d.toISOString().split('T')[0];
+                labels.push(d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }));
+                incData.push(trans.filter(t => t.type === 'income' && t.date.startsWith(ds)).reduce((a, b) => a + parseFloat(b.amount), 0));
+                expData.push(trans.filter(t => t.type === 'expense' && t.date.startsWith(ds)).reduce((a, b) => a + parseFloat(b.amount), 0));
             }
-            if (window.mainChart) window.mainChart.destroy();
-            window.mainChart = new ApexCharts(document.querySelector("#mainChart"), {
-                series: [{ name: 'Receitas', type: 'area', data: incomeData }, { name: 'Despesas', type: 'bar', data: expenseData }],
-                chart: { height: 350, type: 'line', toolbar: { show: false }, fontFamily: 'Inter' },
+
+            const config = {
+                series: [{ name: 'Receitas', data: incData }, { name: 'Despesas', data: expData }],
+                chart: { type: 'area', height: 320, toolbar: { show: false }, animations: { enabled: true, speed: 800 }, fontFamily: 'Inter' },
                 colors: ['#10b981', '#f59e0b'],
-                dataLabels: { enabled: false },
-                stroke: { width: [3, 0], curve: 'smooth' },
-                fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.1 } },
-                xaxis: { categories: labels, labels: { style: { colors: '#64748b', fontSize: '11px' } } },
-                yaxis: { labels: { formatter: v => 'R$ ' + v.toFixed(0), style: { colors: '#64748b', fontSize: '11px' } } },
-                tooltip: { y: { formatter: v => FinanceCalc.formatCurrency(v) } },
-                legend: { labels: { colors: '#94a3b8' } },
-                grid: { borderColor: 'rgba(148, 163, 184, 0.1)', strokeDashArray: 4 }
-            });
-            window.mainChart.render();
+                fill: { type: 'gradient', gradient: { opacityFrom: 0.6, opacityTo: 0.1 } },
+                stroke: { width: 2, curve: 'smooth' },
+                xaxis: { categories: labels, labels: { style: { colors: '#64748b' } }, axisBorder: { show: false }, axisTicks: { show: false } },
+                yaxis: { labels: { formatter: v => 'R$ ' + v, style: { colors: '#64748b' } } },
+                grid: { borderColor: 'rgba(148,163,184,0.1)', strokeDashArray: 4 },
+                theme: { mode: 'dark' }
+            };
+
+            if (chartInstance) chartInstance.updateOptions({ xaxis: { categories: labels }, series: config.series });
+            else { chartInstance = new ApexCharts(document.querySelector("#mainChart"), config); chartInstance.render(); }
         }
-        function updateChartPeriod(days) {
-            currentPeriod = parseInt(days);
-            document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            renderMainChart();
-        }
-        function loadTransactions(type) {
-            const transactions = StorageService.getTransactions().filter(t => t.type === type);
-            const container = document.getElementById(type === 'income' ? 'incomeList' : 'expenseList');
-            if (transactions.length === 0) { container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 40px;">Nenhuma ${type === 'income' ? 'receita' : 'despesa'} registrada</p>`; return; }
-            const sorted = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
-            container.innerHTML = sorted.map(t => `
-<div class="transaction-item">
-<div class="transaction-left">
-<div class="transaction-icon ${t.type}"><span class="material-symbols-rounded">${t.type === 'income' ? 'trending_up' : 'trending_down'}</span></div>
-<div class="transaction-details"><h4>${t.category}</h4><p>${t.description || 'Sem descrição'} • ${FinanceCalc.formatDate(t.date)}</p></div>
-</div>
-<div style="display: flex; align-items: center; gap: 12px;">
-<div class="transaction-amount ${t.type}">${t.type === 'income' ? '+' : '-'}${FinanceCalc.formatCurrency(t.amount)}</div>
-<div class="transaction-actions">
-<button class="icon-btn-small" onclick="editTransaction('${t.id}')"><span class="material-symbols-rounded">edit</span></button>
-<button class="icon-btn-small danger" onclick="deleteTransaction('${t.id}')"><span class="material-symbols-rounded">delete</span></button>
-</div>
-</div>
-</div>`).join('');
-        }
-        function filterTransactions(type) {
-            const category = document.getElementById(`filterCategory${type === 'income' ? 'Income' : 'Expense'}`).value;
-            const period = document.getElementById(`filterPeriod${type === 'income' ? 'Income' : 'Expense'}`).value;
-            let filtered = StorageService.getTransactions().filter(t => t.type === type);
-            if (category) filtered = filtered.filter(t => t.category === category);
-            if (period !== 'all') {
-                const now = new Date();
-                if (period === 'month') { filtered = filtered.filter(t => new Date(t.date).getMonth() === now.getMonth() && new Date(t.date).getFullYear() === now.getFullYear()); }
-                else if (period === 'last30') { const thirtyDaysAgo = new Date(now.setDate(now.getDate() - 30)); filtered = filtered.filter(t => new Date(t.date) >= thirtyDaysAgo); }
-                else if (period === 'year') { filtered = filtered.filter(t => new Date(t.date).getFullYear() === now.getFullYear()); }
-            }
-            const container = document.getElementById(type === 'income' ? 'incomeList' : 'expenseList');
-            if (filtered.length === 0) { container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 40px;">Nenhum resultado encontrado</p>`; return; }
-            container.innerHTML = filtered.map(t => `
-<div class="transaction-item">
-<div class="transaction-left">
-<div class="transaction-icon ${t.type}"><span class="material-symbols-rounded">${t.type === 'income' ? 'trending_up' : 'trending_down'}</span></div>
-<div class="transaction-details"><h4>${t.category}</h4><p>${t.description || 'Sem descrição'} • ${FinanceCalc.formatDate(t.date)}</p></div>
-</div>
-<div style="display: flex; align-items: center; gap: 12px;">
-<div class="transaction-amount ${t.type}">${t.type === 'income' ? '+' : '-'}${FinanceCalc.formatCurrency(t.amount)}</div>
-<div class="transaction-actions">
-<button class="icon-btn-small" onclick="editTransaction('${t.id}')"><span class="material-symbols-rounded">edit</span></button>
-<button class="icon-btn-small danger" onclick="deleteTransaction('${t.id}')"><span class="material-symbols-rounded">delete</span></button>
-</div>
-</div>
-</div>`).join('');
-        }
+
+        function updateChartPeriod(days) { chartDays = days; renderChart(); }
+
+        // --- Transactions ---
         function openTransactionModal(type) {
             document.getElementById('transType').value = type;
-            document.getElementById('inputType').value = type;
-            document.getElementById('modalTitle').textContent = type === 'income' ? 'Nova Receita' : type === 'expense' ? 'Nova Despesa' : 'Novo Investimento';
-            document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
-            const categories = type === 'income' ? StorageService.get().categories.income : StorageService.get().categories.expense;
-            document.getElementById('inputCategory').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
-            document.getElementById('transactionModal').classList.add('active');
+            document.getElementById('modalTitle').innerText = type === 'income' ? 'Nova Receita' : 'Nova Despesa';
+            document.getElementById('transDate').valueAsDate = new Date();
+            updateModalCats();
+            document.getElementById('transModal').classList.add('active');
         }
-        function closeTransactionModal() {
-            document.getElementById('transactionModal').classList.remove('active');
-            document.getElementById('transactionForm').reset();
-            document.getElementById('transId').value = '';
+
+        function updateModalCats() {
+            const type = document.getElementById('transType').value;
+            const cats = type === 'income' ? ['Salário', 'Freelance', 'Investimento', 'Outros'] : ['Moradia', 'Alimentação', 'Transporte', 'Lazer', 'Saúde', 'Outros'];
+            document.getElementById('transCat').innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
         }
-        function updateModalTitle() {
-            const type = document.getElementById('inputType').value;
-            document.getElementById('modalTitle').textContent = type === 'income' ? 'Nova Receita' : type === 'expense' ? 'Nova Despesa' : 'Novo Investimento';
-            const categories = type === 'income' ? StorageService.get().categories.income : StorageService.get().categories.expense;
-            document.getElementById('inputCategory').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
-        }
+
         function saveTransaction(e) {
             e.preventDefault();
-            const transaction = { id: document.getElementById('transId').value || null, type: document.getElementById('inputType').value, amount: parseFloat(document.getElementById('inputAmount').value), category: document.getElementById('inputCategory').value, description: document.getElementById('inputDescription').value, date: document.getElementById('inputDate').value };
-            if (transaction.id) { StorageService.updateTransaction(transaction.id, transaction); showNotification('success', 'Atualizado', 'Transação atualizada com sucesso'); }
-            else { StorageService.saveTransaction(transaction); showNotification('success', 'Salvo', 'Transação adicionada com sucesso'); }
-            closeTransactionModal();
-            loadDashboard();
-            if (document.getElementById('page-receitas').classList.contains('active')) loadTransactions('income');
-            if (document.getElementById('page-despesas').classList.contains('active')) loadTransactions('expense');
+            const t = {
+                type: document.getElementById('transType').value,
+                amount: document.getElementById('transAmount').value,
+                date: document.getElementById('transDate').value,
+                category: document.getElementById('transCat').value,
+                desc: document.getElementById('transDesc').value
+            };
+            DB.addTrans(t);
+            closeModal('transModal');
+            showNotification('success', 'Sucesso', 'Transação salva!');
+            loadDashboard(); // Atualiza tudo em tempo real
+            if (document.getElementById('page-receitas').classList.contains('active')) renderList('income');
+            if (document.getElementById('page-despesas').classList.contains('active')) renderList('expense');
         }
-        function editTransaction(id) {
-            const t = StorageService.getTransactions().find(x => x.id === id);
-            if (!t) return;
-            document.getElementById('transId').value = t.id;
-            document.getElementById('inputType').value = t.type;
-            document.getElementById('inputAmount').value = t.amount;
-            document.getElementById('inputCategory').value = t.category;
-            document.getElementById('inputDescription').value = t.description || '';
-            document.getElementById('inputDate').value = t.date;
-            updateModalTitle();
-            document.getElementById('transactionModal').classList.add('active');
+
+        function renderList(type) {
+            const filter = document.getElementById(`filterCat${type === 'income' ? 'Inc' : 'Exp'}`)?.value || "";
+            const list = DB.getTrans().filter(t => t.type === type && (!filter || t.category === filter)).sort((a, b) => new Date(b.date) - new Date(a.date));
+            document.getElementById(`list-${type}`).innerHTML = list.length ? list.map(t => `
+                <div class="transaction-item">
+                    <div class="transaction-left">
+                        <div class="transaction-icon ${t.type}"><span class="material-symbols-rounded">${t.type === 'income' ? 'trending_up' : 'trending_down'}</span></div>
+                        <div class="transaction-details"><h4>${t.category}</h4><p>${t.desc} • ${fmtDate(t.date)}</p></div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div class="transaction-amount ${t.type}">${t.type === 'income' ? '+' : '-'}${fmtMoney(t.amount)}</div>
+                        <button class="icon-btn-small danger" onclick="DB.delTrans('${t.id}'); loadDashboard(); renderList('${type}')"><span class="material-symbols-rounded">delete</span></button>
+                    </div>
+                </div>
+            `).join('') : '<p style="text-align:center;color:var(--text-muted);padding:20px;">Nenhum registro.</p>';
         }
-        function deleteTransaction(id) {
-            if (!confirm('Tem certeza que deseja excluir esta transação?')) return;
-            StorageService.deleteTransaction(id);
-            showNotification('success', 'Excluído', 'Transação removida com sucesso');
-            loadDashboard();
-            if (document.getElementById('page-receitas').classList.contains('active')) loadTransactions('income');
-            if (document.getElementById('page-despesas').classList.contains('active')) loadTransactions('expense');
-        }
-        function loadWallets() {
-            const wallets = StorageService.getWallets();
-            const container = document.getElementById('walletsList');
-            if (wallets.length === 0) { container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 40px;">Nenhuma carteira cadastrada</p>'; return; }
-            const totalBalance = wallets.reduce((a, w) => a + (parseFloat(w.balance) || 0), 0);
-            container.innerHTML = `<div class="metric-card" style="margin-bottom: 24px;"><div class="metric-value">${FinanceCalc.formatCurrency(totalBalance)}</div><div class="metric-label">Saldo Total em Carteiras</div></div>` +
-                wallets.map(w => `
-<div class="wallet-card">
-<div style="display: flex; justify-content: space-between; align-items: start;">
-<div>
-<h3 style="margin-bottom: 8px;">${w.name}</h3>
-<p style="color: var(--text-secondary); font-size: 14px;">${w.institution || 'N/A'}</p>
-<p style="color: var(--text-secondary); font-size: 14px;">Tipo: ${w.type === 'checking' ? 'Corrente' : w.type === 'savings' ? 'Poupança' : w.type === 'investment' ? 'Investimento' : 'Crédito'}</p>
-</div>
-<div style="text-align: right;">
-<div style="font-size: 24px; font-weight: 700; color: var(--accent-green);">${FinanceCalc.formatCurrency(parseFloat(w.balance) || 0)}</div>
-<div style="font-size: 12px; color: var(--text-secondary);">Saldo Atual</div>
-</div>
-</div>
-<div style="display: flex; gap: 8px; margin-top: 16px;">
-<button class="icon-btn-small" onclick="editWallet('${w.id}')"><span class="material-symbols-rounded">edit</span></button>
-<button class="icon-btn-small danger" onclick="deleteWallet('${w.id}')"><span class="material-symbols-rounded">delete</span></button>
-</div>
-</div>`).join('');
-        }
-        function openWalletModal() {
-            document.getElementById('walletModal').classList.add('active');
-        }
-        function closeWalletModal() {
-            document.getElementById('walletModal').classList.remove('active');
-            document.getElementById('walletForm').reset();
-        }
+
+        // --- Wallets ---
+        function openWalletModal() { document.getElementById('walletModal').classList.add('active'); }
         function saveWallet(e) {
             e.preventDefault();
-            StorageService.saveWallet({
-                name: document.getElementById('walletName').value,
-                type: document.getElementById('walletType').value,
-                balance: parseFloat(document.getElementById('walletBalance').value) || 0,
-                institution: document.getElementById('walletInstitution').value
+            DB.addWallet({
+                name: document.getElementById('wName').value,
+                type: document.getElementById('wType').value,
+                balance: document.getElementById('wBalance').value
             });
-            showNotification('success', 'Salvo', 'Carteira adicionada com sucesso');
-            closeWalletModal();
+            closeModal('walletModal');
             loadWallets();
+            showNotification('success', 'Sucesso', 'Carteira adicionada');
         }
-        function editWallet(id) {
-            const w = StorageService.getWallets().find(x => x.id === id);
-            if (!w) return;
-            document.getElementById('walletName').value = w.name;
-            document.getElementById('walletType').value = w.type;
-            document.getElementById('walletBalance').value = w.balance;
-            document.getElementById('walletInstitution').value = w.institution || '';
-            document.getElementById('walletModal').classList.add('active');
+        function loadWallets() {
+            const list = DB.getWallets();
+            const total = list.reduce((a, b) => a + parseFloat(b.balance), 0);
+            document.getElementById('walletsList').innerHTML = `
+                <div class="metric-card" style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+                    <div><div style="color:var(--text-muted)">Total em Carteiras</div><div style="font-size:24px; font-weight:bold;">${fmtMoney(total)}</div></div>
+                </div>
+                ${list.map(w => `
+                <div class="wallet-card">
+                    <div style="display:flex; justify-content:space-between;">
+                        <div><h4>${w.name}</h4><p style="color:var(--text-muted);font-size:12px;">${w.type === 'checking' ? 'Corrente' : w.type === 'savings' ? 'Poupança' : 'Crédito'}</p></div>
+                        <div style="text-align:right;">
+                            <div style="font-weight:bold; color:var(--accent-green);">${fmtMoney(w.balance)}</div>
+                            <button class="icon-btn-small danger" style="margin-top:5px;" onclick="DB.delWallet('${w.id}'); loadWallets()"><span class="material-symbols-rounded" style="font-size:16px;">delete</span></button>
+                        </div>
+                    </div>
+                </div>`).join('')}
+            `;
         }
-        function deleteWallet(id) {
-            if (!confirm('Excluir esta carteira?')) return;
-            StorageService.deleteWallet(id);
-            showNotification('success', 'Excluído', 'Carteira removida');
-            loadWallets();
-        }
-        function loadInvestments() {
-            const investments = StorageService.getInvestments();
-            const totalInvested = investments.reduce((a, i) => a + i.amount, 0);
-            const totalYield = investments.reduce((a, i) => { if (!i.rate) return a; const days = Math.floor((new Date() - new Date(i.date)) / (1000 * 60 * 60 * 24)); const current = FinanceCalc.calculateYield(i.amount, i.rate, days, 'compound'); return a + (current - i.amount); }, 0);
-            document.getElementById('investmentMetrics').innerHTML = `
-<div class="metric-card"><div class="metric-value">${investments.length}</div><div class="metric-label">Investimentos</div></div>
-<div class="metric-card"><div class="metric-value">${FinanceCalc.formatCurrency(totalInvested)}</div><div class="metric-label">Total Aplicado</div></div>
-<div class="metric-card"><div class="metric-value">${FinanceCalc.formatCurrency(totalYield)}</div><div class="metric-label">Rendimentos</div></div>
-<div class="metric-card"><div class="metric-value">${totalInvested > 0 ? ((totalYield / totalInvested) * 100).toFixed(2) : 0}%</div><div class="metric-label">ROI</div></div>`;
-            const container = document.getElementById('investmentList');
-            if (investments.length === 0) { container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 40px;">Nenhum investimento registrado</p>'; return; }
-            container.innerHTML = investments.map(i => {
-                const days = Math.floor((new Date() - new Date(i.date)) / (1000 * 60 * 60 * 24));
-                const current = i.rate ? FinanceCalc.calculateYield(i.amount, i.rate, days, 'compound') : i.amount;
-                const yield_ = current - i.amount;
-                const roi = i.amount > 0 ? (yield_ / i.amount * 100) : 0;
-                return `
-<div class="investment-card">
-<div style="display: flex; justify-content: space-between; align-items: start;">
-<div>
-<h3 style="margin-bottom: 8px;">${i.name}</h3>
-<p style="color: var(--text-secondary); font-size: 14px;">${i.type === 'fixed' ? 'Renda Fixa' : i.type === 'variable' ? 'Renda Variável' : i.type === 'fund' ? 'Fundos' : 'Cripto'} • Aplicado em ${FinanceCalc.formatDate(i.date)}</p>
-</div>
-<div style="text-align: right;">
-<div style="font-size: 24px; font-weight: 700; color: var(--accent-green);">${FinanceCalc.formatCurrency(current)}</div>
-<div style="font-size: 12px; color: ${yield_ >= 0 ? 'var(--accent-green)' : '#ef4444'}">${yield_ >= 0 ? '+' : ''}${FinanceCalc.formatCurrency(yield_)} (${roi.toFixed(2)}%)</div>
-</div>
-</div>
-</div>`;
-            }).join('');
-            renderInvestmentChart();
-        }
-        function renderInvestmentChart() {
-            const investments = StorageService.getInvestments();
-            if (investments.length === 0) return;
-            const labels = investments.map(i => i.name.substring(0, 10));
-            const data = investments.map(i => { const days = Math.floor((new Date() - new Date(i.date)) / (1000 * 60 * 60 * 24)); return i.rate ? FinanceCalc.calculateYield(i.amount, i.rate, days, 'compound') : i.amount; });
-            if (window.investmentChart) window.investmentChart.destroy();
-            window.investmentChart = new ApexCharts(document.querySelector("#investmentChart"), {
-                series: [{ name: 'Valor Atual', data }],
-                chart: { type: 'bar', height: 300, toolbar: { show: false } },
-                colors: ['#8b5cf6'],
-                dataLabels: { enabled: false },
-                xaxis: { categories: labels, labels: { style: { colors: '#64748b' } } },
-                yaxis: { labels: { formatter: v => 'R$ ' + v.toFixed(0), style: { colors: '#64748b' } } },
-                tooltip: { y: { formatter: v => FinanceCalc.formatCurrency(v) } }
-            });
-            window.investmentChart.render();
-        }
-        function openInvestmentModal() {
-            document.getElementById('invDate').value = new Date().toISOString().split('T')[0];
-            document.getElementById('investmentModal').classList.add('active');
-        }
-        function closeInvestmentModal() {
-            document.getElementById('investmentModal').classList.remove('active');
-            document.getElementById('investmentForm').reset();
-        }
+
+        // --- Investments ---
+        function openInvestmentModal() { document.getElementById('invModal').classList.add('active'); }
         function saveInvestment(e) {
             e.preventDefault();
-            StorageService.saveInvestment({ name: document.getElementById('invName').value, amount: parseFloat(document.getElementById('invAmount').value), rate: parseFloat(document.getElementById('invRate').value) || 0, type: document.getElementById('invType').value, date: document.getElementById('invDate').value });
-            showNotification('success', 'Salvo', 'Investimento adicionado com sucesso');
-            closeInvestmentModal();
+            DB.addInv({
+                name: document.getElementById('iName').value,
+                amount: document.getElementById('iAmount').value,
+                rate: document.getElementById('iRate').value || 0
+            });
+            closeModal('invModal');
             loadInvestments();
+            showNotification('success', 'Sucesso', 'Investimento registrado');
         }
-        function loadGoals() {
-            const goals = StorageService.getGoals();
-            const container = document.getElementById('goalsList');
-            if (goals.length === 0) { container.innerHTML = `<div style="text-align: center; padding: 60px 20px; color: var(--text-muted);"><span class="material-symbols-rounded" style="font-size: 64px; opacity: 0.5;">target</span><h3 style="margin: 16px 0;">Nenhuma meta cadastrada</h3><button class="btn btn-primary" onclick="openGoalModal()" style="margin-top: 16px;"><span class="material-symbols-rounded">add</span> Nova Meta</button></div>`; return; }
-            container.innerHTML = goals.map(g => {
-                const progress = Math.min((g.saved / g.target) * 100, 100);
-                const daysLeft = Math.ceil((new Date(g.deadline) - new Date()) / (1000 * 60 * 60 * 24));
-                return `
-<div class="goal-item">
-<div class="goal-header">
-<div><div class="goal-name">${g.name}</div><div class="goal-target">Prazo: ${FinanceCalc.formatDate(g.deadline)} ${daysLeft > 0 ? `(${daysLeft} dias)` : '(Vencido)'}</div></div>
-<div style="display: flex; gap: 8px;">
-<button class="icon-btn-small" onclick="editGoal('${g.id}')"><span class="material-symbols-rounded">edit</span></button>
-<button class="icon-btn-small danger" onclick="deleteGoal('${g.id}')"><span class="material-symbols-rounded">delete</span></button>
-</div>
-</div>
-<div class="goal-progress"><div class="goal-progress-bar" style="width: ${progress}%"></div></div>
-<div class="goal-stats"><span>${FinanceCalc.formatCurrency(g.saved)} de ${FinanceCalc.formatCurrency(g.target)}</span><span style="font-weight: 600; color: var(--accent-blue);">${progress.toFixed(1)}%</span></div>
-</div>`;
-            }).join('');
+        function loadInvestments() {
+            const list = DB.getInv();
+            const total = list.reduce((a, b) => a + parseFloat(b.amount), 0);
+            document.getElementById('invMetrics').innerHTML = `<div class="metric-card"><div class="metric-value">${fmtMoney(total)}</div><div class="metric-label">Total Investido</div></div>`;
+            document.getElementById('investmentsList').innerHTML = list.map(i => `
+                <div class="investment-card">
+                    <div style="display:flex; justify-content:space-between;">
+                        <div><h4>${i.name}</h4><p style="color:var(--text-muted);font-size:12px;">Taxa: ${i.rate}% a.a.</p></div>
+                        <div style="text-align:right;">
+                            <div style="font-weight:bold; color:var(--accent-purple);">${fmtMoney(i.amount)}</div>
+                            <button class="icon-btn-small danger" style="margin-top:5px;" onclick="DB.delInv('${i.id}'); loadInvestments()"><span class="material-symbols-rounded" style="font-size:16px;">delete</span></button>
+                        </div>
+                    </div>
+                </div>
+            `).join('') || '<p style="text-align:center;color:var(--text-muted)">Nenhum investimento.</p>';
         }
-        function openGoalModal() {
-            document.getElementById('goalDeadline').value = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-            document.getElementById('goalModal').classList.add('active');
-        }
-        function closeGoalModal() {
-            document.getElementById('goalModal').classList.remove('active');
-            document.getElementById('goalForm').reset();
-        }
+
+        // --- Goals ---
+        function openGoalModal() { document.getElementById('goalModal').classList.add('active'); }
         function saveGoal(e) {
             e.preventDefault();
-            StorageService.saveGoal({ name: document.getElementById('goalName').value, target: parseFloat(document.getElementById('goalTarget').value), deadline: document.getElementById('goalDeadline').value, saved: parseFloat(document.getElementById('goalSaved').value) || 0 });
-            showNotification('success', 'Meta criada', 'Sua meta foi salva com sucesso');
-            closeGoalModal();
+            DB.addGoal({
+                name: document.getElementById('gName').value,
+                target: document.getElementById('gTarget').value,
+                saved: document.getElementById('gSaved').value
+            });
+            closeModal('goalModal');
             loadGoals();
+            showNotification('success', 'Sucesso', 'Meta criada');
         }
-        function editGoal(id) {
-            const g = StorageService.getGoals().find(x => x.id === id);
-            if (!g) return;
-            document.getElementById('goalName').value = g.name;
-            document.getElementById('goalTarget').value = g.target;
-            document.getElementById('goalDeadline').value = g.deadline;
-            document.getElementById('goalSaved').value = g.saved;
-            document.getElementById('goalModal').classList.add('active');
+        function loadGoals() {
+            const list = DB.getGoals();
+            document.getElementById('goalsList').innerHTML = list.map(g => {
+                const pct = Math.min(100, (parseFloat(g.saved) / parseFloat(g.target)) * 100);
+                return `
+                <div class="goal-item">
+                    <div style="display:flex; justify-content:space-between;">
+                        <h4>${g.name}</h4>
+                        <button class="icon-btn-small danger" onclick="DB.delGoal('${g.id}'); loadGoals()"><span class="material-symbols-rounded">delete</span></button>
+                    </div>
+                    <div class="goal-progress"><div class="goal-progress-bar" style="width:${pct}%"></div></div>
+                    <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--text-muted);">
+                        <span>${fmtMoney(g.saved)} de ${fmtMoney(g.target)}</span>
+                        <span style="color:var(--accent-blue); font-weight:bold;">${pct.toFixed(1)}%</span>
+                    </div>
+                </div>`;
+            }).join('') || '<p style="text-align:center;color:var(--text-muted)">Nenhuma meta cadastrada.</p>';
         }
-        function deleteGoal(id) {
-            if (!confirm('Excluir esta meta?')) return;
-            StorageService.deleteGoal(id);
-            showNotification('success', 'Excluído', 'Meta removida');
-            loadGoals();
-        }
-        function loadSettings() {
-            const user = StorageService.getUser();
-            document.getElementById('settingsCurrency').value = user.settings.currency;
-            document.getElementById('settingsClosingDay').value = user.settings.closingDay;
-        }
-        function saveSettings() {
-            const user = StorageService.getUser();
-            user.settings = { ...user.settings, currency: document.getElementById('settingsCurrency').value, closingDay: parseInt(document.getElementById('settingsClosingDay').value) };
-            StorageService.saveUser(user);
-            showNotification('success', 'Salvo', 'Configurações atualizadas');
-            loadDashboard();
-        }
-        function resetSettings() {
-            if (!confirm('Restaurar configurações padrão?')) return;
-            const user = StorageService.getUser();
-            user.settings = { currency: 'BRL', closingDay: 5, revenueShare: { bank: 40, bureau: 35, finoraqi: 25 }, notifications: { goals: true, autoCategorize: true } };
-            StorageService.saveUser(user);
-            loadSettings();
-            showNotification('success', 'Restaurado', 'Configurações padrão aplicadas');
-        }
+
+        // --- Profile & Photo ---
         function loadProfile() {
-            const user = StorageService.getUser();
-            document.getElementById('profileName').textContent = user.name;
-            document.getElementById('profileEmail').textContent = user.email;
-            document.getElementById('profileAvatar').textContent = user.name.charAt(0).toUpperCase();
-            document.getElementById('inputName').value = user.name;
-            document.getElementById('inputEmail').value = user.email;
+            const u = DB.getUser();
+            document.getElementById('inputName').value = u.name;
+            document.getElementById('inputEmail').value = u.email;
+            document.getElementById('displayName').innerText = u.name;
+            document.getElementById('displayEmail').innerText = u.email;
+
+            const img = document.getElementById('profilePreview');
+            if (u.photo) { img.src = u.photo; img.style.display = 'block'; }
+            else { img.style.display = 'none'; }
         }
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profilePreview').src = e.target.result;
+                    document.getElementById('profilePreview').style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         function saveProfile() {
-            const user = StorageService.getUser();
-            user.name = document.getElementById('inputName').value;
-            StorageService.saveUser(user);
-            document.getElementById('headerName').textContent = user.name;
-            document.getElementById('headerAvatar').textContent = user.name.charAt(0).toUpperCase();
-            document.getElementById('profileName').textContent = user.name;
-            document.getElementById('profileAvatar').textContent = user.name.charAt(0).toUpperCase();
-            showNotification('success', 'Perfil atualizado', 'Suas informações foram salvas');
+            const u = DB.getUser();
+            u.name = document.getElementById('inputName').value;
+            u.email = document.getElementById('inputEmail').value;
+            // Se houver uma nova foto carregada (src diferente do padrão ou vazio), salva
+            const currentSrc = document.getElementById('profilePreview').src;
+            if (currentSrc && !currentSrc.includes('data:image') && currentSrc !== window.location.href) {
+                // Lógica simplificada: assume que se mudou o src via FileReader, já está em base64
+            }
+            if (document.getElementById('profilePreview').style.display === 'block' && document.getElementById('profilePreview').src.startsWith('data')) {
+                u.photo = document.getElementById('profilePreview').src;
+            }
+
+            DB.saveUser(u);
+            loadProfile();
+            updateUserUI(u);
+            showNotification('success', 'Perfil Atualizado', 'Dados salvos no dispositivo.');
         }
-        function exportReportXLSX() {
-            const startDate = document.getElementById('reportStartDate').value;
-            const endDate = document.getElementById('reportEndDate').value;
-            const reportType = document.getElementById('reportType').value;
-            const data = StorageService.get();
-            let exportData = [];
-            let sheetName = 'Relatório';
-            if (reportType === 'all' || reportType === 'income' || reportType === 'expense') {
-                let transactions = data.transactions;
-                if (startDate && endDate) { transactions = transactions.filter(t => t.date >= startDate && t.date <= endDate); }
-                if (reportType === 'income') { transactions = transactions.filter(t => t.type === 'income'); sheetName = 'Receitas'; }
-                if (reportType === 'expense') { transactions = transactions.filter(t => t.type === 'expense'); sheetName = 'Despesas'; }
-                exportData = transactions.map(t => ({ Data: t.date, Tipo: t.type === 'income' ? 'Receita' : 'Despesa', Categoria: t.category, Descrição: t.description || '', Valor: t.amount }));
-            }
-            if (reportType === 'investments') {
-                exportData = data.investments.map(i => ({ Nome: i.name, Tipo: i.type, Valor: i.amount, Taxa: i.rate || 0, Data: i.date }));
-                sheetName = 'Investimentos';
-            }
-            if (reportType === 'wallets') {
-                exportData = data.wallets.map(w => ({ Nome: w.name, Tipo: w.type, Saldo: w.balance || 0, Instituicao: w.institution || '' }));
-                sheetName = 'Carteiras';
-            }
-            if (exportData.length === 0) { showNotification('info', 'Atenção', 'Nenhum dado para exportar no período selecionado'); return; }
-            const ws = XLSX.utils.json_to_sheet(exportData);
+
+        function updateUserUI(u) {
+            document.getElementById('headerName').innerText = u.name;
+            const av = document.getElementById('headerAvatar');
+            if (u.photo) av.innerHTML = `<img src="${u.photo}">`;
+            else av.innerHTML = u.name.charAt(0).toUpperCase();
+        }
+
+        // --- Reports & Export ---
+        function exportToExcel() {
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, sheetName);
-            const fileName = `finoraqi-relatorio-${sheetName}-${new Date().toISOString().split('T')[0]}.xlsx`;
-            XLSX.writeFile(wb, fileName);
-            showNotification('success', 'Exportado', `Relatório ${sheetName} exportado com sucesso!`);
+            const wsTrans = XLSX.utils.json_to_sheet(DB.getTrans());
+            XLSX.utils.book_append_sheet(wb, wsTrans, "Transacoes");
+            const wsWall = XLSX.utils.json_to_sheet(DB.getWallets());
+            XLSX.utils.book_append_sheet(wb, wsWall, "Carteiras");
+            XLSX.writeFile(wb, "FinoraQi_Backup.xlsx");
+            showNotification('success', 'Exportado', 'Arquivo baixado!');
         }
-        function exportData() {
-            const data = StorageService.get();
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `finoraqi-backup-${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showNotification('success', 'Exportado', 'Backup baixado com sucesso');
+
+        function clearAllData() {
+            if (confirm("Tem certeza? Isso apagará TODOS os dados permanentemente.")) {
+                DB.clear();
+            }
         }
+
+        // --- Global Search ---
+        document.getElementById('globalSearch').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            if (!term) { loadDashboard(); return; }
+            const res = DB.getTrans().filter(t => t.category.toLowerCase().includes(term) || (t.desc && t.desc.toLowerCase().includes(term)));
+            showNotification('info', 'Busca', `${res.length} resultados encontrados`);
+        });
+
         function showNotification(type, title, msg) {
             const n = document.createElement('div');
             n.className = `notification ${type}`;
-            n.innerHTML = `<span class="material-symbols-rounded">${type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info'}</span><div><strong>${title}</strong><p>${msg}</p></div>`;
+            n.innerHTML = `<span class="material-symbols-rounded">${type === 'success' ? 'check_circle' : 'info'}</span><div><strong>${title}</strong><br><small>${msg}</small></div>`;
             document.body.appendChild(n);
-            setTimeout(() => n.classList.add('show'), 100);
-            setTimeout(() => { n.classList.remove('show'); setTimeout(() => n.remove(), 300); }, 5000);
+            setTimeout(() => n.classList.add('show'), 10);
+            setTimeout(() => { n.classList.remove('show'); setTimeout(() => n.remove(), 300); }, 4000);
         }
-        document.addEventListener('DOMContentLoaded', function () {
-            StorageService.init();
-            loadDashboard();
-            document.getElementById('globalSearch')?.addEventListener('input', function (e) {
-                const term = e.target.value.toLowerCase();
-                if (!term) { loadDashboard(); return; }
-                const transactions = StorageService.getTransactions().filter(t => t.category?.toLowerCase().includes(term) || t.description?.toLowerCase().includes(term));
-                showNotification('info', 'Busca', `${transactions.length} resultado(s) encontrado(s)`);
-            });
-            document.getElementById('reportStartDate').value = new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split('T')[0];
-            document.getElementById('reportEndDate').value = new Date().toISOString().split('T')[0];
-            setInterval(loadDashboard, 60000);
-        });
 
-        async function loadDashboard() {
-            const user = JSON.parse(localStorage.getItem('finoraqi_user'));
-            const res = await fetch(`/api/v1/user/${user.id}/summary`, {
-                headers: { 'Authorization': `Bearer ${user.token}` }
-            });
-            const data = await res.json();
-            // Renderiza cards e gráfico com os dados
-        }
+        // Init
+        DB.init();
+        loadDashboard();
     </script>
 </body>
 
