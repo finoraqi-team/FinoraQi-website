@@ -902,6 +902,83 @@
                 font-size: 24px;
             }
         }
+
+         .partners-section {
+            background: linear-gradient(135deg, rgba(123, 44, 191, 0.95) 0%, rgba(0, 212, 255, 0.95) 100%);
+            /* padding: 4rem; */
+            position: flex;
+            /* z-index: 10; */
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            height: 90px;
+        }
+
+        .partners-slider {
+            position: center;
+            width: 100%;
+            overflow: hidden;
+            /* padding: 1rem 0; */
+        }
+
+        .partners-track {
+            display: flex;
+            gap: 5rem;
+            animation: slidePartners 25s linear infinite;
+            width: max-content;
+            will-change: transform;
+        }
+
+        @keyframes slidePartners {
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+
+            /* Move metade para criar loop */
+        }
+
+
+        .partners-track:hover {
+            animation-play-state: paused;
+        }
+
+        .partner-logo {
+            width: 180px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            border: 2px solid rgba(5, 146, 87, 0.048);
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .partner-logo:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0);
+            border-color: #4e088f;
+            box-shadow: 0 10px 30px rgba(0, 255, 115, 0.116);
+        }
+
+        .partner-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+
+        .partner-logo:hover img {
+            filter: none;
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -967,7 +1044,7 @@
                             class="material-symbols-rounded">remove_circle</span></button>
                     <div class="user-profile" onclick="navigateTo('perfil')">
                         <div class="user-avatar" id="headerAvatar">U</div>
-                        <span id="headerName">You</span>
+                        <span id="headerName">Usuário</span>
                     </div>
                     <button class="btn btn-ghost btn-sm" onclick="window.location.href='index.html'"><span
                             class="material-symbols-rounded">logout</span></button>
@@ -1139,7 +1216,7 @@
                                 <input type="file" id="photoInput" class="file-input" accept="image/*"
                                     onchange="previewImage(this)">
                             </div>
-                            <h3 id="displayName">User</h3>
+                            <h3 id="displayName">Usuário</h3>
                             <p style="color:var(--text-muted);" id="displayEmail">email@exemplo.com</p>
                         </div>
                         <div class="form-group" style="margin-top:30px;">
@@ -1272,12 +1349,77 @@
         </div>
     </div>
 
+     <section class="partners-section" id="parceiros">
+        <div class="container">
+            <div class="partners-slider">
+                <div class="partners-track">
+                    <div class="partner-logo">
+                        <img src="proa.png" alt="Proa">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="dataprev.jpg" alt="Dataprev">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="serasa.png" alt="Serasa">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="spc.jpg" alt="spc">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="proa.png" alt="Proa">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="dataprev.jpg" alt="Dataprev">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="serasa.png" alt="Serasa">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="spc.jpg" alt="spc">
+                    </div>
+                    <!-- <div class="partner-logo">
+                        <img src="assets/logo-parceiro-3.png" alt="Parceiro 3">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="assets/logo-parceiro-4.png" alt="Parceiro 4">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="assets/logo-parceiro-5.png" alt="Parceiro 5">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="assets/logo-parceiro-6.png" alt="Parceiro 6">
+                    </div> -->
+                </div>
+                <!-- <div class="partners-track"> -->
+                <!-- <div class="partner-logo">
+                        <img src="assets/lead.png" alt="PROA">
+                    </div> -->
+                <!-- <div class="partner-logo">
+                        <img src="assets/lead-2.png" alt="Serasa Experience">
+                    </div> -->
+                <!-- <div class="partner-logo">
+                        <img src="assets/logo-parceiro-3.png" alt="Parceiro 3">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="assets/logo-parceiro-4.png" alt="Parceiro 4">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="assets/logo-parceiro-5.png" alt="Parceiro 5">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="assets/logo-parceiro-6.png" alt="Parceiro 6">
+                    </div> -->
+                <!-- </div>
+            </div> -->
+            </div>
+    </section>
+
     <script>
         // --- Storage Service (Local Database) ---
         const DB = {
             key: 'finoraqi_db_v2',
             data: {
-                user: { name: 'You', email: 'you@finoraqi.com', photo: null },
+                user: { name: 'Usuário', email: 'user@finoraqi.com', photo: null },
                 transactions: [],
                 wallets: [],
                 investments: [],
