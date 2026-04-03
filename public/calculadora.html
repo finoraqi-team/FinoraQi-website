@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinoraQi® • Calculadora de Score</title>
+    <link rel="icon" type="logo" href="../public/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        .page-wrapper { min-height: 100vh; display: flex; flex-direction: column; }
+        
+      header {
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background: rgba(15, 12, 41, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .logo { display: flex; align-items: center; gap: 0.75rem; cursor: pointer; }
+        .logo img {
+            width: 40px; height: 40px; border-radius: 50%;
+            animation: rotate 10s linear infinite;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+        @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .logo-text { font-size: 1.5rem; font-weight: 700; }
+        .logo-text span { color: #b700ff; }
+        .back-btn {
+            display: flex; align-items: center; gap: 0.5rem;
+            color: rgba(255,255,255,0.85); text-decoration: none;
+            font-weight: 500; transition: all 0.3s; padding: 0.5rem 1rem;
+            border-radius: 8px; background: rgba(255,255,255,0.1);
+        }
+        .back-btn:hover { background: rgba(0, 212, 255, 0.2); color: #00d4ff; transform: translateX(-3px); }
+        
+        .calc-hero {
+            text-align: center;
+            padding: 3rem 2rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .calc-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00d4ff, #b700ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .calc-hero p {
+            color: rgba(255,255,255,0.85);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        .score-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        .score-badge i { color: #ffd700; }
+        
+        .calc-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+            flex: 1;
+        }
+        
+        .calc-form {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        .form-section { margin-bottom: 1.75rem; }
+        .form-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #00d4ff;
+        }
+        .form-section h3 i { font-size: 1.1rem; }
+        
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.9);
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.85rem 1.25rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+            outline: none;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #00d4ff;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.2);
+        }
+        .form-group input::placeholder { color: rgba(255,255,255,0.5); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        
+        .range-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .range-header { display: flex; justify-content: space-between; font-size: 0.9rem; }
+        .range-value { color: #00d4ff; font-weight: 600; }
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #b700ff);
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
+        }
+        input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .checkbox-group:hover { background: rgba(255,255,255,0.1); }
+        .checkbox-group input {
+            width: 18px; height: 18px;
+            accent-color: #00d4ff;
+            cursor: pointer;
+        }
+        
+        .btn-calculate {
+            width: 100%;
+            padding: 1.1rem;
+            background: linear-gradient(135deg, #00d4ff, #b700ff);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        .btn-calculate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
+        }
+        .btn-calculate:active { transform: translateY(-1px); }
+        .btn-calculate.loading { opacity: 0.85; cursor: wait; }
+        .btn-calculate .spinner {
+            display: none;
+            width: 20px; height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .btn-calculate.loading .spinner { display: inline-block; }
+        .btn-calculate.loading .btn-text { opacity: 0.9; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .calc-result {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+        .calc-result::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .result-placeholder {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.1rem;
+            max-width: 300px;
+        }
+        .result-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+            display: block;
+        }
+        
+        .score-display {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.6s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .score-gauge {
+            position: relative;
+            width: 220px;
+            height: 110px;
+            margin: 1.5rem 0;
+        }
+        .gauge-bg {
+            position: absolute;
+            width: 220px; height: 110px;
+            border-radius: 110px 110px 0 0;
+            background: conic-gradient(
+                #ef4444 0% 20%,
+                #f97316 20% 40%,
+                #eab308 40% 60%,
+                #22c55e 60% 80%,
+                #10b981 80% 100%
+            );
+            clip-path: inset(0 0 50% 0 round 110px 110px 0 0);
+        }
+        .gauge-mask {
+            position: absolute;
+            width: 160px; height: 80px;
+            background: #1e1b4b;
+            border-radius: 80px 80px 0 0;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+        }
+        .gauge-needle {
+            position: absolute;
+            width: 4px; height: 90px;
+            background: white;
+            bottom: 5px; left: 50%;
+            transform-origin: bottom center;
+            transform: translateX(-50%) rotate(-90deg);
+            border-radius: 2px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.7);
+            transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+        }
+        .gauge-center {
+            position: absolute;
+            width: 24px; height: 24px;
+            background: white;
+            border-radius: 50%;
+            bottom: -8px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 11;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .score-value {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin: 1rem 0 0.5rem;
+            background: linear-gradient(135deg, #fff, #b700ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+        .score-label {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.15);
+        }
+        .score-label.ruim { color: #ef4444; }
+        .score-label.regular { color: #f97316; }
+        .score-label.bom { color: #eab308; }
+        .score-label.otimo { color: #22c55e; }
+        .score-label.excelente { color: #10b981; }
+        
+        .score-scale {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 300px;
+            margin: 1.5rem 0;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .scale-item { text-align: center; }
+        .scale-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            margin: 0 auto 4px;
+            background: rgba(255,255,255,0.5);
+        }
+        
+        .score-tips {
+            width: 100%;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            text-align: left;
+        }
+        .score-tips h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #00d4ff;
+        }
+        .tips-list { list-style: none; }
+        .tips-list li {
+            padding: 0.6rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.85);
+        }
+        .tips-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .btn-share {
+            margin-top: 1.5rem;
+            padding: 0.75rem 2rem;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-share:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+        
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+        .info-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: transform 0.3s;
+        }
+        .info-card:hover { transform: translateY(-5px); }
+        .info-card i {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+        .info-card.ruim i { color: #ef4444; }
+        .info-card.regular i { color: #f97316; }
+        .info-card.bom i { color: #eab308; }
+        .info-card.otimo i { color: #22c55e; }
+        .info-card.excelente i { color: #10b981; }
+        .info-card h4 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .info-card p { font-size: 0.9rem; color: rgba(255,255,255,0.8); }
+        .score-range { font-weight: 600; margin-top: 0.25rem; display: block; }
+        
+        footer {
+            background: rgba(15, 12, 41, 0.95);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+        footer p { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+        footer a { color: #00d4ff; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        
+        @media (max-width: 900px) {
+            .calc-container { grid-template-columns: 1fr; padding: 0 1.5rem; }
+            .calc-hero h1 { font-size: 2rem; }
+            .score-value { font-size: 3.5rem; }
+            .score-gauge { width: 180px; height: 90px; }
+            .gauge-bg, .gauge-mask { width: 180px; height: 90px; border-radius: 90px 90px 0 0; }
+            .gauge-mask { width: 130px; height: 65px; border-radius: 65px 65px 0 0; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            header { padding: 0.75rem 1.5rem; }
+            .logo-text { font-size: 1.3rem; }
+            .calc-hero { padding: 2rem 1.5rem 1.5rem; }
+            .calc-hero h1 { font-size: 1.75rem; }
+            .calc-container, .info-cards { padding: 0 1rem; }
+            .calc-form, .calc-result { padding: 1.5rem; border-radius: 20px; }
+            .score-value { font-size: 3rem; }
+            .score-gauge { width: 160px; height: 80px; }
+            .gauge-bg, .gauge-mask { width: 160px; height: 80px; border-radius: 80px 80px 0 0; }
+            .gauge-mask { width: 115px; height: 58px; border-radius: 58px 58px 0 0; }
+            .footer-container { padding: 0 1rem; }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px; height: 10px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: confetti-fall 3s ease-in-out forwards;
+            pointer-events: none;
+            z-index: 10000;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header>
+            <div class="logo" onclick="window.location.href='index.html'">
+                <img src="../public/logo.png" alt="FinoraQi">
+                <div class="logo-text">Finora<span>Qi</span></div>
+            </div>
+            <a href="index.html#contato" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Voltar ao Site
+            </a>
+        </header>
+        
+        <section class="calc-hero">
+            <div class="score-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>Simulação baseada em critérios Serasa/SPC</span>
+            </div>
+            <h1>Calculadora de Score de Crédito</h1>
+            <p>Preencha os dados abaixo para simular seu score de crédito. Lembre-se: esta é uma estimativa educativa. Seu score real depende de múltiplos fatores analisados pelos bureaus de crédito.</p>
+        </section>
+        
+        <div class="calc-container">
+            <div class="calc-form">
+                <div class="form-section">
+                    <h3><i class="fas fa-user"></i> Dados Pessoais</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="age">Idade</label>
+                            <select id="age">
+                                <option value="18-24">18-24 anos</option>
+                                <option value="25-34" selected>25-34 anos</option>
+                                <option value="35-44">35-44 anos</option>
+                                <option value="45-54">45-54 anos</option>
+                                <option value="55+">55+ anos</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="income">Renda Mensal (R$)</label>
+                            <input type="number" id="income" placeholder="Ex: 3500" min="0" value="3500">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3><i class="fas fa-credit-card"></i> Histórico Financeiro</h3>
+                    <div class="form-group">
+                        <label>Tempo de relacionamento com bancos</label>
+                        <div class="range-group">
+                            <div class="range-header">
+                                <span>Novo cliente</span>
+                                <span class="range-value" id="bankingYearsValue">5 anos</span>
+                                <span>10+ anos</span>
+                            </div>
+                            <input type="range" id="bankingYears" min="0" max="10" value="5">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Quantidade de contas ativas</label>
+                        <div class="range-group">
+                            <div class="range-header">
+                                <span>1 conta</span>
+                                <span class="range-value" id="accountsValue">3 contas</span>
+                                <span>10+ contas</span>
+                            </div>
+                            <input type="range" id="accounts" min="1" max="10" value="3">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Comportamento de Pagamento</h3>
+                    
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="latePayments" checked>
+                        <span>Já teve pagamentos em atraso nos últimos 12 meses</span>
+                    </label>
+                    
+                    <label class="checkbox-group" style="margin-top: 0.75rem;">
+                        <input type="checkbox" id="protests" checked>
+                        <span>Teve nome protestado ou negativado</span>
+                    </label>
+                    
+                    <label class="checkbox-group" style="margin-top: 0.75rem;">
+                        <input type="checkbox" id="creditCards" checked>
+                        <span>Utiliza cartão de crédito com frequência</span>
+                    </label>
+                    
+                    <div class="form-group" style="margin-top: 1.25rem;">
+                        <label>Utilização do limite do cartão</label>
+                        <div class="range-group">
+                            <div class="range-header">
+                                <span>0%</span>
+                                <span class="range-value" id="creditUsageValue">40%</span>
+                                <span>100%</span>
+                            </div>
+                            <input type="range" id="creditUsage" min="0" max="100" value="40">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3><i class="fas fa-search"></i> Consultas Recentes</h3>
+                    <div class="form-group">
+                        <label>Consultas ao CPF nos últimos 6 meses</label>
+                        <div class="range-group">
+                            <div class="range-header">
+                                <span>0 consultas</span>
+                                <span class="range-value" id="inquiriesValue">3 consultas</span>
+                                <span>10+ consultas</span>
+                            </div>
+                            <input type="range" id="inquiries" min="0" max="10" value="3">
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn-calculate" id="calculateBtn">
+                    <span class="spinner"></span>
+                    <span class="btn-text">Calcular Meu Score</span>
+                </button>
+            </div>
+            
+            <div class="calc-result">
+                <div class="result-placeholder" id="placeholder">
+                    <i class="fas fa-calculator"></i>
+                    <p>Preencha os dados e clique em "Calcular Meu Score" para ver sua estimativa.</p>
+                </div>
+                
+                <div class="score-display" id="scoreDisplay">
+                    <h3>Seu Score Estimado</h3>
+                    
+                    <div class="score-gauge">
+                        <div class="gauge-bg"></div>
+                        <div class="gauge-mask"></div>
+                        <div class="gauge-needle" id="gaugeNeedle"></div>
+                        <div class="gauge-center"></div>
+                    </div>
+                    
+                    <div class="score-value" id="scoreValue">720</div>
+                    <div class="score-label bom" id="scoreLabel">Bom</div>
+                    
+                    <div class="score-scale">
+                        <div class="scale-item">
+                            <div class="scale-dot" style="background:#ef4444"></div>
+                            <span>0-300</span>
+                        </div>
+                        <div class="scale-item">
+                            <div class="scale-dot" style="background:#f97316"></div>
+                            <span>301-500</span>
+                        </div>
+                        <div class="scale-item">
+                            <div class="scale-dot" style="background:#eab308"></div>
+                            <span>501-700</span>
+                        </div>
+                        <div class="scale-item">
+                            <div class="scale-dot" style="background:#22c55e"></div>
+                            <span>701-850</span>
+                        </div>
+                        <div class="scale-item">
+                            <div class="scale-dot" style="background:#10b981"></div>
+                            <span>851-1000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="score-tips">
+                        <h4><i class="fas fa-lightbulb"></i> Dicas para melhorar seu score</h4>
+                        <ul class="tips-list" id="tipsList">
+                            <li>Mantenha suas contas em dia e evite atrasos</li>
+                            <li>Utilize menos de 30% do limite do seu cartão</li>
+                            <li>Evite muitas consultas ao seu CPF em curto período</li>
+                            <li>Mantenha relacionamento ativo com instituições financeiras</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn-share" id="shareBtn">
+                        <i class="fas fa-share-alt"></i> Compartilhar Resultado
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-cards">
+            <div class="info-card ruim">
+                <i class="fas fa-exclamation-circle"></i>
+                <h4>Ruim</h4>
+                <p>Dificuldade para obter crédito</p>
+                <span class="score-range">0 - 300</span>
+            </div>
+            <div class="info-card regular">
+                <i class="fas fa-minus-circle"></i>
+                <h4>Regular</h4>
+                <p>Crédito com restrições</p>
+                <span class="score-range">301 - 500</span>
+            </div>
+            <div class="info-card bom">
+                <i class="fas fa-check-circle"></i>
+                <h4>Bom</h4>
+                <p>Boas condições de crédito</p>
+                <span class="score-range">501 - 700</span>
+            </div>
+            <div class="info-card otimo">
+                <i class="fas fa-star"></i>
+                <h4>Ótimo</h4>
+                <p>Melhores taxas e limites</p>
+                <span class="score-range">701 - 850</span>
+            </div>
+            <div class="info-card excelente">
+                <i class="fas fa-crown"></i>
+                <h4>Excelente</h4>
+                <p>Acesso privilegiado ao crédito</p>
+                <span class="score-range">851 - 1000</span>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2030 <a href="index.html">FinoraQi®</a>. Todos os direitos reservados.<br>
+            <small style="opacity:0.7;">Esta calculadora é uma simulação educativa. Consulte <a href="https://www.serasa.com.br" target="_blank">Serasa</a> para seu score oficial.</small></p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.getElementById('bankingYears').addEventListener('input', function() {
+            document.getElementById('bankingYearsValue').textContent = this.value + ' anos';
+        });
+        document.getElementById('accounts').addEventListener('input', function() {
+            document.getElementById('accountsValue').textContent = this.value + ' contas';
+        });
+        document.getElementById('creditUsage').addEventListener('input', function() {
+            document.getElementById('creditUsageValue').textContent = this.value + '%';
+        });
+        document.getElementById('inquiries').addEventListener('input', function() {
+            document.getElementById('inquiriesValue').textContent = this.value + ' consultas';
+        });
+        
+        function calculateScore() {
+            let score = 500;
+            
+            // Fatores de renda --------------------------------------------------------------------------------
+            const income = parseInt(document.getElementById('income').value) || 0;
+            if (income >= 5000) score += 80;
+            else if (income >= 3000) score += 50;
+            else if (income >= 1500) score += 20;
+            else score -= 30;
+            
+            const age = document.getElementById('age').value;
+            if (age === '35-44' || age === '45-54') score += 30;
+            else if (age === '25-34') score += 15;
+            else if (age === '55+') score += 10;
+            else score -= 10;
+            
+            const bankingYears = parseInt(document.getElementById('bankingYears').value);
+            score += bankingYears * 8;
+            
+            const accounts = parseInt(document.getElementById('accounts').value);
+            if (accounts >= 3 && accounts <= 6) score += 25;
+            else if (accounts > 6) score += 10;
+            else score -= 15;
+            
+            if (!document.getElementById('latePayments').checked) score += 70;
+            else score -= 40;
+            
+            if (!document.getElementById('protests').checked) score += 90;
+            else score -= 120;
+            
+            if (document.getElementById('creditCards').checked) {
+                const creditUsage = parseInt(document.getElementById('creditUsage').value);
+                if (creditUsage <= 30) score += 40;
+                else if (creditUsage <= 60) score += 10;
+                else score -= 30;
+            } else {
+                score -= 20;
+            }
+            
+            const inquiries = parseInt(document.getElementById('inquiries').value);
+            if (inquiries <= 2) score += 20;
+            else if (inquiries <= 4) score += 5;
+            else score -= inquiries * 8;
+            
+            score = Math.max(0, Math.min(1000, Math.round(score)));
+            
+            return score;
+        }
+        
+        function getScoreClassification(score) {
+            if (score <= 300) return { label: 'Ruim', class: 'ruim', color: '#ef4444' };
+            if (score <= 500) return { label: 'Regular', class: 'regular', color: '#f97316' };
+            if (score <= 700) return { label: 'Bom', class: 'bom', color: '#eab308' };
+            if (score <= 850) return { label: 'Ótimo', class: 'otimo', color: '#22c55e' };
+            return { label: 'Excelente', class: 'excelente', color: '#10b981' };
+        }
+        
+        function updateGauge(score) {
+            const angle = (score / 1000) * 180 - 90;
+            document.getElementById('gaugeNeedle').style.transform = `translateX(-50%) rotate(${angle}deg)`;
+        }
+        
+        function generateTips(score, classification) {
+            const tips = [];
+            
+            if (score < 500) {
+                tips.push('Regularize dívidas pendentes para remover restrições');
+                tips.push('Evite novas consultas ao CPF por 3-6 meses');
+                tips.push('Comece com um cartão de crédito com limite baixo');
+            }
+            if (score < 700) {
+                tips.push('Mantenha utilização do cartão abaixo de 30% do limite');
+                tips.push('Pague sempre a fatura total, não apenas o mínimo');
+            }
+            if (score >= 700) {
+                tips.push('Continue mantendo pagamentos em dia');
+                tips.push('Diversifique tipos de crédito (consignado, pessoal, etc.)');
+            }
+            if (score >= 850) {
+                tips.push('Mantenha seu excelente histórico com monitoramento constante');
+                tips.push('Considere produtos financeiros premium com melhores benefícios');
+            }
+            
+            const defaultTips = [
+                'Monitore seu score mensalmente',
+                'Mantenha dados cadastrais atualizados',
+                'Evite fechar contas antigas sem necessidade',
+                'Use o crédito de forma consciente e planejada'
+            ];
+            
+            while (tips.length < 4) {
+                const randomTip = defaultTips[Math.floor(Math.random() * defaultTips.length)];
+                if (!tips.includes(randomTip)) tips.push(randomTip);
+            }
+            
+            return tips.slice(0, 4);
+        }
+        
+        function createConfetti() {
+            const colors = ['#ffd700', '#00d4ff', '#b700ff', '#10b981', '#ef4444'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.style.width = (Math.random() * 8 + 6) + 'px';
+                confetti.style.height = confetti.style.width;
+                document.body.appendChild(confetti);
+                
+              setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+        
+        document.getElementById('calculateBtn').addEventListener('click', async function() {
+            const btn = this;
+            const placeholder = document.getElementById('placeholder');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            
+            btn.classList.add('loading');
+            btn.disabled = true;
+            
+            await new Promise(resolve => setTimeout(resolve, 1200));
+            
+            const score = calculateScore();
+            const classification = getScoreClassification(score);
+            
+            placeholder.style.display = 'none';
+            scoreDisplay.style.display = 'flex';
+            
+            document.getElementById('scoreValue').textContent = score;
+            const scoreLabel = document.getElementById('scoreLabel');
+            scoreLabel.textContent = classification.label;
+            scoreLabel.className = 'score-label ' + classification.class;
+            
+            updateGauge(score);
+            
+            const tips = generateTips(score, classification);
+            const tipsList = document.getElementById('tipsList');
+            tipsList.innerHTML = tips.map(tip => `<li>${tip}</li>`).join('');
+            
+            if (score >= 850) {
+                createConfetti();
+            }
+            
+            btn.classList.remove('loading');
+            btn.disabled = false;
+            
+            if (window.innerWidth < 900) {
+                scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+        
+        document.getElementById('shareBtn').addEventListener('click', function() {
+            const score = document.getElementById('scoreValue').textContent;
+            const label = document.getElementById('scoreLabel').textContent;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Meu Score FinoraQi',
+                    text: `Meu score estimado é ${score} - ${label}! Calcule o seu em finoraqi.com`,
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                const text = `📊 Meu Score FinoraQi: ${score} - ${label}\n\nCalcule o seu score em: ${window.location.href}`;
+                navigator.clipboard.writeText(text).then(() => {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                    setTimeout(() => { this.innerHTML = originalText; }, 2000);
+                });
+            }
+        });
+        
+        document.querySelectorAll('input[type="range"]').forEach(slider => {
+            slider.dispatchEvent(new Event('input'));
+        });
+    </script>
+</body>
+</html>
