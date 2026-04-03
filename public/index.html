@@ -8,6 +8,7 @@
     <link rel="icon" type="logo" href="../public/logo.png">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -65,6 +66,10 @@
             justify-content: center;
         }
 
+        .logoo {
+
+        }
+
         .logo img {
             width: 45px;
             height: 45px;
@@ -79,26 +84,21 @@
         }
 
         @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
+/* 
         .logo-text {
             font-size: 2rem;
             font-weight: 700;
             text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2);
-        }
+        } */
 
-        .logo-subtitle {
+        /* .logo-subtitle {
             font-size: 0.9rem;
             opacity: 0.9;
             margin-top: -5px;
-        }
+        } */
 
         nav {
             display: flex;
@@ -125,9 +125,7 @@
             transition: width 0.3s;
         }
 
-        nav a:hover::after {
-            width: 100%;
-        }
+        nav a:hover::after { width: 100%; }
 
         .btn-login {
             background: linear-gradient(135deg, #ffd700, #ffb700);
@@ -252,47 +250,26 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
-                box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-            }
-
-            50% {
-                box-shadow: 0 10px 40px rgba(255, 215, 0, 0.6);
-            }
+            0%, 100% { box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3); }
+            50% { box-shadow: 0 10px 40px rgba(255, 215, 0, 0.6); }
         }
 
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .products {
             background: linear-gradient(135deg, rgba(0, 212, 255, 0.9) 0%, rgba(123, 44, 191, 0.9) 100%);
             color: white;
-            padding: 5rem 2rem;
-            margin-top: 3rem;
-            border-radius: 50px 50px 0 0;
+            padding: 3rem 2rem;
+            margin-top: 2rem;
+            border-radius: 30px 30px 0 0;
             position: relative;
             z-index: 10;
             backdrop-filter: blur(10px);
@@ -307,43 +284,47 @@
 
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             align-items: center;
         }
 
         .section-title h2 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: white;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .section-title p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: rgba(255, 255, 255, 0.95);
         }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+            align-items: start;
         }
 
         .product-card {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 2.5rem;
+            border-radius: 20px;
+            padding: 1.5rem;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             transition: all 0.4s;
             border: 2px solid rgba(255, 255, 255, 0.3);
             position: relative;
             z-index: 10;
+            display: flex;
+            flex-direction: column;
+            min-height: 420px;
         }
 
         .product-card:hover {
-            transform: translateY(-15px);
+            transform: translateY(-10px);
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
             border-color: #00d4ff;
             background: rgba(255, 255, 255, 0.2);
@@ -351,19 +332,18 @@
 
         .product-card.trial {
             border: 3px solid #ffd700;
-            position: relative;
             overflow: hidden;
         }
 
         .product-card.trial::before {
             content: "🔥 POPULAR";
             position: absolute;
-            top: 15px;
-            right: -30px;
+            top: 12px;
+            right: -28px;
             background: linear-gradient(135deg, #ffd700, #ffb700);
             color: #1a1a2e;
-            padding: 5px 40px;
-            font-size: 0.75rem;
+            padding: 4px 35px;
+            font-size: 0.7rem;
             font-weight: 800;
             transform: rotate(45deg);
             z-index: 5;
@@ -371,53 +351,61 @@
         }
 
         .product-icon {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, #00d4ff, #ffffff);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
             box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
+            flex-shrink: 0;
         }
 
         .product-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
             color: white;
+            line-height: 1.3;
         }
 
         .product-card p {
             color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            font-size: 0.9rem;
+            flex-shrink: 0;
         }
 
         .features-list {
             list-style: none;
-            margin: 1.5rem 0;
+            margin: 0.75rem 0;
+            flex-grow: 1;
         }
 
         .features-list li {
-            padding: 0.75rem 0;
+            padding: 0.4rem 0;
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
+            align-items: flex-start;
+            gap: 0.5rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s;
+            font-size: 0.85rem;
         }
 
+        .features-list li:last-child { border-bottom: none; }
+
         .features-list li:hover {
-            padding-left: 10px;
+            padding-left: 8px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .check-icon {
-            width: 24px;
-            height: 24px;
+            width: 18px;
+            height: 18px;
             background: linear-gradient(135deg, #10b981, #34d399);
             border-radius: 50%;
             display: flex;
@@ -425,58 +413,53 @@
             justify-content: center;
             color: white;
             flex-shrink: 0;
-            font-size: 0.8rem;
+            font-size: 0.65rem;
             font-weight: bold;
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+            margin-top: 2px;
         }
 
         .price-tag {
             text-align: center;
-            margin: 2rem 0;
-            padding: 1.5rem;
+            margin: 1rem 0;
+            padding: 0.75rem;
             background: rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
+            border-radius: 12px;
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
         }
 
         .price-tag .price {
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             font-weight: 800;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
         }
 
         .price-tag .period {
-            font-size: 0.95rem;
+            font-size: 0.8rem;
             opacity: 0.95;
         }
 
         .price-tag .trial-text {
             color: #ffd700;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .btn-buy {
-            width: 50%;
-            padding: 3rem;
-            border: 2px;
-            border-radius: 12px;
-            font-size: 1.05rem;
+            width: 100%;
+            padding: 0.85rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
             background: linear-gradient(135deg, #00d4ff, #7b2cbf);
             color: white;
-            transition: all 0.5s;
+            transition: all 0.3s;
             box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
-            margin-bottom: 1.5rem;
-        }
-
-        .idid {
-        display: flex;
-        padding: 5px;
-        gap: 15px;
-        margin-bottom: 15px;
+            margin-top: auto;
         }
 
         .btn-buy:hover {
@@ -493,9 +476,245 @@
             box-shadow: 0 12px 30px rgba(255, 215, 0, 0.5);
         }
 
+        .idid {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+
+        .idid .btn-buy {
+            width: auto;
+            min-width: 180px;
+            padding: 0.75rem 1.5rem;
+        }
+
+        footer {
+            background: linear-gradient(180deg, rgba(26, 26, 46, 0.95) 0%, rgba(18, 18, 32, 0.98) 100%);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand {
+            grid-column: span 2;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand .logo-text {
+            font-size: 1.8rem;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            max-width: 300px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .footer-social a:hover {
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .footer-apps {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .app-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .app-badge:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .app-badge i {
+            font-size: 1.5rem;
+        }
+
+        .app-badge span {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .app-badge strong {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .footer-column h4 {
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            margin-bottom: 1.25rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            /* border-radius: 2px; */
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-column a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            /* align-items: center; */
+            gap: 0.5rem;
+        }
+
+        .footer-column a:hover {
+            color: #00d4ff;
+            transform: translateX(5px);
+        }
+
+        .footer-column a i {
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .footer-column a:hover i {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-top: 1.5rem;
+        }
+
+        .footer-copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+
+        .footer-copyright a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .footer-copyright a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-legal a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+
+        .footer-legal a:hover {
+            color: #00d4ff;
+        }
+
+        .footer-contact {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .footer-contact a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+
         .trial-section {
             background: linear-gradient(135deg, rgba(27, 38, 105, 0.95) 0%, rgba(115, 142, 216, 0.95) 100%);
-            padding: 5rem 2rem;
+            padding: 4rem 2rem;
             text-align: center;
             position: relative;
             z-index: 10;
@@ -513,52 +732,46 @@
             display: inline-block;
             background: linear-gradient(135deg, #ffd700, #ffb700);
             color: #1a1a2e;
-            padding: 0.75rem 2rem;
+            padding: 0.5rem 1.5rem;
             border-radius: 50px;
             font-weight: 800;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             animation: bounce 1s ease infinite;
             box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+            font-size: 0.9rem;
         }
 
         @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-8px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         .trial-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .trial-section p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .trial-features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2.5rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
             text-align: left;
         }
 
         .trial-feature {
             background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 16px;
-            border-left: 4px solid #ffd700;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border-left: 3px solid #ffd700;
             backdrop-filter: blur(10px);
             transition: all 0.3s;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -571,41 +784,20 @@
 
         .trial-feature h4 {
             color: #ffd700;
-            margin-bottom: 0.75rem;
-            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
         }
 
         .trial-feature p {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             margin: 0;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .trial-timer {
-            background: rgba(255, 215, 0, 0.15);
-            border: 2px solid #ffd700;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin: 2.5rem 0;
-            backdrop-filter: blur(10px);
-        }
-
-        .trial-timer h3 {
-            color: #ffd700;
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
-        }
-
-        .trial-timer p {
-            margin: 0;
-            font-size: 0.95rem;
             color: rgba(255, 255, 255, 0.9);
         }
 
         .api-section {
             background: linear-gradient(135deg, rgba(0, 212, 255, 0.95) 0%, rgba(123, 44, 191, 0.95) 100%);
             color: white;
-            padding: 5rem 2rem;
+            padding: 4rem 2rem;
             position: relative;
             z-index: 10;
             backdrop-filter: blur(10px);
@@ -613,27 +805,27 @@
 
         .api-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
         }
 
         .api-header h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .api-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .api-card {
             background: rgba(255, 255, 255, 0.15);
-            padding: 2rem;
-            border-radius: 20px;
+            padding: 1.5rem;
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
             position: relative;
@@ -649,24 +841,24 @@
 
         .api-card h3 {
             color: white;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
         }
 
         .code-preview {
             background: rgba(0, 0, 0, 0.4);
-            padding: 1rem;
-            border-radius: 10px;
+            padding: 0.75rem;
+            border-radius: 8px;
             font-family: 'Courier New', monospace;
-            margin-top: 1rem;
-            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            font-size: 0.75rem;
             overflow-x: auto;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .about-section {
             background: linear-gradient(135deg, rgba(123, 44, 191, 0.95) 0%, rgba(0, 212, 255, 0.95) 100%);
-            padding: 5rem 2rem;
+            padding: 4rem 2rem;
             text-align: center;
             position: relative;
             z-index: 10;
@@ -681,424 +873,54 @@
         .about-content {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 3rem;
+            border-radius: 20px;
+            padding: 2rem;
             border: 2px solid rgba(255, 255, 255, 0.3);
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
 
         .about-content h3 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
             color: #ffd700;
         }
 
         .about-content p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 1rem;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
             color: rgba(255, 255, 255, 0.95);
         }
 
         .about-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .stat-card {
             background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 16px;
+            padding: 1.5rem;
+            border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .stat-number {
-            font-size: 3rem;
+            font-size: 2rem;
             font-weight: 800;
             color: #ffd700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
         .stat-label {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .auth-section {
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.95) 0%, rgba(123, 44, 191, 0.95) 100%);
-            padding: 5rem 2rem;
-            position: relative;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-            min-height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .auth-container {
-            max-width: 500px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .auth-box {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 3rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .auth-tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem;
-            border-radius: 16px;
-        }
-
-        .auth-tab {
-            flex: 1;
-            padding: 1rem;
-            border: none;
-            background: transparent;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 12px;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
-
-        .auth-tab.active {
-            background: linear-gradient(135deg, #ffd700, #ffb700);
-            color: #1a1a2e;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-        }
-
-        .auth-tab:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .auth-form {
-            display: none;
-        }
-
-        .auth-form.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: white;
-            font-size: 0.9rem;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 1.2rem;
-            pointer-events: none;
-            transition: all 0.3s;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #1a1a2e;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.3s;
-            outline: none;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #ffd700;
-            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
-            background: white;
-        }
-
-        .form-group input:focus+.input-icon,
-        .form-group select:focus+.input-icon {
-            color: #ffd700;
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-            padding-left: 1rem;
-        }
-
-        .form-options {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.9);
-        }
-
-        .remember-me input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #ffd700;
-        }
-
-        .forgot-password {
-            color: #ffd700;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
-            color: #ffb700;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 1.2rem;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            background: linear-gradient(135deg, #ffd700, #ffb700);
-            color: #1a1a2e;
-            transition: all 0.3s;
-            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
-            font-family: inherit;
-            margin-top: 1rem;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(255, 215, 0, 0.5);
-        }
-
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-
-        .form-divider {
-            display: flex;
-            align-items: center;
-            margin: 2rem 0;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .form-divider::before,
-        .form-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .form-divider span {
-            padding: 0 1rem;
-            font-size: 0.9rem;
-        }
-
-        .social-login {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-
-        .btn-social {
-            flex: 1;
-            padding: 1rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-family: inherit;
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-social:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: white;
-            transform: translateY(-2px);
-        }
-
-        .alert {
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            display: none;
-            align-items: center;
-            gap: 0.75rem;
-            animation: slideIn 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .alert.show {
-            display: flex;
-        }
-
-        .alert-success {
-            background: rgba(16, 185, 129, 0.2);
-            border: 2px solid #10b981;
-            color: #34d399;
-        }
-
-        .alert-error {
-            background: rgba(239, 68, 68, 0.2);
-            border: 2px solid #ef4444;
-            color: #f87171;
-        }
-
-        .alert-warning {
-            background: rgba(251, 191, 36, 0.2);
-            border: 2px solid #fbbf24;
-            color: #fcd34d;
-        }
-
-        footer {
-            background: rgba(0, 0, 0, 0.4);
-            text-align: center;
-            padding: 3rem 2rem;
-            color: white;
-            position: relative;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-        }
-
-        footer p {
-            margin: 0.5rem 0;
-            opacity: 0.9;
-        }
-
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .btn-submit.loading .spinner {
-            margin-right: 0.5rem;
-        }
-
-        .btn-submit.loading .btn-text {
-            opacity: 0.8;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            nav {
-                display: none;
-            }
-
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .trial-features {
-                grid-template-columns: 1fr;
-            }
-
-            .auth-box {
-                padding: 2rem 1.5rem;
-            }
-
-            .about-content {
-                padding: 2rem 1.5rem;
-            }
         }
 
         .partners-section {
             background: linear-gradient(135deg, rgba(123, 44, 191, 0.95) 0%, rgba(0, 212, 255, 0.95) 100%);
-            padding: 4rem 2rem;
+            padding: 3rem 2rem;
             position: relative;
             z-index: 10;
             backdrop-filter: blur(10px);
@@ -1114,39 +936,29 @@
 
         .partners-track {
             display: flex;
-            gap: 3rem;
+            gap: 2rem;
             animation: slidePartners 25s linear infinite;
             width: max-content;
             will-change: transform;
         }
 
         @keyframes slidePartners {
-            0% {
-                transform: translateX(0%);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-
-            /* Move metade para criar loop */
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
         }
 
-
-        .partners-track:hover {
-            animation-play-state: paused;
-        }
+        .partners-track:hover { animation-play-state: paused; }
 
         .partner-logo {
-            width: 180px;
-            height: 100px;
+            width: 140px;
+            height: 80px;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            border-radius: 16px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1.5rem;
+            padding: 1rem;
             border: 2px solid rgba(5, 146, 87, 0.048);
             transition: all 0.3s;
             flex-shrink: 0;
@@ -1154,7 +966,7 @@
 
         .partner-logo:hover {
             transform: scale(1.1);
-            background: rgba(255, 255, 255, 0);
+            background: rgba(255, 255, 255, 0.2);
             border-color: #4e088f;
             box-shadow: 0 10px 30px rgba(0, 255, 115, 0.116);
         }
@@ -1163,7 +975,6 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            /* filter: brightness(0) invert(1); */
             opacity: 0.8;
             transition: all 0.3s;
         }
@@ -1173,63 +984,6 @@
             opacity: 1;
         }
 
-        /* @keyframes slidePartners {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        @media (max-width: flex) {
-            .partners-track {
-                gap: 2rem;
-                animation-duration: loop;
-            } */
-
-        .partner-logo {
-            width: 140px;
-            height: 80px;
-        }
-        }
-
-        .stakeholders-section {
-            padding: 60px 20px;
-            background: #00ffbf17;
-            text-align: center;
-        }
-
-        .stakeholders-section h2 {
-            margin-bottom: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #dbcf27;
-        }
-
-        button {
-            padding: 12px 24px;
-            border: none;
-            background: #79a0df;
-            color: rgb(117, 112, 112);
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
         .stock-ticker-wrapper {
             width: 100%;
             background: rgba(0, 0, 0, 0.3);
@@ -1237,7 +991,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
             position: relative;
-            height: 45px;
+            height: 40px;
             display: flex;
             align-items: center;
             z-index: 999;
@@ -1245,7 +999,7 @@
 
         .stock-ticker-track {
             display: flex;
-            gap: 3rem;
+            gap: 2rem;
             animation: scrollTicker 30s linear infinite;
             width: max-content;
             padding-left: 100%;
@@ -1256,24 +1010,19 @@
         }
 
         @keyframes scrollTicker {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         .stock-item {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-size: 0.9rem;
+            gap: 0.5rem;
+            font-size: 0.85rem;
             font-weight: 600;
             white-space: nowrap;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s;
@@ -1284,36 +1033,38 @@
             transform: translateY(-2px);
         }
 
-        .stock-symbol {
-            color: #fff;
-            font-weight: 800;
+        .stock-symbol { color: #fff; font-weight: 800; }
+        .stock-price { color: #e2e8f0; }
+        .stock-change { font-size: 0.75rem; display: flex; align-items: center; gap: 2px; }
+        .up { color: #10b981; }
+        .down { color: #ef4444; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem; }
+            nav { display: none; }
+            .product-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr 1fr; }
+            .footer-brand { grid-column: span 2; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-legal { justify-content: center; }
+            .product-card { min-height: auto; }
         }
 
-        .stock-price {
-            color: #e2e8f0;
+        @media (max-width: 480px) {
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-brand { grid-column: span 1; }
+            .footer-apps { justify-content: center; }
+            .footer-social { justify-content: center; }
         }
-
-        .stock-change {
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 2px;
-        }
-
-        .up {
-            color: #10b981;
-        }
-
-        .down {
-            color: #ef4444;
-        }
-        
     </style>
 </head>
 
 <body>
     <canvas id="starry-background"></canvas>
     <div class="starry-overlay"></div>
+    
     <header>
         <div class="logo" onclick="window.scrollTo(0,0)">
             <img src="../public/logo.png" width="60" height="60" />
@@ -1326,46 +1077,28 @@
             <a href="#inicio">Início</a>
             <a href="#produtos">Produtos</a>
             <a href="#sobre">Sobre Nós</a>
-            <a href="#contato">Contato</a>
-            <!-- <a href="#auth" class="btn-login">Entrar</a> -->
+            <a href="#parceiros">Parceiros</a>
         </nav>
     </header>
 
     <div class="stock-ticker-wrapper">
         <div class="stock-ticker-track" id="tickerTrack">
-            <div class="stock-item"><span class="stock-symbol">PETR4</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">VALE3</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">ITUB4</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">BBDC4</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">MGLU3</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">AAPL</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">GOOGL</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">BTC-USD</span><span class="stock-price">R$
-                    0,00</span><span class="stock-change">...</span></div>
-
-            <div class="stock-item"><span class="stock-symbol">PETR4</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">VALE3</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">ITUB4</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">BBDC4</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">MGLU3</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">AAPL</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">GOOGL</span><span class="stock-price">R$ 0,00</span><span
-                    class="stock-change">...</span></div>
-            <div class="stock-item"><span class="stock-symbol">BTC-USD</span><span class="stock-price">R$
-                    0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">PETR4</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">VALE3</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">ITUB4</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">BBDC4</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">MGLU3</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">AAPL</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">GOOGL</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">BTC-USD</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">PETR4</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">VALE3</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">ITUB4</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">BBDC4</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">MGLU3</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">AAPL</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">GOOGL</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
+            <div class="stock-item"><span class="stock-symbol">BTC-USD</span><span class="stock-price">R$ 0,00</span><span class="stock-change">...</span></div>
         </div>
     </div>
 
@@ -1378,11 +1111,11 @@
         <h1>Planejamento de gastos e lucros</h1>
         <p>CRM de gastos com alertas em tempo real + API de crédito instantâneo para construção de score.</p>
         <div class="hero-buttons">
-            <!-- <button class="btn-trial" onclick="scrollToAuth()">Teste</button> -->
             <a href="#produtos" class="btn-primary">Conhecer Produtos</a>
             <a href="#api" class="btn-secondary">Ver API</a>
         </div>
     </section>
+
     <section class="products" id="produtos">
         <div class="container">
             <div class="section-title">
@@ -1395,80 +1128,54 @@
                     <h3>FinoraQi CRM</h3>
                     <p>Experimente todas as funcionalidades</p>
                     <ul class="features-list">
-                        <li>
-                            <div class="check-icon">✓</div><span>Acesso completo a Recursos</span>
-                        </li>
-                        <li>
-                            <div class="check-icon">✓</div><span>Limites de gastos em porcentagem personalizáveis</span>
-                        </li>
-                        <li>
-                            <div class="check-icon">✓</div><span>Dashboard intuitivo com gráficos em tempo real</span>
-                        </li>
+                        <li><div class="check-icon">✓</div><span>Acesso completo a Recursos</span></li>
+                        <li><div class="check-icon">✓</div><span>Limites de gastos personalizáveis</span></li>
+                        <li><div class="check-icon">✓</div><span>Dashboard com gráficos em tempo real</span></li>
+                        <li><div class="check-icon">✓</div><span>Atualização Imediata</span></li>
+                        <li><div class="check-icon">✓</div><span>Acompanhamento das Finanças</span></li>
+
                     </ul>
                     <div class="price-tag">
                         <div class="price">R$ 0,00</div>
                         <div class="period trial-text">Grátis</div>
                     </div>
-                    <!-- <button class="btn-buy trial" onclick="scrollToAuth()">Começar Teste Grátis</button> -->
                 </div>
                 <div class="product-card">
                     <div class="product-icon">📊</div>
                     <h3>FinoraQi CRM Enterprise</h3>
                     <p>Controle Total dos Seus Projetos</p>
                     <ul class="features-list">
-                        <li>
-                            <div class="check-icon">✓</div><span>Alertas diários de rentabilidades</span>
-                        </li>
-                        <li>
-                            <div class="check-icon">✓</div><span>Limites adaptados</span>
-                        </li>
-                        <li>
-                            <div class="check-icon">✓</div><span>Dashboard intuitivo com gráficos em tempo real</span>
-                        </li>
-                        <li>
-                            <div class="check-icon">✓</div><span>Categorização automática de despesas</span>
-                        </li>
-                        <li>
-                            <div class="check-icon">✓</div><span>Relatórios mensais de economia</span>
-                        </li>
+                        <li><div class="check-icon">✓</div><span>Alertas diários de rentabilidades</span></li>
+                        <li><div class="check-icon">✓</div><span>Limites adaptados</span></li>
+                        <li><div class="check-icon">✓</div><span>Dashboard com gráficos em tempo real</span></li>
+                        <li><div class="check-icon">✓</div><span>Categorização automática</span></li>
+                        <li><div class="check-icon">✓</div><span>Relatórios mensais de economia</span></li>
                     </ul>
                     <div class="price-tag">
-                        <div class="price">TRIAL VERSION</div>
+                        <div class="price">TRIAL</div>
                         <div class="period">por mês</div>
                     </div>
-                    <!-- <button class="btn-buy" onclick="scrollToAuth()">Assinar Agora</button> -->
                 </div>
                 <div class="product-card">
                     <div class="product-icon">⚡</div>
                     <h3>FinoraQi API</h3>
-                    <p>Construa Seu Score em Tempo Real nos bureaus de crédito</p>
+                    <p>Construa Seu Score em Tempo Real</p>
                     <ul class="features-list">
-                        <li>
-                            <div class="check-icon">✓</div><span>Processamento em tempo real de operações de
-                                crédito</span>
-                        </li>
-                        <li>
-                            <div class="check-icon">✓</div><span>Atualização instantânea no Serasa/SPC</span>
-                        </li>
-                        <li>
-                            <div class="check-icon">✓</div><span>Foco em jovens e idosos</span>
-                        </li>
-                        <li>
-                            <div class="check-icon">✓</div><span>API RESTful com documentação completa</span>
-                        </li>
-                        <li>
-                            <div class="check-icon">✓</div><span>Webhook de confirmação de pagamento</span>
-                        </li>
+                        <li><div class="check-icon">✓</div><span>Processamento em tempo real</span></li>
+                        <li><div class="check-icon">✓</div><span>Atualização Serasa/SPC instantânea</span></li>
+                        <li><div class="check-icon">✓</div><span>Foco em jovens e idosos</span></li>
+                        <li><div class="check-icon">✓</div><span>API RESTful documentada</span></li>
+                        <li><div class="check-icon">✓</div><span>Webhook de confirmação</span></li>
                     </ul>
                     <div class="price-tag">
                         <div class="price">0,20%</div>
                         <div class="period">por transação</div>
                     </div>
-                    <!-- <button class="btn-buy" onclick="window.location.href='onboarding.html'">Para Empresas</button> -->
                 </div>
             </div>
         </div>
     </section>
+
     <section class="trial-section" id="trial">
         <div class="trial-container">
             <span class="trial-badge">THE FUTURE IS NOW...</span>
@@ -1481,34 +1188,25 @@
                 </div>
                 <div class="trial-feature">
                     <h4>Configuração Rápida</h4>
-                    <p>Ative em menos de 2 minutos, sem burocracia</p>
+                    <p>Ative em menos de 2 minutos</p>
                 </div>
                 <div class="trial-feature">
                     <h4>Sem Risco</h4>
-                    <p>Cancelamento a qualquer momento, sem cobranças</p>
+                    <p>Cancelamento a qualquer momento</p>
                 </div>
                 <div class="trial-feature">
                     <h4>Suporte VIP</h4>
-                    <p>Onboarding personalizado para aprender a utilizar</p>
+                    <p>Onboarding personalizado</p>
                 </div>
             </div>
-            <!-- <div class="trial-timer">
-                <h3>⏰ Oferta por tempo limitado</h3>
-                <p>Garanta seu teste gratuito antes que esta promoção expire!</p>
-            </div> -->
-
             <div class="idid">
-
-            <button class="btn-buy" onclick="window.location.href='dashboard.html'">Teste Pessoal</button>
-            <button class="btn-buy" onclick="window.location.href='crm_enterprise.html'">Teste Empresarial</button>
-
+                <button class="btn-buy" onclick="window.location.href='dashboard.html'">Teste Pessoal</button>
+                <button class="btn-buy" onclick="window.location.href='crm_enterprise.html'">Teste Empresarial</button>
             </div>
-            
-            <!-- <button class="btn-buy" onclick="window.location.href='core.html'">Treinamento do CORE</button> -->
-            
             <a href="onboarding_core.html" class="btn-login">Treinar Core</a>
         </div>
     </section>
+
     <section class="api-section" id="api">
         <div class="api-header">
             <h2>FinoraQi API</h2>
@@ -1517,28 +1215,22 @@
         <div class="api-grid">
             <div class="api-card">
                 <h3>Atualização Instantânea</h3>
-                <p>Assim que o pagamento é confirmado, o score é atualizado automaticamente no Serasa e SPC em até 5
-                    milissegundos.</p>
-                <div class="code-preview">POST /api/v1/credit-operation<br>{<br>&nbsp;&nbsp;"cpf":
-                    "123.456.789-00",<br>&nbsp;&nbsp;"valor": 150.00,<br>&nbsp;&nbsp;"tipo": "pagamento"<br>}<br><br>//
-                    Resposta em 200ms</div>
+                <p>Assim que o pagamento é confirmado, o score é atualizado automaticamente no Serasa e SPC em até 5 milissegundos.</p>
+                <div class="code-preview">POST /api/v1/credit-operation<br>{<br>&nbsp;&nbsp;"cpf": "123.456.789-00",<br>&nbsp;&nbsp;"valor": 150.00,<br>&nbsp;&nbsp;"tipo": "pagamento"<br>}</div>
             </div>
             <div class="api-card">
                 <h3>🎯 Foco em Inclusão</h3>
-                <p>Desenvolvida especificamente para jovens de áreas de risco que desejam construir histórico de
-                    crédito rapidamente e qualquer público cujo alvo seja adquirir crédito rapidamente.</p>
-                <div class="code-preview">GET /api/v1/score/{cpf}<br><br>{<br>&nbsp;&nbsp;"score":
-                    650,<br>&nbsp;&nbsp;"ultima_atualizacao": "2026-01-15T10:30:00Z",<br>&nbsp;&nbsp;"status":
-                    "ativo"<br>}</div>
+                <p>Desenvolvida especificamente para jovens de áreas de risco que desejam construir histórico de crédito rapidamente.</p>
+                <div class="code-preview">GET /api/v1/score/{cpf}<br><br>{<br>&nbsp;&nbsp;"score": 650,<br>&nbsp;&nbsp;"ultima_atualizacao": "2026-01-15T10:30:00Z",<br>&nbsp;&nbsp;"status": "ativo"<br>}</div>
             </div>
             <div class="api-card">
                 <h3>🔒 Segurança Total</h3>
                 <p>Criptografia de ponta a ponta, conformidade com LGPD e certificações de segurança bancária.</p>
-                <div class="code-preview">Headers:<br>Authorization: Bearer {token}<br>X-API-Key:
-                    {sua_chave}<br>Content-Type: application/json</div>
+                <div class="code-preview">Headers:<br>Authorization: Bearer {token}<br>X-API-Key: {sua_chave}<br>Content-Type: application/json</div>
             </div>
         </div>
     </section>
+
     <section class="about-section" id="sobre">
         <div class="about-container">
             <div class="section-title">
@@ -1547,158 +1239,17 @@
             </div>
             <div class="about-content">
                 <h3>Transformando Vidas Através da Educação Financeira</h3>
-                <p>A FinoraQi nasceu com o propósito de democratizar o acesso ao crédito e à educação financeira,
-                    especialmente para jovens de áreas de risco. Acreditamos que todos merecem uma oportunidade de
-                    construir um futuro financeiro sólido então, viramos a nova revolução.</p>
-                <p>Nossa plataforma combina tecnologia de ponta com uma abordagem humanizada, oferecendo ferramentas
-                    inovadoras que ajudam no controle de gastos, construção de score e desenvolvimento de hábitos
-                    financeiros saudáveis.</p>
+                <p>A FinoraQi nasceu com o propósito de democratizar o acesso ao crédito e à educação financeira, especialmente para jovens de áreas de risco.</p>
+                <p>Nossa plataforma combina tecnologia de ponta com uma abordagem humanizada, oferecendo ferramentas inovadoras que ajudam no controle de gastos e construção de score.</p>
                 <div class="about-stats">
-                    <div class="stat-card">
-                        <div class="stat-number" data-target="+10000">0</div>
-                        <div class="stat-label">Usuários Ativos</div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-number" data-target="100">0</div>
-                        <div class="stat-label">Satisfação</div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-number" data-target="50000">0</div>
-                        <div class="stat-label">Operações Processadas</div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-number" data-target="24">0</div>
-                        <div class="stat-label">Suporte Disponível</div>
-                    </div>
+                    <div class="stat-card"><div class="stat-number" data-target="10000">0</div><div class="stat-label">Usuários Ativos</div></div>
+                    <div class="stat-card"><div class="stat-number" data-target="100">0</div><div class="stat-label">Satisfação</div></div>
+                    <div class="stat-card"><div class="stat-number" data-target="50000">0</div><div class="stat-label">Operações</div></div>
+                    <div class="stat-card"><div class="stat-number" data-target="24">0</div><div class="stat-label">Suporte 24/7</div></div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- <section class="auth-section" id="auth">
-        <div class="auth-container">
-            <div class="auth-box">
-                <div id="alertContainer"></div>
-                <div class="auth-tabs">
-                    <button class="auth-tab active" onclick="switchAuthTab('login')">Entrar</button>
-                    <button class="auth-tab" onclick="switchAuthTab('signup')">Cadastrar</button>
-                </div>
-                <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
-                    <div class="form-group">
-                        <label for="loginEmail">Email</label>
-                        <div class="input-wrapper">
-                            <input type="email" id="loginEmail" placeholder="seu@email.com" required>
-                            <span class="input-icon">📧</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="loginSenha">Senha</label>
-                        <div class="input-wrapper">
-                            <input type="password" id="loginSenha" placeholder="••••••••" required>
-                            <span class="input-icon">🔒</span>
-                        </div>
-                    </div>
-                    <div class="form-options">
-                        <label class="remember-me">
-                            <input type="checkbox" id="lembrarMe">
-                            <span>Lembrar-me</span>
-                        </label>
-                        <a href="#" class="forgot-password" onclick="showAlert('Em breve!', 'warning')">Esqueceu a
-                            senha?</a>
-                    </div>
-                    <button type="submit" class="btn-submit">
-                        <span class="btn-text">Entrar na Plataforma</span>
-                    </button>
-                    <div class="form-divider">
-                        <span>ou continue com</span>
-                    </div>
-                    <div class="social-login">
-                        <button type="button" class="btn-social" onclick="socialLogin('google')"><span>G</span>
-                            Google</button>
-                        <button type="button" class="btn-social" onclick="socialLogin('facebook')"><span>f</span>
-                            Facebook</button>
-                    </div>
-                </form>
-                <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)">
-                    <div class="form-group">
-                        <label for="signupNome">Nome Completo</label>
-                        <div class="input-wrapper">
-                            <input type="text" id="signupNome" placeholder="Seu nome completo" required>
-                            <span class="input-icon">👤</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="signupEmail">Email</label>
-                        <div class="input-wrapper">
-                            <input type="email" id="signupEmail" placeholder="seu@email.com" required>
-                            <span class="input-icon">📧</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="signupTelefone">WhatsApp</label>
-                        <div class="input-wrapper">
-                            <input type="tel" id="signupTelefone" placeholder="(00) 00000-0000" required>
-                            <span class="input-icon">📱</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="signupSenha">Senha</label>
-                        <div class="input-wrapper">
-                            <input type="password" id="signupSenha" placeholder="Mínimo 8 caracteres" required
-                                minlength="8">
-                            <span class="input-icon">🔒</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="signupConfirmarSenha">Confirmar Senha</label>
-                        <div class="input-wrapper">
-                            <input type="password" id="signupConfirmarSenha" placeholder="Repita sua senha" required>
-                            <span class="input-icon">🔒</span>
-                        </div>
-                    </div>
-                    <div class="form-options">
-                        <label class="remember-me">
-                            <input type="checkbox" required>
-                            <span>Aceito os <a href="#" style="color: #ffd700;">termos de uso</a> e <a href="#"
-                                    style="color: #ffd700;">política de privacidade</a></span>
-                        </label>
-                    </div>
-                    <button type="submit" class="btn-submit">
-                        <span class="btn-text">Criar Conta Grátis</span>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section> -->
-
-    <!-- <section id="stakeholders" class="stakeholders-section">
-        <div class="container">
-            <h2>Contato para Stakeholders</h2>
-            <p>Se você é investidor, parceiro ou tem interesse em colaborar com a Finora Qi, entre em contato conosco.
-            </p>
-
-            <form action="https://formspree.io/f/SEU_ENDPOINT" method="POST">
-                <div class="form-group">
-                    <label for="name">Nome</label>
-                    <input type="text" id="name" name="name" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="message">Mensagem</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
-
-                <button type="submit">Enviar</button>
-            </form>
-        </div>
-    </section> -->
 
     <section class="partners-section" id="parceiros">
         <div class="container">
@@ -1708,72 +1259,116 @@
             </div>
             <div class="partners-slider">
                 <div class="partners-track">
-                    <div class="partner-logo">
-                        <img src="proa.png" alt="Proa">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="dataprev.jpg" alt="Dataprev">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="serasa.png" alt="Serasa">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="spc.jpg" alt="spc">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="proa.png" alt="Proa">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="dataprev.jpg" alt="Dataprev">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="serasa.png" alt="Serasa">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="spc.jpg" alt="spc">
-                    </div>
-                    <!-- <div class="partner-logo">
-                        <img src="assets/logo-parceiro-3.png" alt="Parceiro 3">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="assets/logo-parceiro-4.png" alt="Parceiro 4">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="assets/logo-parceiro-5.png" alt="Parceiro 5">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="assets/logo-parceiro-6.png" alt="Parceiro 6">
-                    </div> -->
+                    <div class="partner-logo"><img src="proa.png" alt="Proa"></div>
+                    <div class="partner-logo"><img src="dataprev.jpg" alt="Dataprev"></div>
+                    <div class="partner-logo"><img src="serasa.png" alt="Serasa"></div>
+                    <div class="partner-logo"><img src="spc.jpg" alt="spc"></div>
+                    <div class="partner-logo"><img src="proa.png" alt="Proa"></div>
+                    <div class="partner-logo"><img src="dataprev.jpg" alt="Dataprev"></div>
+                    <div class="partner-logo"><img src="serasa.png" alt="Serasa"></div>
+                    <div class="partner-logo"><img src="spc.jpg" alt="spc"></div>
                 </div>
-                <!-- <div class="partners-track"> -->
-                <!-- <div class="partner-logo">
-                        <img src="assets/lead.png" alt="PROA">
-                    </div> -->
-                <!-- <div class="partner-logo">
-                        <img src="assets/lead-2.png" alt="Serasa Experience">
-                    </div> -->
-                <!-- <div class="partner-logo">
-                        <img src="assets/logo-parceiro-3.png" alt="Parceiro 3">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="assets/logo-parceiro-4.png" alt="Parceiro 4">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="assets/logo-parceiro-5.png" alt="Parceiro 5">
-                    </div>
-                    <div class="partner-logo">
-                        <img src="assets/logo-parceiro-6.png" alt="Parceiro 6">
-                    </div> -->
-                <!-- </div>
-            </div> -->
             </div>
+        </div>
     </section>
 
     <footer id="contato">
-        <!-- <p style="margin-top: 0.5rem; opacity: 0.8;">Revolucionando as finanças de pessoas e empresas.</p> -->
-        <p style="margin-top: 1rem; font-size: 0.9rem;">📧 finoraqi.finance@gmail.com</p>
-        <!-- <p>® FinoraQi ®</p> -->
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="logoo">
+                        <img src="../public/logo.png" width="50" height="50" style="border-radius:50%;animation:rotate 10s linear infinite;box-shadow:0 4px 15px rgba(0,212,255,0.4);" />
+                        <div style="margin-left:0.5rem;">
+                            <div class="logo-text" style="font-size:1.5rem;">Finora<span style="color:#ffd700;">Qi</span></div>
+                        </div>
+                    </div>
+                    <p>Revolucionando as finanças pessoais e empresariais com tecnologia, educação e inclusão financeira para todos.</p>
+                    
+                    <div class="footer-social">
+                        <!-- <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a> -->
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <!-- <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a> -->
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <!-- <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a> -->
+                    </div>
+                    
+                    <!-- <div class="footer-apps">
+                        <a href="#" class="app-badge">
+                            <i class="fab fa-apple"></i>
+                            <span><strong>App Store</strong><small>Disponível no iOS</small></span>
+                        </a>
+                        <a href="#" class="app-badge">
+                            <i class="fab fa-google-play"></i>
+                            <span><strong>Google Play</strong><small>Disponível no Android</small></span>
+                        </a>
+                    </div> -->
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Produtos</h4>
+                    <ul>
+                        <li><a href="#produtos"><i class="fas fa-chevron-right"></i> FinoraQi CRM</a></li>
+                        <li><a href="#produtos"><i class="fas fa-chevron-right"></i> Enterprise</a></li>
+                        <li><a href="#api"><i class="fas fa-chevron-right"></i> API de Crédito</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Comparar Planos</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Calculadora de Score</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="#sobre"><i class="fas fa-chevron-right"></i> Sobre Nós</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Carreiras</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Imprensa</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Sustentabilidade</a></li>
+                    </ul>
+                </div>
+                
+                <!-- <div class="footer-column">
+                    <h4>Suporte</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Central de Ajuda</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Tutoriais</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Status do Sistema</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Fale Conosco</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Comunidade</a></li>
+                    </ul>
+                </div> -->
+                
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Termos de Uso</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Política de Privacidade</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> LGPD</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cookies</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Segurança</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    © 2030 <a href="#">FinoraQi®</a>. Todos os direitos reservados.<br>
+                    <small style="opacity:0.7;">CNPJ: 00.000.000/0001-00 • Instituição de Pagamento autorizada pelo Banco Central</small>
+                </div>
+                
+                <div class="footer-contact">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:finoraqi.finance@gmail.com">finoraqi.finance@gmail.com</a>
+                </div>
+                
+                <div class="footer-legal">
+                    <a href="#"><i class="fas fa-shield-alt"></i> Segurança</a>
+                    <a href="#"><i class="fas fa-globe"></i> PT-BR</a>
+                    <a href="#"><i class="fas fa-lock"></i> Criptografia</a>
+                </div>
+            </div>
+        </div>
     </footer>
+
     <script>
         const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : '/api';
         class API {
@@ -1799,8 +1394,10 @@
             async deleteGoal(id) { return await this.request(`/goals/${id}`, { method: 'DELETE' }); }
         }
         const api = new API();
+        
         function showAlert(message, type = 'success') {
             const container = document.getElementById('alertContainer');
+            if(!container) return;
             const alert = document.createElement('div');
             alert.className = `alert alert-${type} show`;
             const icons = { success: '✅', error: '❌', warning: '⚠️' };
@@ -1809,70 +1406,52 @@
             container.appendChild(alert);
             setTimeout(() => { alert.classList.remove('show'); setTimeout(() => alert.remove(), 300); }, 5000);
         }
+        
         function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({
-                behavior: "smooth",
-                block: "start"
+            document.getElementById(id).scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        
+        const counters = document.querySelectorAll('.stat-number');
+        let started = false;
+
+        function animateCounters() {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const duration = 8000;
+                const increment = target / (duration / 16);
+                let count = 0;
+                const updateCount = () => {
+                    count += increment;
+                    if (count < target) {
+                        counter.innerText = Math.floor(count) + (target >= 1000 ? '+' : '');
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        if (target === 10000) counter.innerText = "10K+";
+                        else if (target === 50000) counter.innerText = "50K+";
+                        else if (target === 98) counter.innerText = "98%";
+                        else if (target === 24) counter.innerText = "24/7";
+                        else counter.innerText = target + (target >= 1000 ? '+' : '');
+                    }
+                };
+                updateCount();
             });
         }
-        function switchAuthTab(tab) {
-            const tabs = document.querySelectorAll('.auth-tab');
-            const forms = document.querySelectorAll('.auth-form');
-            tabs.forEach(t => t.classList.remove('active'));
-            forms.forEach(f => f.classList.remove('active'));
-            if (tab === 'login') { tabs[0].classList.add('active'); document.getElementById('loginForm').classList.add('active'); }
-            else { tabs[1].classList.add('active'); document.getElementById('signupForm').classList.add('active'); }
-            document.getElementById('alertContainer').innerHTML = '';
-        }
-        async function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginSenha').value;
-            const btn = e.target.querySelector('.btn-submit');
-            try {
-                btn.classList.add('loading');
-                btn.innerHTML = '<span class="spinner"></span><span class="btn-text">Entrando...</span>';
-                btn.disabled = true;
-                const response = await api.login(email, password);
-                localStorage.setItem('finoraqi_token', response.token);
-                localStorage.setItem('finoraqi_user', JSON.stringify(response.user));
-                showAlert(response.message, 'success');
-                setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
-            } catch (error) { showAlert(error.message, 'error'); }
-            finally { btn.classList.remove('loading'); btn.innerHTML = '<span class="btn-text">Entrar na Plataforma</span>'; btn.disabled = false; }
-        }
-        async function handleSignup(e) {
-            e.preventDefault();
-            const nome = document.getElementById('signupNome').value;
-            const email = document.getElementById('signupEmail').value;
-            const telefone = document.getElementById('signupTelefone').value;
-            const senha = document.getElementById('signupSenha').value;
-            const confirmarSenha = document.getElementById('signupConfirmarSenha').value;
-            const btn = e.target.querySelector('.btn-submit');
-            if (senha !== confirmarSenha) { showAlert('As senhas não coincidem', 'error'); return; }
-            if (senha.length < 8) { showAlert('A senha deve ter pelo menos 8 caracteres', 'error'); return; }
-            try {
-                btn.classList.add('loading');
-                btn.innerHTML = '<span class="spinner"></span><span class="btn-text">Criando conta...</span>';
-                btn.disabled = true;
-                const response = await api.register({ nome, email, telefone, password: senha });
-                localStorage.setItem('finoraqi_token', response.token);
-                localStorage.setItem('finoraqi_user', JSON.stringify(response.user));
-                showAlert(response.message, 'success');
-                setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
-            } catch (error) { showAlert(error.message, 'error'); }
-            finally { btn.classList.remove('loading'); btn.innerHTML = '<span class="btn-text">Criar Conta Grátis</span>'; btn.disabled = false; }
-        }
-        function socialLogin(provider) { showAlert(`Login com ${provider} será implementado em breve!`, 'warning'); }
-        function scrollToAuth() { document.getElementById('auth').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => { switchAuthTab('signup'); }, 800); }
-        function scrollToAbout(type) { document.getElementById('sobre').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => { showAlert(`Interessado na API para ${type}? Entre em contato conosco!`, 'success'); }, 1000); }
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !started) {
+                    started = true;
+                    animateCounters();
+                }
+            });
+        }, { threshold: 0.5 });
+        observer.observe(document.querySelector('.about-stats'));
+
         const canvas = document.getElementById('starry-background');
         const ctx = canvas.getContext('2d');
-        let width, height;
-        let mouse = { x: null, y: null, radius: 150 };
-        let particles = [];
-        let rainbowOffset = 0;
+        let width, height, mouse = { x: null, y: null, radius: 150 }, particles = [], rainbowOffset = 0;
         const config = { particleCount: 150, particleRadius: { min: 1, max: 3 }, speed: { min: 0.3, max: 1.2 }, rainbowSpeed: 0.005, mouseInfluence: 80, mouseAttraction: 0.02 };
+        
         function getRainbowColor(offset) { return `hsl(${(offset * 360) % 360}, 100%, 70%)`; }
         class Particle {
             constructor() { this.reset(); }
@@ -1880,9 +1459,9 @@
             update() {
                 this.x += this.speedX; this.y += this.speedY;
                 if (mouse.x !== null && mouse.y !== null) {
-                    const dx = mouse.x - this.x; const dy = mouse.y - this.y; const distance = Math.sqrt(dx * dx + dy * dy);
+                    const dx = mouse.x - this.x, dy = mouse.y - this.y, distance = Math.sqrt(dx * dx + dy * dy);
                     if (distance < mouse.radius) {
-                        const angle = Math.atan2(dy, dx); const force = (mouse.radius - distance) / mouse.radius;
+                        const angle = Math.atan2(dy, dx), force = (mouse.radius - distance) / mouse.radius;
                         this.x += Math.cos(angle) * force * config.mouseAttraction * config.mouseInfluence;
                         this.y += Math.sin(angle) * force * config.mouseAttraction * config.mouseInfluence;
                         this.radius = Math.min(this.radius * 1.5, config.particleRadius.max * 2);
@@ -1899,15 +1478,15 @@
                 ctx.fillStyle = 'white'; ctx.fill(); ctx.closePath();
             }
         }
-        function initParticles() { particles = []; for (let i = 0; i < config.particleCount; i++) { particles.push(new Particle()); } }
+        function initParticles() { particles = []; for (let i = 0; i < config.particleCount; i++) particles.push(new Particle()); }
         function animate() {
             ctx.clearRect(0, 0, width, height);
             rainbowOffset += config.rainbowSpeed;
-            particles.forEach(particle => { particle.update(); particle.draw(); });
+            particles.forEach(p => { p.update(); p.draw(); });
             if (mouse.x !== null && mouse.y !== null) {
                 for (let i = 0; i < 3; i++) {
-                    const trailX = mouse.x + (Math.random() - 0.5) * 30; const trailY = mouse.y + (Math.random() - 0.5) * 30;
-                    const trailRadius = Math.random() * 2 + 1; const trailColor = getRainbowColor(rainbowOffset + Math.random());
+                    const trailX = mouse.x + (Math.random() - 0.5) * 30, trailY = mouse.y + (Math.random() - 0.5) * 30;
+                    const trailRadius = Math.random() * 2 + 1, trailColor = getRainbowColor(rainbowOffset + Math.random());
                     ctx.beginPath(); ctx.arc(trailX, trailY, trailRadius, 0, Math.PI * 2);
                     ctx.fillStyle = trailColor; ctx.shadowBlur = 20; ctx.shadowColor = trailColor; ctx.globalAlpha = 0.6; ctx.fill();
                     ctx.shadowBlur = 0; ctx.globalAlpha = 1; ctx.closePath();
@@ -1919,66 +1498,15 @@
         window.addEventListener('resize', resize);
         window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
         window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
-        resize();
-        animate();
+        resize(); animate();
+        
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
-
-async function fetchRealStockDataProxy() {
-    const symbols = ['PETR4.SA', 'VALE3.SA', 'ITUB4.SA', 'BBDC4.SA', 'MGLU3.SA', 'AAPL', 'GOOGL', 'BTC-USD'];
-    const names = ['PETR4', 'VALE3', 'ITUB4', 'BBDC4', 'MGLU3', 'AAPL34', 'GOOG34', 'BTCBRL'];
-    
-    console.log("Tentando buscar dados reais... (Recomenda-se usar a versão com API Key para estabilidade)");
-    
-}
-
-        const counters = document.querySelectorAll('.stat-number');
-        let started = false;
-
-        function animateCounters() {
-            counters.forEach(counter => {
-                const target = +counter.getAttribute('data-target');
-                const duration = 8000;
-                const increment = target / (duration / 16);
-
-                let count = 0;
-
-                const updateCount = () => {
-                    count += increment;
-
-                    if (count < target) {
-                        counter.innerText = Math.floor(count);
-                        requestAnimationFrame(updateCount);
-                    } else {
-                        if (target === 10000) counter.innerText = "10K+";
-                        else if (target === 50000) counter.innerText = "50K+";
-                        else if (target === 98) counter.innerText = "98%";
-                        else if (target === 24) counter.innerText = "24/7";
-                        else counter.innerText = target;
-                    }
-                };
-
-                updateCount();
-            });
-        }
-
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !started) {
-                    started = true;
-                    animateCounters();
-                }
-            });
-        }, { threshold: 0.5 });
-
-        observer.observe(document.querySelector('.about-stats'));
     </script>
 </body>
-
 </html>
-
