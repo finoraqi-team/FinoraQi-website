@@ -7,6 +7,7 @@
     <title>FinoraQi Enterprise | CRM Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" />
@@ -2618,12 +2619,35 @@
                                     <input type="month" id="reportPeriod">
                                 </div>
                             </div>
-                            <div class="form-actions" style="justify-content: flex-start;">
+                            <div class="form-card">
+                                <h3>Exportar Dados</h3>
+                                <p style="color:var(--text-muted); margin-bottom:20px;">Baixe todos os seus dados
+                                    financeiros em
+                                    formato Excel.</p>
+                                <!-- <button class="btn btn-primary" onclick="exportToExcel()"><span
+                                        class="material-symbols-rounded">download</span> Baixar Excel (.xlsx)</button> -->
+                                <div class="form-actions" style="gap: 8px; flex-wrap: wrap;">
+                                    <button class="btn btn-primary" onclick="exportToExcel()">
+                                        <span class="material-symbols-rounded">download</span>
+                                        Excel Simples
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="exportToExcelAdvanced()">
+                                        <span class="material-symbols-rounded">stacked_bar_chart</span>
+                                        Excel Completo (Abas)
+                                    </button>
+                                </div>
+                                <hr style="border:0; border-top:1px solid var(--border-color); margin:20px 0;">
+                                <button class="btn btn-secondary" onclick="clearAllData()"
+                                    style="color:#ef4444; border-color:#ef4444;"><span
+                                        class="material-symbols-rounded">delete_sweep</span> Apagar Todos os
+                                    Dados</button>
+                            </div>
+                            <!-- <div class="form-actions" style="justify-content: flex-start;">
                                 <button class="btn btn-primary" onclick="generateReport()"><span
                                         class="material-symbols-rounded">generate</span></button>
                                 <button class="btn btn-secondary" onclick="exportReport()"><span
                                         class="material-symbols-rounded">download</span>Exportar PDF</button>
-                            </div>
+                            </div> -->
                         </div>
                         <div id="reportContent"></div>
                     </div>
@@ -2788,6 +2812,106 @@
         </main>
     </div>
     <script>
+
+        function exportToExcel() {
+            const projects = ProjectService.list();
+            if (projects.length === 0) {
+                showNotification('warning', 'Sem dados', 'Nenhum projeto para exportar');
+                return;
+            }
+
+            const wb = XLSX.utils.book_new();
+
+            const byCategory = projects.reduce((acc, p) => {
+                const cat = p.category || 'Geral';
+                if (!acc[cat]) acc[cat] = [];
+                acc[cat].push({
+                    'Código': p.code,
+                    'Projeto': p.name,
+                    'Categoria': cat,
+                    'Investido (R$)': p.initialValue,
+                    'Atual (R$)': p.currentValue,
+                    'Lucro (R$)': p.revenueShare.profit,
+                    'ROI (%)': p.roi.toFixed(2),
+                    'APR (%)': p.apr,
+                    'Início': formatDate(p.startDate),
+                    'Status': p.status === 'active' ? 'Ativo' : 'Pausado'
+                });
+                return acc;
+            }, {});
+
+            Object.entries(byCategory).forEach(([cat, items]) => {
+                const ws = XLSX.utils.json_to_sheet(items);
+                const safeName = cat.length > 31 ? cat.slice(0, 31) : cat;
+                XLSX.utils.book_append_sheet(wb, ws, safeName);
+            });
+
+            const totalInvestido = projects.reduce((a, p) => a + p.initialValue, 0);
+            const totalAtual = projects.reduce((a, p) => a + p.currentValue, 0);
+            const totalLucro = projects.reduce((a, p) => a + p.revenueShare.profit, 0);
+            const avgRoi = projects.length ? (projects.reduce((a, p) => a + p.roi, 0) / projects.length) : 0;
+
+            const summary = [{
+                'Total Projetos': projects.length,
+                'Total Investido (R$)': totalInvestido,
+                'Total Atual (R$)': totalAtual,
+                'Lucro Total (R$)': totalLucro,
+                'ROI Médio (%)': avgRoi.toFixed(2)
+            }];
+            const wsSummary = XLSX.utils.json_to_sheet(summary);
+            XLSX.utils.book_prepend_sheet(wb, wsSummary, 'Resumo');
+
+            const fileName = `finoraqi-relatorio-${new Date().toISOString().split('T')[0]}.xlsx`;
+            XLSX.writeFile(wb, fileName);
+            showNotification('success', 'Exportado', `Arquivo gerado: ${fileName}`);
+        }
+
+        function exportToExcel() {
+            const projects = ProjectService.list();
+            const user = UserService.getUser();
+
+            // data
+            const data = projects.map(p => ({
+                'Código': p.code,
+                'Projeto': p.name,
+                'Categoria': p.category || 'Geral',
+                'Investido (R$)': p.initialValue,
+                'Valor Atual (R$)': p.currentValue,
+                'Lucro (R$)': p.revenueShare.profit,
+                'ROI (%)': p.roi.toFixed(2),
+                'APR (%)': p.apr,
+                'Início': formatDate(p.startDate),
+                'Término': p.endDate ? formatDate(p.endDate) : '-',
+                'Status': p.status === 'active' ? 'Ativo' : 'Pausado',
+                'Banco (%)': p.revenueShare.bank.pct,
+                'Bureau (%)': p.revenueShare.bureau.pct,
+                'FinoraQi (%)': p.revenueShare.finoraqi.pct,
+                'Tipo de Cálculo': p.calculationType === 'compound' ? 'Composto' : 'Simples'
+            }));
+
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+
+            ws['!cols'] = [
+                { wch: 10 }, { wch: 25 }, { wch: 15 }, { wch: 15 }, { wch: 15 },
+                { wch: 15 }, { wch: 10 }, { wch: 10 }, { wch: 12 }, { wch: 12 },
+                { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 12 }, { wch: 15 }
+            ];
+
+            XLSX.utils.sheet_add_aoa(ws, [
+                [`Relatório FinoraQi Enterprise - Exportado em ${new Date().toLocaleDateString('pt-BR')}`],
+                [`Usuário: ${user.name} | Email: ${user.email}`],
+                []
+            ], { origin: 'A1' });
+
+            XLSX.utils.book_append_sheet(wb, ws, 'Projetos');
+
+            const fileName = `finoraqi-relatorio-${new Date().toISOString().split('T')[0]}.xlsx`;
+            XLSX.writeFile(wb, fileName);
+
+            showNotification('success', 'Exportado', `Arquivo Excel baixado: ${fileName}`);
+        }
+
         let state = { chartType: 'area', timePeriod: '30', selectedProjects: ['all'], projects: [], currentCategory: 'all', pieChart: null };
         const UserService = {
             init() { if (!localStorage.getItem('finoraqi_user')) { localStorage.setItem('finoraqi_user', JSON.stringify({ name: 'User', email: 'user@finoraqi.com', photo: null, role: 'admin', company: 'FinoraQi Enterprise', settings: { language: 'pt-BR', currency: 'BRL', notifications: { email: true, push: true }, twoFactor: false } })); } },
