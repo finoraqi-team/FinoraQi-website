@@ -13,6 +13,20 @@ Em vez de treinar um único modelo, o sistema:
 
 ---
 
+## Como usar
+
+1- Escolher um problema específico
+
+Exemplo:
+
+previsão de preço
+risco financeiro
+churn de clientes
+
+2 - Colocar dados reais.
+
+---
+
 ## Arquitetura
 
 ```
