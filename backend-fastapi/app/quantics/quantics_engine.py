@@ -1,69 +1,192 @@
+# quantics_engine.py
+
 import numpy as np
 from quantics import Quantics
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import Ridge
-from sklearn.metrics import mean_squared_error
+
+from app.quantics.models import ModelFactory, QuantumModel
+from app.quantics.utils import (
+    evaluate_model,
+    compute_score,
+    select_top_models,
+    mutate_params,
+    bootstrap_sample,
+    early_stop
+)
 
 
-def generate_models(X, y):
-    models = []
+class QuantumEngine:
 
-    # variação de hiperparâmetros
-    for depth in [3, 5, 10]:
-        for n in [50, 100]:
-            model = RandomForestRegressor(max_depth=depth, n_estimators=n)
-            model.fit(X, y)
-            models.append(model)
+    def __init__(self, generations=5, population_size=20):
+        self.generations = generations
+        self.population_size = population_size
+        self.factory = ModelFactory()
+        self.history = []
 
-    # outro algoritmo
-    for alpha in [0.1, 1.0, 10]:
-        model = Ridge(alpha=alpha)
-        model.fit(X, y)
-        models.append(model)
+    # -------------------------
+    # Geração inicial
+    # -------------------------
+    def generate_population(self, X, y):
+        models = []
 
-    return models
+        for _ in range(self.population_size):
+            base_model = self.factory.create()
+            qm = QuantumModel(base_model)
+            qm.train(X, y)
+            models.append(qm)
+
+        return models
+
+    # -------------------------
+    # Avaliação integrada
+    # -------------------------
+    def evaluate_population(self, models, X, y):
+        scores = []
+        results = []
+
+        for qm in models:
+            metrics = evaluate_model(qm, X, y)
+
+            metrics["complexity"] = qm.get_complexity()
+
+            score = compute_score(metrics)
+
+            qm.set_metrics(metrics)
+
+            scores.append(score)
+            results.append([
+                metrics["mse"],
+                metrics["variance"],
+                metrics["complexity"]
+            ])
+
+        return np.array(scores), np.array(results)
+
+    # -------------------------
+    # Seleção com quantics + score
+    # -------------------------
+    def select(self, models, scores, results):
+        q = Quantics()
+        clusters = q.fit_transform(results)
+
+        # prioridade: score (não só cluster)
+        top_models = select_top_models(models, scores, top_k=max(3, len(models)//4))
+
+        return top_models
+
+    # -------------------------
+    # Evolução (mutação)
+    # -------------------------
+    def evolve(self, models, X, y):
+        new_models = []
+
+        for qm in models:
+            params = qm.get_params()
+            mutated = mutate_params(params)
+
+            new_model = qm.model.__class__(**mutated)
+            new_qm = QuantumModel(new_model)
+
+            # multi-universe (dados diferentes)
+            X_s, y_s = bootstrap_sample(X, y)
+
+            new_qm.train(X_s, y_s)
+            new_models.append(new_qm)
+
+        return new_models
+
+    # -------------------------
+    # Loop principal
+    # -------------------------
+    def run(self, X, y):
+        population = self.generate_population(X, y)
+
+        for gen in range(self.generations):
+            scores, results = self.evaluate_population(population, X, y)
+
+            self.history.append(np.min(scores))
+
+            selected = self.select(population, scores, results)
+
+            mutated = self.evolve(selected, X, y)
+
+            population = selected + mutated
+
+            if early_stop(self.history):
+                break
+
+        # final
+        final_scores, _ = self.evaluate_population(population, X, y)
+
+        best_idx = np.argmin(final_scores)
+
+        return population[best_idx], final_scores.tolist()
+
+# import numpy as np
+# from quantics import Quantics
+# from sklearn.ensemble import RandomForestRegressor
+# from sklearn.linear_model import Ridge
+# from sklearn.metrics import mean_squared_error
 
 
-def evaluate_models(models, X, y):
-    results = []
+# def generate_models(X, y):
+#     models = []
 
-from joblib import Parallel, delayed
+#     # variação de hiperparâmetros
+#     for depth in [3, 5, 10]:
+#         for n in [50, 100]:
+#             model = RandomForestRegressor(max_depth=depth, n_estimators=n)
+#             model.fit(X, y)
+#             models.append(model)
 
-        results = Parallel(n_jobs=-1)(
-            delayed(self.evaluate_single)(m, X, y) for m in models
-        )
-        pred = model.predict(X)
+#     # outro algoritmo
+#     for alpha in [0.1, 1.0, 10]:
+#         model = Ridge(alpha=alpha)
+#         model.fit(X, y)
+#         models.append(model)
 
-        mse = mean_squared_error(y, pred)
-        complexity = getattr(model, "n_estimators", 1)
-
-        results.append([mse, complexity])
-
-    return np.array(results)
-
-
-def quantics_filter(results):
-    q = Quantics()
-    clusters = q.fit_transform(results)
-
-    return clusters
-
-def select_best(models, results):
-    # escolhe menor erro
-    best_idx = np.argmin(results[:, 0])
-    return models[best_idx]
+#     return models
 
 
-def run_pipeline(X, y):
-    models = generate_models(X, y)
+# def evaluate_models(models, X, y):
+#     results = []
 
-    results = evaluate_models(models, X, y)
+# from joblib import Parallel, delayed
 
-    clusters = quantics_filter(results)
+#         results = Parallel(n_jobs=-1)(
+#             delayed(self.evaluate_single)(m, X, y) for m in models
+#         )
+#         pred = model.predict(X)
 
-    best_model = select_best(models, results)
+#         mse = mean_squared_error(y, pred)
+#         complexity = getattr(model, "n_estimators", 1)
 
-    return best_model, results.tolist()
+#         results.append([mse, complexity])
+
+#     return np.array(results)
+
+
+# def quantics_filter(results):
+#     q = Quantics()
+#     clusters = q.fit_transform(results)
+
+#     return clusters
+
+# def select_best(models, results):
+#     # escolhe menor erro
+#     best_idx = np.argmin(results[:, 0])
+#     return models[best_idx]
+
+
+# def run_pipeline(X, y):
+#     models = generate_models(X, y)
+
+#     results = evaluate_models(models, X, y)
+
+#     clusters = quantics_filter(results)
+
+#     best_model = select_best(models, results)
+
+#     return best_model, results.tolist()
 
 # import numpy as np
 # from quantics import Quantics
