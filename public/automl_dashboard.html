@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinoraQi AutoML | Rating Intelligence</title>
+  <link rel="stylesheet" href="/assets/styles/main.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --success: #22c55e;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #334155;
+      --glow: 0 0 20px rgba(99, 102, 241, .3)
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column
+    }
+
+    .header {
+      padding: 1rem 2rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px)
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-weight: 700;
+      font-size: 1.25rem
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, var(--primary), #8b5cf6);
+      padding: .25rem .6rem;
+      border-radius: 999px;
+      font-size: .75rem
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      flex: 1
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: transform .2s, box-shadow .2s
+    }
+
+    .panel:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--glow)
+    }
+
+    .panel-title {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: .5rem
+    }
+
+    .panel-title::before {
+      content: "";
+      width: 4px;
+      height: 16px;
+      background: var(--primary);
+      border-radius: 2px
+    }
+
+    .dropzone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+      background: rgba(99, 102, 241, .05)
+    }
+
+    .dropzone:hover,
+    .dropzone.dragover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, .1)
+    }
+
+    .dropzone input {
+      display: none
+    }
+
+    .column-list {
+      max-height: 200px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem
+    }
+
+    .column-item {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .5rem;
+      background: rgba(148, 163, 184, .1);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background .2s
+    }
+
+    .column-item:hover {
+      background: rgba(99, 102, 241, .2)
+    }
+
+    .column-item input {
+      accent-color: var(--primary)
+    }
+
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: .75rem 1.25rem;
+      border-radius: 10px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      justify-content: center
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px)
+    }
+
+    .btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text)
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, .1)
+    }
+
+    .btn-success {
+      background: var(--success)
+    }
+
+    .btn-success:hover {
+      background: #16a34a
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem
+    }
+
+    .form-group label {
+      font-size: .875rem;
+      color: var(--muted)
+    }
+
+    .form-control {
+      background: rgba(148, 163, 184, .1);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: .6rem .8rem;
+      border-radius: 8px;
+      transition: border-color .2s
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary)
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #8b5cf6);
+      width: 0%;
+      transition: width .3s ease
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .75rem
+    }
+
+    .metric-card {
+      background: rgba(148, 163, 184, .08);
+      padding: .75rem;
+      border-radius: 10px;
+      text-align: center
+    }
+
+    .metric-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary)
+    }
+
+    .metric-label {
+      font-size: .75rem;
+      color: var(--muted)
+    }
+
+    .chart-container {
+      height: 300px;
+      position: relative
+    }
+
+    .log-terminal {
+      background: #0a0f1d;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      font-family: monospace;
+      font-size: .8rem;
+      max-height: 200px;
+      overflow-y: auto;
+      color: #22d3ee
+    }
+
+    .log-entry {
+      display: flex;
+      gap: .5rem;
+      padding: .25rem 0;
+      border-bottom: 1px dashed rgba(148, 163, 184, .2)
+    }
+
+    .log-time {
+      color: var(--muted);
+      min-width: 60px
+    }
+
+    .status-badge {
+      padding: .25rem .6rem;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 500
+    }
+
+    .status-idle {
+      background: rgba(148, 163, 184, .2);
+      color: var(--muted)
+    }
+
+    .status-processing {
+      background: rgba(245, 158, 11, .2);
+      color: #fbbf24
+    }
+
+    .status-ready {
+      background: rgba(34, 197, 94, .2);
+      color: var(--success)
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all .3s;
+      z-index: 100
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1
+    }
+
+    .toast.success {
+      border-left: 4px solid var(--success)
+    }
+
+    .toast.error {
+      border-left: 4px solid #ef4444
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .5
+      }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite
+    }
+
+    @media(max-width:1024px) {
+      .container {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="logo">
+      <img src="../public/logo.png" alt="logo" width="40" height="40" class="logo">
+      FinoraQi AutoML
+      <span class="logo-badge">v2.0</span>
+    </div>
+    <div style="display:flex;gap:1rem;align-items:center">
+      <span id="modelStatus" class="status-badge status-idle">Aguardando dados</span>
+      <button class="btn btn-outline" onclick="exportModel()">💾 Exportar Modelo</button>
+      <button class="btn btn-ghost btn-sm" onclick="window.location.href='index.html'"><span
+          class="material-symbols-rounded">logout</span></button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Painel de Configuração -->
+    <aside class="panel">
+      <h3 class="panel-title">📊 Configuração do Modelo</h3>
+
+      <div class="form-group">
+        <label>Upload da Planilha</label>
+        <div class="dropzone" id="dropzone">
+          <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" />
+          <div style="font-size:2rem">📁</div>
+          <p style="color:var(--muted);font-size:.875rem">Arraste ou clique para selecionar</p>
+          <p style="font-size:.75rem;color:var(--muted);margin-top:.5rem">Suporta: CSV, XLSX, XLS</p>
+        </div>
+        <div id="fileInfo" style="font-size:.8rem;color:var(--muted);display:none"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Coluna Target (Rating)</label>
+        <select id="targetColumn" class="form-control" disabled>
+          <option value="">Selecione após upload</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Colunas para Treinamento</label>
+        <div class="column-list" id="columnList">
+          <p style="color:var(--muted);font-size:.875rem">Selecione as colunas após upload</p>
+        </div>
+        <button class="btn btn-outline" style="margin-top:.5rem" onclick="toggleAllColumns()">
+          ✓ Selecionar Todas
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label>Tipo de Problema</label>
+        <select id="problemType" class="form-control">
+          <option value="classification">Classificação (Rating Categórico)</option>
+          <option value="regression">Regressão (Rating Numérico)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Modo de Treinamento</label>
+        <select id="trainMode" class="form-control">
+          <option value="incremental">Incremental (Real-time, um por um) ⚡</option>
+          <option value="batch">Batch (Todos os dados)</option>
+        </select>
+      </div>
+
+      <button id="trainBtn" class="btn btn-success" disabled onclick="startTraining()">
+        🚀 Iniciar Treinamento AutoML
+      </button>
+
+      <div style="margin-top:1rem">
+        <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.5rem">
+          <span>Progresso</span>
+          <span id="progressText">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Painel de Resultados -->
+    <section class="panel">
+      <h3 class="panel-title">📈 Resultados em Tempo Real</h3>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-value" id="accuracyMetric">-</div>
+          <div class="metric-label">Acurácia</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" id="f1Metric">-</div>
+          <div class="metric-label">F1-Score</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" id="processedMetric">0</div>
+          <div class="metric-label">Registros Processados</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" id="latencyMetric">-</div>
+          <div class="metric-label">Latência (ms)</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="performanceChart"></canvas>
+      </div>
+
+      <h4 style="margin:1rem 0 .5rem;font-size:1rem">🔍 Preview de Predições</h4>
+      <div style="background:rgba(148,163,184,.08);border-radius:10px;overflow:hidden">
+        <table style="width:100%;font-size:.85rem;text-align:left">
+          <thead style="background:rgba(99,102,241,.2)">
+            <tr>
+              <th style="padding:.75rem">Registro</th>
+              <th>Rating Previsto</th>
+              <th>Confiança</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="predictionsBody">
+            <tr>
+              <td colspan="4" style="padding:1rem;text-align:center;color:var(--muted)">Aguardando processamento...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 style="margin:1rem 0 .5rem;font-size:1rem">📋 Logs do Sistema</h4>
+      <div class="log-terminal" id="logTerminal">
+        <div class="log-entry"><span class="log-time">--:--:--</span><span>Sistema inicializado. Aguardando
+            upload...</span></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">
+    <span id="toastIcon">✓</span>
+    <span id="toastMessage">Operação concluída</span>
+  </div>
+
+  <script>
+    // === estado global ===
+    const state = {
+      file: null,
+      columns: [],
+      ws: null,
+      chart: null,
+      metricsHistory: []
+    };
+
+    // === inicialização ===
+    document.addEventListener('DOMContentLoaded', () => {
+      initWebSocket();
+      initChart();
+      setupDropzone();
+      log('🔌 Conectado ao backend AutoML');
+    });
+
+    // === webSocket para tempo real ===
+    function initWebSocket() {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = `${protocol}//${window.location.host}/ws/automl`;
+
+      state.ws = new WebSocket(wsUrl);
+
+      state.ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        handleRealtimeUpdate(data);
+      };
+
+      state.ws.onclose = () => {
+        log('⚠️ Conexão WebSocket fechada. Reconectando...');
+        setTimeout(initWebSocket, 3000);
+      };
+    }
+
+    // === dropzone upload ===
+    function setupDropzone() {
+      const dropzone = document.getElementById('dropzone');
+      const fileInput = document.getElementById('fileInput');
+
+      dropzone.onclick = () => fileInput.click();
+
+      dropzone.ondragover = (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      };
+
+      dropzone.ondragleave = () => dropzone.classList.remove('dragover');
+
+      dropzone.ondrop = (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        handleFile(e.dataTransfer.files[0]);
+      };
+
+      fileInput.onchange = (e) => handleFile(e.target.files[0]);
+    }
+
+    // === processar upload ===
+    async function handleFile(file) {
+      if (!file) return;
+
+      state.file = file;
+      document.getElementById('fileInfo').style.display = 'block';
+      document.getElementById('fileInfo').textContent = `📄 ${file.name} (${formatBytes(file.size)})`;
+
+      log(`📁 Arquivo carregado: ${file.name}`);
+
+      // enviar para análise de colunas
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('/api/automl/analyze', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          state.columns = data.columns;
+          populateColumns(data.columns);
+          document.getElementById('trainBtn').disabled = false;
+          showToast('✅ Planilha analisada! Selecione as colunas para treinar.', 'success');
+          log(`🔍 ${data.columns.length} colunas detectadas`);
+        }
+      } catch (err) {
+        log(`❌ Erro ao analisar: ${err.message}`);
+        showToast('Erro ao processar arquivo', 'error');
+      }
+    }
+
+    function populateColumns(columns) {
+      const targetSelect = document.getElementById('targetColumn');
+      const columnList = document.getElementById('columnList');
+
+      targetSelect.innerHTML = '<option value="">Selecione a target</option>';
+      columnList.innerHTML = '';
+
+      columns.forEach(col => {
+        // target dropdown
+        const option = document.createElement('option');
+        option.value = col;
+        option.textContent = col;
+        targetSelect.appendChild(option);
+
+        // feature checkboxes
+        const item = document.createElement('label');
+        item.className = 'column-item';
+        item.innerHTML = `
+          <input type="checkbox" value="${col}" data-type="${col.toLowerCase().includes('rating') ? 'target' : 'feature'}"/>
+          <span>${col}</span>
+        `;
+        columnList.appendChild(item);
+      });
+
+      targetSelect.disabled = false;
+    }
+
+    function toggleAllColumns() {
+      const checkboxes = document.querySelectorAll('#columnList input[type="checkbox"]');
+      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+      checkboxes.forEach(cb => cb.checked = !allChecked);
+    }
+
+    // === iniciar treinamento ===
+    async function startTraining() {
+      const target = document.getElementById('targetColumn').value;
+      const features = Array.from(document.querySelectorAll('#columnList input:checked'))
+        .map(cb => cb.value).filter(v => v !== target);
+      const problemType = document.getElementById('problemType').value;
+      const trainMode = document.getElementById('trainMode').value;
+
+      if (!target || features.length === 0) {
+        showToast('Selecione a target e pelo menos uma feature', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('trainBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="pulse">⚙️</span> Processando...';
+
+      document.getElementById('modelStatus').className = 'status-badge status-processing';
+      document.getElementById('modelStatus').textContent = 'Treinando em tempo real...';
+
+      log(`🚀 Iniciando treinamento: target=${target}, features=${features.length}, modo=${trainMode}`);
+
+      const formData = new FormData();
+      formData.append('file', state.file);
+      formData.append('target', target);
+      formData.append('features', JSON.stringify(features));
+      formData.append('problem_type', problemType);
+      formData.append('train_mode', trainMode);
+
+      try {
+        const res = await fetch('/api/automl/train', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+
+        const result = await res.json();
+        updateMetrics(result.metrics);
+        showToast('🎯 Modelo treinado com sucesso!', 'success');
+        log(`✅ Treinamento concluído | Acurácia: ${(result.metrics.accuracy * 100).toFixed(1)}%`);
+
+      } catch (err) {
+        log(`❌ Erro no treinamento: ${err.message}`);
+        showToast('Erro no treinamento', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '🚀 Iniciar Treinamento AutoML';
+        document.getElementById('modelStatus').className = 'status-badge status-ready';
+        document.getElementById('modelStatus').textContent = 'Modelo pronto';
+      }
+    }
+
+    // === atualizações em tempo real ===
+    function handleRealtimeUpdate(data) {
+      switch (data.type) {
+        case 'progress':
+          updateProgress(data.percent, data.current, data.total);
+          break;
+        case 'prediction':
+          addPredictionRow(data);
+          updateMetric('processedMetric', data.processed);
+          break;
+        case 'metrics':
+          updateMetrics(data.metrics);
+          addToChart(data.metrics);
+          break;
+        case 'log':
+          log(data.message);
+          break;
+      }
+    }
+
+    function updateProgress(percent, current, total) {
+      document.getElementById('progressFill').style.width = `${percent}%`;
+      document.getElementById('progressText').textContent = `${Math.round(percent)}%`;
+      if (percent >= 100) {
+        document.getElementById('progressFill').style.background = 'linear-gradient(90deg, #22c55e, #4ade80)';
+      }
+    }
+
+    function addPredictionRow(data) {
+      const tbody = document.getElementById('predictionsBody');
+      if (tbody.querySelector('td[colspan]')) tbody.innerHTML = '';
+
+      const row = document.createElement('tr');
+      const confidence = (data.confidence * 100).toFixed(1);
+      const confidenceColor = confidence >= 80 ? '#22c55e' : confidence >= 60 ? '#fbbf24' : '#ef4444';
+
+      row.innerHTML = `
+        <td style="padding:.75rem;font-family:monospace">#${data.row_id}</td>
+        <td><strong>${data.prediction}</strong></td>
+        <td><span style="color:${confidenceColor}">${confidence}%</span></td>
+        <td><span class="status-badge status-ready">✓</span></td>
+      `;
+
+      tbody.insertBefore(row, tbody.firstChild);
+      // últimas 10 previsões
+      while (tbody.children.length > 10) tbody.removeChild(tbody.lastChild);
+    }
+
+    function updateMetrics(metrics) {
+      if (metrics.accuracy) {
+        document.getElementById('accuracyMetric').textContent = `${(metrics.accuracy * 100).toFixed(1)}%`;
+      }
+      if (metrics.f1) {
+        document.getElementById('f1Metric').textContent = metrics.f1.toFixed(3);
+      }
+      if (metrics.latency_ms) {
+        document.getElementById('latencyMetric').textContent = `${metrics.latency_ms.toFixed(1)}ms`;
+      }
+    }
+
+    function updateMetric(id, value) {
+      document.getElementById(id).textContent = typeof value === 'number' ? value.toLocaleString('pt-BR') : value;
+    }
+
+    // === chart.js ===
+    function initChart() {
+      const ctx = document.getElementById('performanceChart').getContext('2d');
+      state.chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'Acurácia',
+            data: [],
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99,102,241,.1)',
+            fill: true,
+            tension: .4,
+            pointRadius: 2
+          }, {
+            label: 'F1-Score',
+            data: [],
+            borderColor: '#22c55e',
+            backgroundColor: 'rgba(34,197,94,.1)',
+            fill: true,
+            tension: .4,
+            pointRadius: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: '#94a3b8' } } },
+          scales: {
+            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,.1)' } },
+            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,.1)' }, min: 0, max: 1 }
+          },
+          animation: { duration: 300 }
+        }
+      });
+    }
+
+    function addToChart(metrics) {
+      const now = new Date().toLocaleTimeString('pt-BR', { hour12: false });
+      state.chart.data.labels.push(now);
+      state.chart.data.datasets[0].data.push(metrics.accuracy || 0);
+      state.chart.data.datasets[1].data.push(metrics.f1 || 0);
+
+      // Manter apenas últimos 20 pontos
+      if (state.chart.data.labels.length > 20) {
+        state.chart.data.labels.shift();
+        state.chart.data.datasets.forEach(ds => ds.data.shift());
+      }
+      state.chart.update('none');
+    }
+
+    // === utilitários ===
+    function log(message) {
+      const terminal = document.getElementById('logTerminal');
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      const time = new Date().toLocaleTimeString('pt-BR', { hour12: false });
+      entry.innerHTML = `<span class="log-time">${time}</span><span>${message}</span>`;
+      terminal.appendChild(entry);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMessage').textContent = message;
+      document.getElementById('toastIcon').textContent = type === 'success' ? '✓' : '✕';
+      toast.className = `toast ${type} show`;
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+
+    function formatBytes(bytes) {
+      if (bytes === 0) return '0 B';
+      const k = 1024;
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
+
+    async function exportModel() {
+      try {
+        const res = await fetch('/api/automl/export', { method: 'POST' });
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `finoraqi_model_${Date.now()}.pkl`;
+        a.click();
+        showToast('📦 Modelo exportado com sucesso!', 'success');
+        log('💾 Modelo exportado para download');
+      } catch (err) {
+        showToast('Erro ao exportar modelo', 'error');
+        log(`❌ Exportação falhou: ${err.message}`);
+      }
+    }
+  </script>
+</body>
+
+</html>
