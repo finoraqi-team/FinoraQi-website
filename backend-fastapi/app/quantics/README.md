@@ -31,6 +31,12 @@ Cliente → FastAPI → Engine Quantics → Geração de Modelos → Avaliação
 
 ## Estrutura do Projeto
 
+models.py → cria modelos
+
+utils.py → avalia / seleciona
+
+quantics_engine.py → roda pipeline
+
 ```
 backend-fastapi/app/
 ├── quantics/
