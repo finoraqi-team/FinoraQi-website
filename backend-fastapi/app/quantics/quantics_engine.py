@@ -27,7 +27,11 @@ def generate_models(X, y):
 def evaluate_models(models, X, y):
     results = []
 
-    for model in models:
+from joblib import Parallel, delayed
+
+        results = Parallel(n_jobs=-1)(
+            delayed(self.evaluate_single)(m, X, y) for m in models
+        )
         pred = model.predict(X)
 
         mse = mean_squared_error(y, pred)
@@ -43,7 +47,6 @@ def quantics_filter(results):
     clusters = q.fit_transform(results)
 
     return clusters
-
 
 def select_best(models, results):
     # escolhe menor erro
@@ -171,3 +174,9 @@ def run_pipeline(X, y):
 #         best_idx = np.argmin(final_results[:, 0])
 
 #         return population[best_idx], final_results
+
+#         def build_ensemble(models, X):
+#         preds = [m.predict(X) for m in models]
+#         return np.mean(preds, axis=0)
+
+#         self.history.append(results)
