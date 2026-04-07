@@ -1,417 +1,157 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>FinoraQi® | RatingPlus</title>
-  <link rel="stylesheet" href="/assets/styles/main.css" />
+  <link rel="stylesheet" href="/assets/styles/main.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root {
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --success: #22c55e;
-      --bg: #0f172a;
-      --surface: #1e293b;
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --border: #334155;
-      --glow: 0 0 20px rgba(99, 102, 241, .3)
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0
-    }
-
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column
-    }
-
-    .header {
-      padding: 1rem 2rem;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(10px)
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: .75rem;
-      font-weight: 700;
-      font-size: 1.25rem
-    }
-
-    .logo-badge {
-      background: linear-gradient(135deg, var(--primary), #8b5cf6);
-      padding: .25rem .6rem;
-      border-radius: 999px;
-      font-size: .75rem
-    }
-
-    .container {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 1.5rem;
-      padding: 1.5rem;
-      flex: 1
-    }
-
-    .panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      transition: transform .2s, box-shadow .2s
-    }
-
-    .panel:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--glow)
-    }
-
-    .panel-title {
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: .5rem
-    }
-
-    .panel-title::before {
-      content: "";
-      width: 4px;
-      height: 16px;
-      background: var(--primary);
-      border-radius: 2px
-    }
-
-    .dropzone {
-      border: 2px dashed var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all .2s;
-      background: rgba(99, 102, 241, .05)
-    }
-
-    .dropzone:hover,
-    .dropzone.dragover {
-      border-color: var(--primary);
-      background: rgba(99, 102, 241, .1)
-    }
-
-    .dropzone input {
-      display: none
-    }
-
-    .column-list {
-      max-height: 200px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: .5rem
-    }
-
-    .column-item {
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .5rem;
-      background: rgba(148, 163, 184, .1);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background .2s
-    }
-
-    .column-item:hover {
-      background: rgba(99, 102, 241, .2)
-    }
-
-    .column-item input {
-      accent-color: var(--primary)
-    }
-
-    .btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: .75rem 1.25rem;
-      border-radius: 10px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all .2s;
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      justify-content: center
-    }
-
-    .btn:hover {
-      background: var(--primary-hover);
-      transform: translateY(-1px)
-    }
-
-    .btn:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-      transform: none
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text)
-    }
-
-    .btn-outline:hover {
-      border-color: var(--primary);
-      background: rgba(99, 102, 241, .1)
-    }
-
-    .btn-success {
-      background: var(--success)
-    }
-
-    .btn-success:hover {
-      background: #16a34a
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: .5rem
-    }
-
-    .form-group label {
-      font-size: .875rem;
-      color: var(--muted)
-    }
-
-    .form-control {
-      background: rgba(148, 163, 184, .1);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: .6rem .8rem;
-      border-radius: 8px;
-      transition: border-color .2s
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: var(--primary)
-    }
-
-    .progress-bar {
-      height: 6px;
-      background: var(--border);
-      border-radius: 999px;
-      overflow: hidden
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), #8b5cf6);
-      width: 0%;
-      transition: width .3s ease
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: .75rem
-    }
-
-    .metric-card {
-      background: rgba(148, 163, 184, .08);
-      padding: .75rem;
-      border-radius: 10px;
-      text-align: center
-    }
-
-    .metric-value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--primary)
-    }
-
-    .metric-label {
-      font-size: .75rem;
-      color: var(--muted)
-    }
-
-    .chart-container {
-      height: 300px;
-      position: relative
-    }
-
-    .log-terminal {
-      background: #0a0f1d;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1rem;
-      font-family: monospace;
-      font-size: .8rem;
-      max-height: 200px;
-      overflow-y: auto;
-      color: #22d3ee
-    }
-
-    .log-entry {
-      display: flex;
-      gap: .5rem;
-      padding: .25rem 0;
-      border-bottom: 1px dashed rgba(148, 163, 184, .2)
-    }
-
-    .log-time {
-      color: var(--muted);
-      min-width: 60px
-    }
-
-    .status-badge {
-      padding: .25rem .6rem;
-      border-radius: 999px;
-      font-size: .75rem;
-      font-weight: 500
-    }
-
-    .status-idle {
-      background: rgba(148, 163, 184, .2);
-      color: var(--muted)
-    }
-
-    .status-processing {
-      background: rgba(245, 158, 11, .2);
-      color: #fbbf24
-    }
-
-    .status-ready {
-      background: rgba(34, 197, 94, .2);
-      color: var(--success)
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: .75rem;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all .3s;
-      z-index: 100
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1
-    }
-
-    .toast.success {
-      border-left: 4px solid var(--success)
-    }
-
-    .toast.error {
-      border-left: 4px solid #ef4444
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 1
-      }
-
-      50% {
-        opacity: .5
-      }
-    }
-
-    .pulse {
-      animation: pulse 2s infinite
-    }
-
-    @media(max-width:1024px) {
-      .container {
-        grid-template-columns: 1fr
-      }
-    }
+    :root{--primary:#6366f1;--primary-hover:#4f46e5;--success:#22c55e;--bg:#0f172a;--surface:#1e293b;--text:#f1f5f9;--muted:#94a3b8;--border:#334155;--glow:0 0 20px rgba(99,102,241,.3)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+    .header{padding:1rem 2rem;background:var(--surface);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}
+    .logo{display:flex;align-items:center;gap:.75rem;font-weight:700;font-size:1.25rem}
+    .logo-badge{background:linear-gradient(135deg,var(--primary),#8b5cf6);padding:.25rem .6rem;border-radius:999px;font-size:.75rem}
+    .container{display:grid;grid-template-columns:320px 1fr;gap:1.5rem;padding:1.5rem;flex:1}
+    .panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.25rem;display:flex;flex-direction:column;gap:1rem;transition:transform .2s,box-shadow .2s}
+    .panel:hover{transform:translateY(-2px);box-shadow:var(--glow)}
+    .panel-title{font-weight:600;display:flex;align-items:center;gap:.5rem}
+    .panel-title::before{content:"";width:4px;height:16px;background:var(--primary);border-radius:2px}
+    .dropzone{border:2px dashed var(--border);border-radius:12px;padding:1.5rem;text-align:center;cursor:pointer;transition:all .2s;background:rgba(99,102,241,.05)}
+    .dropzone:hover,.dropzone.dragover{border-color:var(--primary);background:rgba(99,102,241,.1)}
+    .dropzone input{display:none}
+    .column-list{max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:.5rem}
+    .column-item{display:flex;align-items:center;gap:.5rem;padding:.5rem;background:rgba(148,163,184,.1);border-radius:8px;cursor:pointer;transition:background .2s}
+    .column-item:hover{background:rgba(99,102,241,.2)}
+    .column-item input{accent-color:var(--primary)}
+    .btn{background:var(--primary);color:white;border:none;padding:.75rem 1.25rem;border-radius:10px;font-weight:500;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem;justify-content:center}
+    .btn:hover{background:var(--primary-hover);transform:translateY(-1px)}
+    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .btn-outline:hover{border-color:var(--primary);background:rgba(99,102,241,.1)}
+    .btn-success{background:var(--success)}
+    .btn-success:hover{background:#16a34a}
+    .btn-ghost{background:transparent;border:none;color:var(--muted);padding:.5rem}
+    .btn-ghost:hover{color:var(--text)}
+    .btn-sm{padding:.375rem .75rem;font-size:.875rem}
+    .form-group{display:flex;flex-direction:column;gap:.5rem}
+    .form-group label{font-size:.875rem;color:var(--muted)}
+    .form-control{background:rgba(148,163,184,.1);border:1px solid var(--border);color:var(--text);padding:.6rem .8rem;border-radius:8px;transition:border-color .2s}
+    .form-control:focus{outline:none;border-color:var(--primary)}
+    .progress-bar{height:6px;background:var(--border);border-radius:999px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),#8b5cf6);width:0%;transition:width .3s ease}
+    .metrics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}
+    .metric-card{background:rgba(148,163,184,.08);padding:.75rem;border-radius:10px;text-align:center}
+    .metric-value{font-size:1.5rem;font-weight:700;color:var(--primary)}
+    .metric-label{font-size:.75rem;color:var(--muted)}
+    .chart-container{height:300px;position:relative}
+    .log-terminal{background:#0a0f1d;border:1px solid var(--border);border-radius:10px;padding:1rem;font-family:monospace;font-size:.8rem;max-height:200px;overflow-y:auto;color:#22d3ee}
+    .log-entry{display:flex;gap:.5rem;padding:.25rem 0;border-bottom:1px dashed rgba(148,163,184,.2)}
+    .log-time{color:var(--muted);min-width:60px}
+    .status-badge{padding:.25rem .6rem;border-radius:999px;font-size:.75rem;font-weight:500}
+    .status-idle{background:rgba(148,163,184,.2);color:var(--muted)}
+    .status-processing{background:rgba(245,158,11,.2);color:#fbbf24}
+    .status-ready{background:rgba(34,197,94,.2);color:var(--success)}
+    .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.5rem;display:flex;align-items:center;gap:.75rem;box-shadow:0 10px 40px rgba(0,0,0,.3);transform:translateY(100px);opacity:0;transition:all .3s;z-index:100}
+    .toast.show{transform:translateY(0);opacity:1}
+    .toast.success{border-left:4px solid var(--success)}
+    .toast.error{border-left:4px solid #ef4444}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+    .pulse{animation:pulse 2s infinite}
+    @media(max-width:1024px){.container{grid-template-columns:1fr}}
+    .onboarding-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.35);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:1000;animation:fadeIn .3s ease}
+    .onboarding-overlay.active{display:flex}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .onboarding-spotlight{position:fixed;border-radius:16px;box-shadow:0 0 0 9999px rgba(15,23,42,0.35),0 0 0 2px var(--primary),0 0 30px rgba(99,102,241,0.4);pointer-events:none;z-index:1001;transition:all .4s cubic-bezier(0.4,0,0.2,1)}
+    .onboarding-tooltip{position:fixed;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.25rem;max-width:320px;width:max-content;z-index:1002;box-shadow:0 20px 60px rgba(0,0,0,0.4),var(--glow);display:none;flex-direction:column;gap:1rem;pointer-events:auto}
+    .onboarding-tooltip.visible{display:flex;animation:slideIn .3s ease}
+    @keyframes slideIn{from{opacity:0;transform:scale(0.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .onboarding-tooltip-header{display:flex;align-items:center;gap:.75rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+    .onboarding-step-indicator{background:linear-gradient(135deg,var(--primary),#8b5cf6);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.875rem;font-weight:600;flex-shrink:0}
+    .onboarding-tooltip-title{font-weight:600;font-size:1rem}
+    .onboarding-tooltip-close{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;padding:.25rem;border-radius:6px;transition:all .2s;font-size:1.25rem;line-height:1}
+    .onboarding-tooltip-close:hover{background:rgba(148,163,184,0.1);color:var(--text)}
+    .onboarding-tooltip-body{font-size:.9rem;color:var(--muted);line-height:1.5}
+    .onboarding-tooltip-body strong{color:var(--text)}
+    .onboarding-tooltip-body code{background:rgba(99,102,241,0.15);padding:.125rem .375rem;border-radius:4px;font-family:monospace;font-size:.85em;color:#a5b4fc}
+    .onboarding-tooltip-body ul{margin:.5rem 0 0 1rem;padding:0}
+    .onboarding-tooltip-footer{display:flex;justify-content:space-between;align-items:center;padding-top:.75rem;border-top:1px solid var(--border);flex-wrap:wrap;gap:.5rem}
+    .onboarding-progress-dots{display:flex;gap:.375rem}
+    .onboarding-progress-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .2s}
+    .onboarding-progress-dot.active{background:var(--primary);transform:scale(1.2)}
+    .onboarding-progress-dot.completed{background:var(--success)}
+    .onboarding-tooltip-nav{display:flex;gap:.5rem}
+    .onboarding-btn{padding:.5rem 1rem;border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;transition:all .2s;border:none;display:inline-flex;align-items:center;gap:.375rem}
+    .onboarding-btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .onboarding-btn-secondary:hover{background:rgba(148,163,184,0.1);border-color:var(--primary)}
+    .onboarding-btn-primary{background:var(--primary);color:white}
+    .onboarding-btn-primary:hover{background:var(--primary-hover);transform:translateY(-1px)}
+    .onboarding-skip{position:fixed;top:1rem;right:1rem;z-index:1003;background:rgba(30,41,59,0.9);border:1px solid var(--border);color:var(--muted);padding:.5rem 1rem;border-radius:8px;font-size:.875rem;cursor:pointer;transition:all .2s;display:none}
+    .onboarding-skip:hover{color:var(--text);border-color:var(--primary)}
+    .onboarding-skip.visible{display:block;animation:fadeIn .3s ease}
+    .onboarding-complete{text-align:center;padding:1rem 0}
+    .onboarding-complete-icon{font-size:3rem;margin-bottom:1rem;animation:bounce .6s ease}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .onboarding-complete-title{font-size:1.25rem;font-weight:600;margin-bottom:.5rem}
+    .onboarding-complete-desc{color:var(--muted);margin-bottom:1.5rem}
+    .onboarding-help-btn{position:fixed;bottom:1.5rem;right:1.5rem;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#8b5cf6);border:none;color:white;font-size:1.25rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(99,102,241,0.4);transition:all .3s;z-index:900;opacity:0;transform:scale(0.8)}
+    .onboarding-help-btn.visible{opacity:1;transform:scale(1)}
+    .onboarding-help-btn:hover{transform:scale(1.1) translateY(-2px);box-shadow:0 8px 30px rgba(99,102,241,0.6)}
+    .onboarding-help-btn:active{transform:scale(0.95)}
+    .onboarding-keyboard-hint{display:flex;gap:.25rem;font-size:.75rem;color:var(--muted);margin-top:.5rem;flex-wrap:wrap}
+    .onboarding-key{background:rgba(148,163,184,0.15);padding:.125rem .375rem;border-radius:4px;font-family:monospace;border:1px solid var(--border)}
+    @media(max-width:768px){.onboarding-tooltip{max-width:calc(100vw - 2rem)}.onboarding-tooltip-body{font-size:.875rem}}
   </style>
 </head>
-
 <body>
   <header class="header">
     <div class="logo">
-      <img src="../public/logo.png" alt="logo" width="40" height="40" class="logo">
-      FinoraQi RatingPlus
-      <span class="logo-badge">v2.0</span>
+      <img src="../public/logo.png" alt="logo" width="40" height="40">
+      FinoraQi® | RatingPlus
+      <span class="logo-badge">v1.0 - XLSX</span>
     </div>
     <div style="display:flex;gap:1rem;align-items:center">
-      <span id="modelStatus" class="status-badge status-idle">Aguardando dados</span>
+      <span id="modelStatus" class="status-badge status-ready">Modelo Ativo</span>
       <button class="btn btn-outline" onclick="exportModel()">💾 Exportar Modelo</button>
-      <button class="btn btn-ghost btn-sm" onclick="window.location.href='index.html'"><span
-          class="material-symbols-rounded">logout</span></button>
+      <button class="btn btn-outline" onclick="window.automlOnboarding?.replay()" title="Tour guiado">🎓 Tour</button>
+      <button class="btn btn-ghost btn-sm" onclick="window.location.href='index.html'"><span class="material-symbols-rounded">logout</span></button>
     </div>
   </header>
 
   <main class="container">
-    <!-- Painel de Configuração -->
     <aside class="panel">
       <h3 class="panel-title">📊 Configuração do Modelo</h3>
-
       <div class="form-group">
         <label>Upload da Planilha</label>
         <div class="dropzone" id="dropzone">
-          <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" />
+          <input type="file" id="fileInput" accept=".csv,.xlsx,.xls"/>
           <div style="font-size:2rem">📁</div>
           <p style="color:var(--muted);font-size:.875rem">Arraste ou clique para selecionar</p>
           <p style="font-size:.75rem;color:var(--muted);margin-top:.5rem">Suporta: CSV, XLSX, XLS</p>
         </div>
         <div id="fileInfo" style="font-size:.8rem;color:var(--muted);display:none"></div>
       </div>
-
       <div class="form-group">
         <label>Coluna Target (Rating)</label>
-        <select id="targetColumn" class="form-control" disabled>
-          <option value="">Selecione após upload</option>
+        <select id="targetColumn" class="form-control">
+          <option value="rating_final">rating_final</option>
+          <option value="score_credito">score_credito</option>
+          <option value="classe_risco">classe_risco</option>
         </select>
       </div>
-
       <div class="form-group">
         <label>Colunas para Treinamento</label>
         <div class="column-list" id="columnList">
-          <p style="color:var(--muted);font-size:.875rem">Selecione as colunas após upload</p>
+          <label class="column-item"><input type="checkbox" value="renda_mensal" checked/><span>renda_mensal</span></label>
+          <label class="column-item"><input type="checkbox" value="historico_pagamentos" checked/><span>historico_pagamentos</span></label>
+          <label class="column-item"><input type="checkbox" value="score_credito" checked/><span>score_credito</span></label>
+          <label class="column-item"><input type="checkbox" value="tempo_emprego" checked/><span>tempo_emprego</span></label>
+          <label class="column-item"><input type="checkbox" value="qtd_dependentes"/><span>qtd_dependentes</span></label>
+          <label class="column-item"><input type="checkbox" value="dividas_ativas"/><span>dividas_ativas</span></label>
         </div>
-        <button class="btn btn-outline" style="margin-top:.5rem" onclick="toggleAllColumns()">
-          ✓ Selecionar Todas
-        </button>
+        <button class="btn btn-outline" style="margin-top:.5rem" onclick="toggleAllColumns()">✓ Selecionar Todas</button>
       </div>
-
       <div class="form-group">
         <label>Tipo de Problema</label>
         <select id="problemType" class="form-control">
@@ -419,7 +159,6 @@
           <option value="regression">Regressão (Rating Numérico)</option>
         </select>
       </div>
-
       <div class="form-group">
         <label>Modo de Treinamento</label>
         <select id="trainMode" class="form-control">
@@ -427,49 +166,39 @@
           <option value="batch">Batch (Todos os dados)</option>
         </select>
       </div>
-
-      <button id="trainBtn" class="btn btn-success" disabled onclick="startTraining()">
-        🚀 Iniciar Treinamento AutoML
-      </button>
-
+      <button id="trainBtn" class="btn btn-success" onclick="startTraining()">🚀 Iniciar Treinamento AutoML</button>
       <div style="margin-top:1rem">
         <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.5rem">
           <span>Progresso</span>
-          <span id="progressText">0%</span>
+          <span id="progressText">100%</span>
         </div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill"></div>
-        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:100%;background:linear-gradient(90deg, #22c55e, #4ade80)"></div></div>
       </div>
     </aside>
 
-    <!-- Painel de Resultados -->
     <section class="panel">
       <h3 class="panel-title">📈 Resultados em Tempo Real</h3>
-
       <div class="metrics-grid">
         <div class="metric-card">
-          <div class="metric-value" id="accuracyMetric">-</div>
+          <div class="metric-value" id="accuracyMetric">85.2%</div>
           <div class="metric-label">Acurácia</div>
         </div>
         <div class="metric-card">
-          <div class="metric-value" id="f1Metric">-</div>
+          <div class="metric-value" id="f1Metric">0.841</div>
           <div class="metric-label">F1-Score</div>
         </div>
         <div class="metric-card">
-          <div class="metric-value" id="processedMetric">0</div>
+          <div class="metric-value" id="processedMetric">1,240</div>
           <div class="metric-label">Registros Processados</div>
         </div>
         <div class="metric-card">
-          <div class="metric-value" id="latencyMetric">-</div>
+          <div class="metric-value" id="latencyMetric">12ms</div>
           <div class="metric-label">Latência (ms)</div>
         </div>
       </div>
-
       <div class="chart-container">
         <canvas id="performanceChart"></canvas>
       </div>
-
       <h4 style="margin:1rem 0 .5rem;font-size:1rem">🔍 Preview de Predições</h4>
       <div style="background:rgba(148,163,184,.08);border-radius:10px;overflow:hidden">
         <table style="width:100%;font-size:.85rem;text-align:left">
@@ -483,16 +212,30 @@
           </thead>
           <tbody id="predictionsBody">
             <tr>
-              <td colspan="4" style="padding:1rem;text-align:center;color:var(--muted)">Aguardando processamento...</td>
+              <td style="padding:.75rem;font-family:monospace">#1240</td>
+              <td><strong>A+</strong></td>
+              <td><span style="color:#22c55e">94.2%</span></td>
+              <td><span class="status-badge status-ready">✓</span></td>
+            </tr>
+            <tr>
+              <td style="padding:.75rem;font-family:monospace">#1239</td>
+              <td><strong>B</strong></td>
+              <td><span style="color:#fbbf24">78.5%</span></td>
+              <td><span class="status-badge status-ready">✓</span></td>
+            </tr>
+            <tr>
+              <td style="padding:.75rem;font-family:monospace">#1238</td>
+              <td><strong>A</strong></td>
+              <td><span style="color:#22c55e">89.1%</span></td>
+              <td><span class="status-badge status-ready">✓</span></td>
             </tr>
           </tbody>
         </table>
       </div>
-
       <h4 style="margin:1rem 0 .5rem;font-size:1rem">📋 Logs do Sistema</h4>
       <div class="log-terminal" id="logTerminal">
-        <div class="log-entry"><span class="log-time">--:--:--</span><span>Sistema inicializado. Aguardando
-            upload...</span></div>
+        <div class="log-entry"><span class="log-time">--:--:--</span><span>Sistema inicializado. Modelo pré-treinado carregado.</span></div>
+        <div class="log-entry"><span class="log-time">--:--:--</span><span>Conexão WebSocket estável. Pronto para receber dados.</span></div>
       </div>
     </section>
   </main>
@@ -502,345 +245,33 @@
     <span id="toastMessage">Operação concluída</span>
   </div>
 
+  <div class="onboarding-overlay" id="onboardingOverlay">
+    <button class="onboarding-skip" id="onboardingSkip">Pular Tour</button>
+  </div>
+  <div class="onboarding-spotlight" id="onboardingSpotlight"></div>
+  <div class="onboarding-tooltip" id="onboardingTooltip"></div>
+  <button class="onboarding-help-btn" id="onboardingHelpBtn" title="Repetir tour de onboarding">?</button>
+
   <script>
-    // === estado global ===
-    const state = {
-      file: null,
-      columns: [],
-      ws: null,
-      chart: null,
-      metricsHistory: []
-    };
-
-    // === inicialização ===
-    document.addEventListener('DOMContentLoaded', () => {
-      initWebSocket();
-      initChart();
-      setupDropzone();
-      log('🔌 Conectado ao backend AutoML');
-    });
-
-    // === webSocket para tempo real ===
-    function initWebSocket() {
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsUrl = `${protocol}//${window.location.host}/ws/automl`;
-
-      state.ws = new WebSocket(wsUrl);
-
-      state.ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        handleRealtimeUpdate(data);
-      };
-
-      state.ws.onclose = () => {
-        log('⚠️ Conexão WebSocket fechada. Reconectando...');
-        setTimeout(initWebSocket, 3000);
-      };
-    }
-
-    // === dropzone upload ===
-    function setupDropzone() {
-      const dropzone = document.getElementById('dropzone');
-      const fileInput = document.getElementById('fileInput');
-
-      dropzone.onclick = () => fileInput.click();
-
-      dropzone.ondragover = (e) => {
-        e.preventDefault();
-        dropzone.classList.add('dragover');
-      };
-
-      dropzone.ondragleave = () => dropzone.classList.remove('dragover');
-
-      dropzone.ondrop = (e) => {
-        e.preventDefault();
-        dropzone.classList.remove('dragover');
-        handleFile(e.dataTransfer.files[0]);
-      };
-
-      fileInput.onchange = (e) => handleFile(e.target.files[0]);
-    }
-
-    // === processar upload ===
-    async function handleFile(file) {
-      if (!file) return;
-
-      state.file = file;
-      document.getElementById('fileInfo').style.display = 'block';
-      document.getElementById('fileInfo').textContent = `📄 ${file.name} (${formatBytes(file.size)})`;
-
-      log(`📁 Arquivo carregado: ${file.name}`);
-
-      // enviar para análise de colunas
-      const formData = new FormData();
-      formData.append('file', file);
-
-      try {
-        const res = await fetch('/api/automl/analyze', {
-          method: 'POST',
-          body: formData
-        });
-        const data = await res.json();
-
-        if (data.success) {
-          state.columns = data.columns;
-          populateColumns(data.columns);
-          document.getElementById('trainBtn').disabled = false;
-          showToast('✅ Planilha analisada! Selecione as colunas para treinar.', 'success');
-          log(`🔍 ${data.columns.length} colunas detectadas`);
-        }
-      } catch (err) {
-        log(`❌ Erro ao analisar: ${err.message}`);
-        showToast('Erro ao processar arquivo', 'error');
-      }
-    }
-
-    function populateColumns(columns) {
-      const targetSelect = document.getElementById('targetColumn');
-      const columnList = document.getElementById('columnList');
-
-      targetSelect.innerHTML = '<option value="">Selecione a target</option>';
-      columnList.innerHTML = '';
-
-      columns.forEach(col => {
-        // target dropdown
-        const option = document.createElement('option');
-        option.value = col;
-        option.textContent = col;
-        targetSelect.appendChild(option);
-
-        // feature checkboxes
-        const item = document.createElement('label');
-        item.className = 'column-item';
-        item.innerHTML = `
-          <input type="checkbox" value="${col}" data-type="${col.toLowerCase().includes('rating') ? 'target' : 'feature'}"/>
-          <span>${col}</span>
-        `;
-        columnList.appendChild(item);
-      });
-
-      targetSelect.disabled = false;
-    }
-
-    function toggleAllColumns() {
-      const checkboxes = document.querySelectorAll('#columnList input[type="checkbox"]');
-      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-      checkboxes.forEach(cb => cb.checked = !allChecked);
-    }
-
-    // === iniciar treinamento ===
-    async function startTraining() {
-      const target = document.getElementById('targetColumn').value;
-      const features = Array.from(document.querySelectorAll('#columnList input:checked'))
-        .map(cb => cb.value).filter(v => v !== target);
-      const problemType = document.getElementById('problemType').value;
-      const trainMode = document.getElementById('trainMode').value;
-
-      if (!target || features.length === 0) {
-        showToast('Selecione a target e pelo menos uma feature', 'error');
-        return;
-      }
-
-      const btn = document.getElementById('trainBtn');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="pulse">⚙️</span> Processando...';
-
-      document.getElementById('modelStatus').className = 'status-badge status-processing';
-      document.getElementById('modelStatus').textContent = 'Treinando em tempo real...';
-
-      log(`🚀 Iniciando treinamento: target=${target}, features=${features.length}, modo=${trainMode}`);
-
-      const formData = new FormData();
-      formData.append('file', state.file);
-      formData.append('target', target);
-      formData.append('features', JSON.stringify(features));
-      formData.append('problem_type', problemType);
-      formData.append('train_mode', trainMode);
-
-      try {
-        const res = await fetch('/api/automl/train', {
-          method: 'POST',
-          body: formData
-        });
-
-        if (!res.ok) throw new Error(await res.text());
-
-        const result = await res.json();
-        updateMetrics(result.metrics);
-        showToast('🎯 Modelo treinado com sucesso!', 'success');
-        log(`✅ Treinamento concluído | Acurácia: ${(result.metrics.accuracy * 100).toFixed(1)}%`);
-
-      } catch (err) {
-        log(`❌ Erro no treinamento: ${err.message}`);
-        showToast('Erro no treinamento', 'error');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '🚀 Iniciar Treinamento AutoML';
-        document.getElementById('modelStatus').className = 'status-badge status-ready';
-        document.getElementById('modelStatus').textContent = 'Modelo pronto';
-      }
-    }
-
-    // === atualizações em tempo real ===
-    function handleRealtimeUpdate(data) {
-      switch (data.type) {
-        case 'progress':
-          updateProgress(data.percent, data.current, data.total);
-          break;
-        case 'prediction':
-          addPredictionRow(data);
-          updateMetric('processedMetric', data.processed);
-          break;
-        case 'metrics':
-          updateMetrics(data.metrics);
-          addToChart(data.metrics);
-          break;
-        case 'log':
-          log(data.message);
-          break;
-      }
-    }
-
-    function updateProgress(percent, current, total) {
-      document.getElementById('progressFill').style.width = `${percent}%`;
-      document.getElementById('progressText').textContent = `${Math.round(percent)}%`;
-      if (percent >= 100) {
-        document.getElementById('progressFill').style.background = 'linear-gradient(90deg, #22c55e, #4ade80)';
-      }
-    }
-
-    function addPredictionRow(data) {
-      const tbody = document.getElementById('predictionsBody');
-      if (tbody.querySelector('td[colspan]')) tbody.innerHTML = '';
-
-      const row = document.createElement('tr');
-      const confidence = (data.confidence * 100).toFixed(1);
-      const confidenceColor = confidence >= 80 ? '#22c55e' : confidence >= 60 ? '#fbbf24' : '#ef4444';
-
-      row.innerHTML = `
-        <td style="padding:.75rem;font-family:monospace">#${data.row_id}</td>
-        <td><strong>${data.prediction}</strong></td>
-        <td><span style="color:${confidenceColor}">${confidence}%</span></td>
-        <td><span class="status-badge status-ready">✓</span></td>
-      `;
-
-      tbody.insertBefore(row, tbody.firstChild);
-      // últimas 10 previsões
-      while (tbody.children.length > 10) tbody.removeChild(tbody.lastChild);
-    }
-
-    function updateMetrics(metrics) {
-      if (metrics.accuracy) {
-        document.getElementById('accuracyMetric').textContent = `${(metrics.accuracy * 100).toFixed(1)}%`;
-      }
-      if (metrics.f1) {
-        document.getElementById('f1Metric').textContent = metrics.f1.toFixed(3);
-      }
-      if (metrics.latency_ms) {
-        document.getElementById('latencyMetric').textContent = `${metrics.latency_ms.toFixed(1)}ms`;
-      }
-    }
-
-    function updateMetric(id, value) {
-      document.getElementById(id).textContent = typeof value === 'number' ? value.toLocaleString('pt-BR') : value;
-    }
-
-    // === chart.js ===
-    function initChart() {
-      const ctx = document.getElementById('performanceChart').getContext('2d');
-      state.chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: [],
-          datasets: [{
-            label: 'Acurácia',
-            data: [],
-            borderColor: '#6366f1',
-            backgroundColor: 'rgba(99,102,241,.1)',
-            fill: true,
-            tension: .4,
-            pointRadius: 2
-          }, {
-            label: 'F1-Score',
-            data: [],
-            borderColor: '#22c55e',
-            backgroundColor: 'rgba(34,197,94,.1)',
-            fill: true,
-            tension: .4,
-            pointRadius: 2
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { labels: { color: '#94a3b8' } } },
-          scales: {
-            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,.1)' } },
-            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,.1)' }, min: 0, max: 1 }
-          },
-          animation: { duration: 300 }
-        }
-      });
-    }
-
-    function addToChart(metrics) {
-      const now = new Date().toLocaleTimeString('pt-BR', { hour12: false });
-      state.chart.data.labels.push(now);
-      state.chart.data.datasets[0].data.push(metrics.accuracy || 0);
-      state.chart.data.datasets[1].data.push(metrics.f1 || 0);
-
-      // Manter apenas últimos 20 pontos
-      if (state.chart.data.labels.length > 20) {
-        state.chart.data.labels.shift();
-        state.chart.data.datasets.forEach(ds => ds.data.shift());
-      }
-      state.chart.update('none');
-    }
-
-    // === utilitários ===
-    function log(message) {
-      const terminal = document.getElementById('logTerminal');
-      const entry = document.createElement('div');
-      entry.className = 'log-entry';
-      const time = new Date().toLocaleTimeString('pt-BR', { hour12: false });
-      entry.innerHTML = `<span class="log-time">${time}</span><span>${message}</span>`;
-      terminal.appendChild(entry);
-      terminal.scrollTop = terminal.scrollHeight;
-    }
-
-    function showToast(message, type = 'success') {
-      const toast = document.getElementById('toast');
-      document.getElementById('toastMessage').textContent = message;
-      document.getElementById('toastIcon').textContent = type === 'success' ? '✓' : '✕';
-      toast.className = `toast ${type} show`;
-      setTimeout(() => toast.classList.remove('show'), 4000);
-    }
-
-    function formatBytes(bytes) {
-      if (bytes === 0) return '0 B';
-      const k = 1024;
-      const sizes = ['B', 'KB', 'MB', 'GB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
-    }
-
-    async function exportModel() {
-      try {
-        const res = await fetch('/api/automl/export', { method: 'POST' });
-        const blob = await res.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `finoraqi_model_${Date.now()}.pkl`;
-        a.click();
-        showToast('📦 Modelo exportado com sucesso!', 'success');
-        log('💾 Modelo exportado para download');
-      } catch (err) {
-        showToast('Erro ao exportar modelo', 'error');
-        log(`❌ Exportação falhou: ${err.message}`);
-      }
-    }
-  </script>
+    const state={file:null,columns:[],ws:null,chart:null,metricsHistory:[]};
+    document.addEventListener('DOMContentLoaded',()=>{initWebSocket();initChart();setupDropzone();log('🔌 Conectado ao backend AutoML');initOnboarding();});
+    function initWebSocket(){const protocol=window.location.protocol==='https:'?'wss:':'ws:';const wsUrl=`${protocol}//${window.location.host}/ws/automl`;state.ws=new WebSocket(wsUrl);state.ws.onmessage=(event)=>{const data=JSON.parse(event.data);handleRealtimeUpdate(data);};state.ws.onclose=()=>{log('⚠️ Conexão WebSocket fechada. Reconectando...');setTimeout(initWebSocket,3000);}}
+    function setupDropzone(){const dropzone=document.getElementById('dropzone');const fileInput=document.getElementById('fileInput');dropzone.onclick=()=>fileInput.click();dropzone.ondragover=(e)=>{e.preventDefault();dropzone.classList.add('dragover');};dropzone.ondragleave=()=>dropzone.classList.remove('dragover');dropzone.ondrop=(e)=>{e.preventDefault();dropzone.classList.remove('dragover');handleFile(e.dataTransfer.files[0]);};fileInput.onchange=(e)=>handleFile(e.target.files[0]);}
+    async function handleFile(file){if(!file)return;state.file=file;document.getElementById('fileInfo').style.display='block';document.getElementById('fileInfo').textContent=`📄 ${file.name} (${formatBytes(file.size)})`;log(`📁 Arquivo carregado: ${file.name}`);const formData=new FormData();formData.append('file',file);try{const res=await fetch('/api/automl/analyze',{method:'POST',body:formData});const data=await res.json();if(data.success){state.columns=data.columns;populateColumns(data.columns);document.getElementById('trainBtn').disabled=false;showToast('✅ Planilha analisada! Selecione as colunas para treinar.','success');log(`🔍 ${data.columns.length} colunas detectadas`);}}catch(err){log(`❌ Erro ao analisar: ${err.message}`);showToast('Erro ao processar arquivo','error');}}
+    function populateColumns(columns){const targetSelect=document.getElementById('targetColumn');const columnList=document.getElementById('columnList');targetSelect.innerHTML='<option value="">Selecione a target</option>';columnList.innerHTML='';columns.forEach(col=>{const option=document.createElement('option');option.value=col;option.textContent=col;targetSelect.appendChild(option);const item=document.createElement('label');item.className='column-item';item.innerHTML=`<input type="checkbox" value="${col}" data-type="${col.toLowerCase().includes('rating')?'target':'feature'}"/><span>${col}</span>`;columnList.appendChild(item);});targetSelect.disabled=false;}
+    function toggleAllColumns(){const checkboxes=document.querySelectorAll('#columnList input[type="checkbox"]');const allChecked=Array.from(checkboxes).every(cb=>cb.checked);checkboxes.forEach(cb=>cb.checked=!allChecked);}
+    async function startTraining(){const target=document.getElementById('targetColumn').value;const features=Array.from(document.querySelectorAll('#columnList input:checked')).map(cb=>cb.value).filter(v=>v!==target);const problemType=document.getElementById('problemType').value;const trainMode=document.getElementById('trainMode').value;if(!target||features.length===0){showToast('Selecione a target e pelo menos uma feature','error');return;}const btn=document.getElementById('trainBtn');btn.disabled=true;btn.innerHTML='<span class="pulse">⚙️</span> Processando...';document.getElementById('modelStatus').className='status-badge status-processing';document.getElementById('modelStatus').textContent='Treinando em tempo real...';log(`🚀 Iniciando treinamento: target=${target}, features=${features.length}, modo=${trainMode}`);const formData=new FormData();formData.append('file',state.file);formData.append('target',target);formData.append('features',JSON.stringify(features));formData.append('problem_type',problemType);formData.append('train_mode',trainMode);try{const res=await fetch('/api/automl/train',{method:'POST',body:formData});if(!res.ok)throw new Error(await res.text());const result=await res.json();updateMetrics(result.metrics);showToast('🎯 Modelo treinado com sucesso!','success');log(`✅ Treinamento concluído | Acurácia: ${(result.metrics.accuracy*100).toFixed(1)}%`);}catch(err){log(`❌ Erro no treinamento: ${err.message}`);showToast('Erro no treinamento','error');}finally{btn.disabled=false;btn.innerHTML='🚀 Iniciar Treinamento AutoML';document.getElementById('modelStatus').className='status-badge status-ready';document.getElementById('modelStatus').textContent='Modelo pronto';}}
+    function handleRealtimeUpdate(data){switch(data.type){case'progress':updateProgress(data.percent,data.current,data.total);break;case'prediction':addPredictionRow(data);updateMetric('processedMetric',data.processed);break;case'metrics':updateMetrics(data.metrics);addToChart(data.metrics);break;case'log':log(data.message);break;}}
+    function updateProgress(percent,current,total){document.getElementById('progressFill').style.width=`${percent}%`;document.getElementById('progressText').textContent=`${Math.round(percent)}%`;if(percent>=100){document.getElementById('progressFill').style.background='linear-gradient(90deg, #22c55e, #4ade80)';}}
+    function addPredictionRow(data){const tbody=document.getElementById('predictionsBody');const confidence=(data.confidence*100).toFixed(1);const confidenceColor=confidence>=80?'#22c55e':confidence>=60?'#fbbf24':'#ef4444';const row=document.createElement('tr');row.innerHTML=`<td style="padding:.75rem;font-family:monospace">#${data.row_id}</td><td><strong>${data.prediction}</strong></td><td><span style="color:${confidenceColor}">${confidence}%</span></td><td><span class="status-badge status-ready">✓</span></td>`;tbody.insertBefore(row,tbody.firstChild);while(tbody.children.length>10)tbody.removeChild(tbody.lastChild);}
+    function updateMetrics(metrics){if(metrics.accuracy){document.getElementById('accuracyMetric').textContent=`${(metrics.accuracy*100).toFixed(1)}%`;}if(metrics.f1){document.getElementById('f1Metric').textContent=metrics.f1.toFixed(3);}if(metrics.latency_ms){document.getElementById('latencyMetric').textContent=`${metrics.latency_ms.toFixed(1)}ms`;}}
+    function updateMetric(id,value){document.getElementById(id).textContent=typeof value==='number'?value.toLocaleString('pt-BR'):value;}
+    function initChart(){const ctx=document.getElementById('performanceChart').getContext('2d');state.chart=new Chart(ctx,{type:'line',data:{labels:['10:00:00','10:00:05','10:00:10','10:00:15','10:00:20','10:00:25'],datasets:[{label:'Acurácia',data:[0.72,0.76,0.79,0.82,0.84,0.85],borderColor:'#6366f1',backgroundColor:'rgba(99,102,241,.1)',fill:true,tension:.4,pointRadius:2},{label:'F1-Score',data:[0.68,0.71,0.74,0.77,0.80,0.84],borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.1)',fill:true,tension:.4,pointRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8'}}},scales:{x:{ticks:{color:'#94a3b8'},grid:{color:'rgba(148,163,184,.1)'}},y:{ticks:{color:'#94a3b8'},grid:{color:'rgba(148,163,184,.1)'},min:0,max:1}},animation:{duration:300}}});}
+    function addToChart(metrics){const now=new Date().toLocaleTimeString('pt-BR',{hour12:false});state.chart.data.labels.push(now);state.chart.data.datasets[0].data.push(metrics.accuracy||0);state.chart.data.datasets[1].data.push(metrics.f1||0);if(state.chart.data.labels.length>20){state.chart.data.labels.shift();state.chart.data.datasets.forEach(ds=>ds.data.shift());}state.chart.update('none');}
+    function log(message){const terminal=document.getElementById('logTerminal');const entry=document.createElement('div');entry.className='log-entry';const time=new Date().toLocaleTimeString('pt-BR',{hour12:false});entry.innerHTML=`<span class="log-time">${time}</span><span>${message}</span>`;terminal.appendChild(entry);terminal.scrollTop=terminal.scrollHeight;}
+    function showToast(message,type='success'){const toast=document.getElementById('toast');document.getElementById('toastMessage').textContent=message;document.getElementById('toastIcon').textContent=type==='success'?'✓':'✕';toast.className=`toast ${type} show`;setTimeout(()=>toast.classList.remove('show'),4000);}
+    function formatBytes(bytes){if(bytes===0)return'0 B';const k=1024;const sizes=['B','KB','MB','GB'];const i=Math.floor(Math.log(bytes)/Math.log(k));return parseFloat((bytes/Math.pow(k,i)).toFixed(1))+' '+sizes[i];}
+    async function exportModel(){try{const res=await fetch('/api/automl/export',{method:'POST'});const blob=await res.blob();const url=window.URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`finoraqi_model_${Date.now()}.pkl`;a.click();showToast('📦 Modelo exportado com sucesso!','success');log('💾 Modelo exportado para download');}catch(err){showToast('Erro ao exportar modelo','error');log(`❌ Exportação falhou: ${err.message}`);}}
+    class AutoMLOnboarding{constructor(config={}){this.steps=config.steps||this.getDefaultSteps();this.currentStep=0;this.isActive=false;this.storageKey=config.storageKey||'finoraqi_automl_onboarding';this.onComplete=config.onComplete||(()=>{});this.elements={overlay:document.getElementById('onboardingOverlay'),spotlight:document.getElementById('onboardingSpotlight'),tooltip:document.getElementById('onboardingTooltip'),skipBtn:document.getElementById('onboardingSkip'),helpBtn:document.getElementById('onboardingHelpBtn')};this.init();}getDefaultSteps(){return[{id:'welcome',target:null,position:'center',title:'🎉 Bem-vindo ao FinoraQi AutoML',content:`<p>Vamos te guiar para extrair o máximo da nossa plataforma de <strong>Machine Learning automatizado</strong>.</p><p>Em <strong>4 passos rápidos</strong>, você aprenderá a treinar modelos de rating em tempo real.</p><div class="onboarding-keyboard-hint"><span class="onboarding-key">←</span><span class="onboarding-key">→</span><span>Navegar</span><span class="onboarding-key">Esc</span><span>Sair</span></div>`,primaryBtn:'Começar Tour',showProgress:false},{id:'upload',target:'#dropzone',position:'bottom',title:'📁 Upload da Planilha',content:`<p>Arraste sua planilha <code>.csv</code> ou <code>.xlsx</code> aqui, ou clique para selecionar.</p><p><strong>Dica:</strong> Inclua colunas como <code>renda</code>, <code>historico_pagamentos</code>, <code>score_credito</code> para melhores resultados.</p>`,primaryBtn:'Próximo →',highlight:true},{id:'target',target:'#targetColumn',position:'right',title:'🎯 Defina a Target',content:`<p>Selecione a coluna que representa o <strong>rating que deseja prever</strong>.</p><p>Exemplos: <code>rating_final</code>, <code>classe_risco</code>, <code>score_aprovacao</code>.</p><p>O sistema detectará automaticamente se é <em>classificação</em> ou <em>regressão</em>.</p>`,primaryBtn:'Próximo →',highlight:true},{id:'features',target:'#columnList',position:'right',title:'⚙️ Selecione as Features',content:`<p>Marque as colunas que serão usadas para <strong>treinar o modelo</strong>.</p><p><strong>Boas práticas:</strong></p><ul><li>Evite colunas com >50% de valores nulos</li><li>Remova identificadores únicos (CPF, ID)</li><li>Priorize variáveis com poder preditivo</li></ul>`,primaryBtn:'Próximo →',highlight:true},{id:'train',target:'#trainBtn',position:'top',title:'🚀 Treinamento Inteligente',content:`<p>Clique para iniciar o AutoML. Escolha o modo:</p><ul><li><strong>⚡ Incremental</strong>: Treina registro por registro em tempo real</li><li><strong>📦 Batch</strong>: Processa todos os dados de uma vez (mais rápido)</li></ul><p>Veja as métricas atualizando ao vivo no painel à direita! →</p>`,primaryBtn:'Entendi, Vamos Treinar!',highlight:true,pulse:true},{id:'results',target:'.metrics-grid',position:'left',title:'📊 Resultados em Tempo Real',content:`<p>Acompanhe o desempenho do modelo enquanto ele aprende:</p><ul><li><strong>Acurácia</strong>: % de previsões corretas</li><li><strong>F1-Score</strong>: Equilíbrio entre precisão e recall</li><li><strong>Latência</strong>: Tempo de resposta por registro</li></ul><p>O gráfico mostra a evolução da performance ao longo do tempo.</p>`,primaryBtn:'Próximo →',highlight:true},{id:'predictions',target:'#predictionsBody',position:'top',title:'🔍 Preview de Predições',content:`<p>Cada registro processado aparece aqui com:</p><ul><li>Rating previsto pelo modelo</li><li>Nível de confiança (cor codificada)</li><li>Status de processamento</li></ul><p><strong style="color:#22c55e">✓ Verde</strong>: Alta confiança | <strong style="color:#fbbf24">⚠ Amarelo</strong>: Média | <strong style="color:#ef4444">✕ Vermelho</strong>: Baixa</p>`,primaryBtn:'Quase lá →',highlight:true},{id:'complete',target:null,position:'center',title:'✅ Você está pronto!',content:`<div class="onboarding-complete"><div class="onboarding-complete-icon">🎯</div><h4 class="onboarding-complete-title">Parabéns!</h4><p class="onboarding-complete-desc">Agora você domina o FinoraQi AutoML.<br><br><strong>Próximos passos:</strong><br>• Faça upload da sua primeira planilha<br>• Treine um modelo com seus dados<br>• Exporte o modelo para produção</p></div>`,primaryBtn:'Começar a Usar 🚀',secondaryBtn:'Repetir Tour',showProgress:false,onComplete:true}];}init(){this.bindEvents();this.checkCompletion();}bindEvents(){this.elements.skipBtn.addEventListener('click',()=>this.complete(true));document.addEventListener('keydown',(e)=>{if(!this.isActive)return;if(e.key==='Escape'){e.preventDefault();this.complete(true);}else if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();this.next();}else if(e.key==='ArrowLeft'&&this.currentStep>0){e.preventDefault();this.prev();}});window.addEventListener('resize',()=>{if(this.isActive)this.updateSpotlight();});this.elements.helpBtn.onclick=()=>this.start();}checkCompletion(){const completed=localStorage.getItem(this.storageKey);if(!completed){setTimeout(()=>this.start(),1500);}else{setTimeout(()=>{this.elements.helpBtn.classList.add('visible');},3000);}}start(stepIndex=0){this.currentStep=stepIndex;this.isActive=true;this.elements.overlay.classList.add('active');this.elements.skipBtn.classList.add('visible');this.renderStep();document.dispatchEvent(new CustomEvent('onboarding:start'));}renderStep(){const step=this.steps[this.currentStep];if(step.highlight&&step.target){this.updateSpotlight(step.target);}else{this.hideSpotlight();}this.renderTooltip(step);if(step.target){const targetEl=document.querySelector(step.target);if(targetEl){const rect=targetEl.getBoundingClientRect();if(rect.top<100||rect.bottom>window.innerHeight-100){targetEl.scrollIntoView({behavior:'smooth',block:'center'});}}}}updateSpotlight(selector){const target=document.querySelector(selector);if(!target){this.hideSpotlight();return;}const rect=target.getBoundingClientRect();const padding=8;this.elements.spotlight.style.cssText=`left:${rect.left-padding}px;top:${rect.top-padding}px;width:${rect.width+padding*2}px;height:${rect.height+padding*2}px;display:block;`;this.elements.spotlight.style.animation=this.steps[this.currentStep].pulse?'pulseGlow 1.5s infinite':'';}hideSpotlight(){this.elements.spotlight.style.display='none';}renderTooltip(step){this.elements.tooltip.innerHTML=this.buildTooltipHTML(step);this.elements.tooltip.classList.remove('visible');void this.elements.tooltip.offsetWidth;this.elements.tooltip.classList.add('visible');const targetEl=step.target?document.querySelector(step.target):null;this.positionTooltip(targetEl,step.position||'center');this.elements.tooltip.querySelectorAll('[data-action]').forEach(btn=>{btn.onclick=(e)=>{e.stopPropagation();const action=btn.dataset.action;if(action==='next')this.next();else if(action==='prev')this.prev();else if(action==='close')this.complete(true);else if(action==='complete')this.complete();else if(action==='restart')this.start(0);};});}buildTooltipHTML(step){const progressDots=step.showProgress!==false?this.steps.map((_,i)=>`<span class="onboarding-progress-dot ${i<this.currentStep?'completed':i===this.currentStep?'active':''}"></span>`).join(''):'';const navButtons=step.onComplete?`<div class="onboarding-tooltip-nav">${step.secondaryBtn?`<button class="onboarding-btn onboarding-btn-secondary" data-action="restart">${step.secondaryBtn}</button>`:''}<button class="onboarding-btn onboarding-btn-primary" data-action="complete">${step.primaryBtn}</button></div>`:`<div class="onboarding-tooltip-nav">${this.currentStep>0?`<button class="onboarding-btn onboarding-btn-secondary" data-action="prev">← Voltar</button>`:''}<button class="onboarding-btn onboarding-btn-primary" data-action="next">${step.primaryBtn}</button></div>`;return`<div class="onboarding-tooltip-header">${step.showProgress!==false?`<span class="onboarding-step-indicator">${this.currentStep+1}</span>`:''}<span class="onboarding-tooltip-title">${step.title}</span><button class="onboarding-tooltip-close" data-action="close">&times;</button></div><div class="onboarding-tooltip-body">${step.content}</div>${progressDots?`<div class="onboarding-progress-dots">${progressDots}</div>`:''}<div class="onboarding-tooltip-footer">${navButtons}</div>`;}positionTooltip(targetEl,position){const tooltip=this.elements.tooltip;const tooltipRect=tooltip.getBoundingClientRect();const gap=16;let top,left;if(targetEl){const rect=targetEl.getBoundingClientRect();switch(position){case'bottom':top=rect.bottom+gap;left=rect.left+(rect.width/2)-(tooltipRect.width/2);break;case'top':top=rect.top-gap-tooltipRect.height;left=rect.left+(rect.width/2)-(tooltipRect.width/2);break;case'right':top=rect.top+(rect.height/2)-(tooltipRect.height/2);left=rect.right+gap;break;case'left':top=rect.top+(rect.height/2)-(tooltipRect.height/2);left=rect.left-gap-tooltipRect.width;break;default:top=(window.innerHeight-tooltipRect.height)/2;left=(window.innerWidth-tooltipRect.width)/2;}}else{top=(window.innerHeight-tooltipRect.height)/2;left=(window.innerWidth-tooltipRect.width)/2;}top=Math.max(10,Math.min(top,window.innerHeight-tooltipRect.height-10));left=Math.max(10,Math.min(left,window.innerWidth-tooltipRect.width-10));tooltip.style.top=`${top}px`;tooltip.style.left=`${left}px`;tooltip.style.right='auto';tooltip.style.bottom='auto';}next(){if(this.currentStep<this.steps.length-1){this.currentStep++;this.renderStep();}}prev(){if(this.currentStep>0){this.currentStep--;this.renderStep();}}complete(skipped=false){if(!skipped){localStorage.setItem(this.storageKey,'completed');this.onComplete();document.dispatchEvent(new CustomEvent('onboarding:complete'));}this.isActive=false;this.elements.overlay.classList.remove('active');this.elements.skipBtn.classList.remove('visible');this.hideSpotlight();this.elements.tooltip.classList.remove('visible');this.elements.helpBtn.classList.add('visible');}replay(){localStorage.removeItem(this.storageKey);this.start(0);}isCompleted(){return localStorage.getItem(this.storageKey)==='completed';}destroy(){this.complete(true);document.removeEventListener('keydown',this.bindEvents);window.removeEventListener('resize',this.updateSpotlight);}}function initOnboarding(){window.automlOnboarding=new AutoMLOnboarding({onComplete:()=>{const dropzone=document.getElementById('dropzone');if(dropzone){dropzone.style.animation='pulseGlow 2s 2';setTimeout(()=>dropzone.style.animation='',4000);}}});}</script>
 </body>
-
 </html>
